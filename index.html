@@ -107,7 +107,7 @@
             <div class="absolute -bottom-20 -left-20 w-48 h-48 bg-purple-600/20 rounded-full blur-3xl pointer-events-none"></div>
 
             <div class="text-center mb-8 relative z-10">
-                <span class="text-xs uppercase tracking-[0.3em] text-amber-400 font-semibold">Aşk Portalı</span>
+                <span class="text-xs uppercase tracking-[0.3em] text-amber-400 font-semibold">ÖZEL ALANIMIZ</span>
                 <h1 class="text-3xl font-serif font-bold text-slate-100 mt-1">Taha & Sudem</h1>
                 <p class="text-xs text-rose-300/70 mt-1">Giriş yapmak için profilini seç</p>
             </div>
@@ -173,7 +173,7 @@
         <nav class="flex border-b border-[#2D1B3E] bg-[#0D0814]/90 backdrop-blur-md sticky top-[61px] z-20 overflow-x-auto no-scrollbar">
             <button onclick="switchTab('streak')" id="tab-btn-streak" class="nav-tab flex-1 min-w-[80px] py-3 text-xs font-semibold text-center text-slate-400 border-b-2 border-transparent transition-all flex items-center justify-center gap-1.5">
                 <i class="fa-solid fa-fire text-sm"></i>
-                <span>Aşk Serisi</span>
+                <span>Serimiz</span>
             </button>
             <button onclick="switchTab('chat')" id="tab-btn-chat" class="nav-tab flex-1 min-w-[80px] py-3 text-xs font-semibold text-center text-slate-400 border-b-2 border-transparent transition-all flex items-center justify-center gap-1.5">
                 <i class="fa-regular fa-comments text-sm"></i>
@@ -195,12 +195,12 @@
             <!-- TAB 1: AŞK SERİSİ -->
             <section id="section-streak" class="tab-content space-y-5">
                 <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-[#2D1B3E] text-center relative overflow-hidden">
-                    <span class="text-xs font-semibold tracking-widest text-amber-400 uppercase">Günlük Bağlantı</span>
+                    <span class="text-xs font-semibold tracking-widest text-amber-400 uppercase">GÜNLÜK SERİ</span>
                     <div class="my-4 flex items-center justify-center gap-3">
                         <span id="streak-counter" class="text-6xl sm:text-7xl font-bold font-serif text-slate-100 max-w-full truncate px-2">0</span>
                         <span class="text-3xl text-rose-500 animate-pulse shrink-0"><i class="fa-solid fa-fire"></i></span>
                     </div>
-                    <p class="text-xs text-rose-200/70 max-w-xs mx-auto">Her gün ikiniz de kalbe dokunarak serinizi ilerletin.</p>
+                    <p class="text-xs text-rose-200/70 max-w-xs mx-auto">HER GÜN KALBE DOKUNARAK SERİYİ İLERLET</p>
 
                     <div class="mt-8 flex justify-center">
                         <button id="streak-heart-btn" onclick="tapStreakHeart()" 
@@ -243,7 +243,7 @@
                             <i class="fa-solid fa-snowflake"></i>
                         </div>
                         <div>
-                            <h4 class="text-xs font-bold text-slate-200">Otomatik Seri Dondurma</h4>
+                            <h4 class="text-xs font-bold text-slate-200">Otomatik Seri Kurtarma</h4>
                             <p class="text-[10px] text-slate-400">Unutulan günlerde seri otomatik korunur</p>
                         </div>
                     </div>
@@ -308,7 +308,7 @@
                 <!-- GAME 1: AŞK TIKLAMA OYUNU -->
                 <div id="game-clicker-wrapper" class="glass-card p-4 sm:p-6 rounded-3xl border border-[#2D1B3E] space-y-5">
                     <div class="flex items-center justify-between text-xs">
-                        <span class="font-bold text-slate-200">Aşk Tıklama Oyunu</span>
+                        <span class="font-bold text-slate-200">Kalbime Dokun Oyunu</span>
                         <div class="flex items-center gap-2">
                             <span class="text-slate-400">Kalp Puanı: <strong id="clicker-points" class="text-amber-300 text-sm">0</strong></span>
                         </div>
@@ -318,7 +318,7 @@
                         <button onclick="clickHeart(event)" class="w-28 h-28 rounded-full bg-gradient-to-tr from-rose-600 via-pink-500 to-amber-400 text-white text-5xl flex items-center justify-center shadow-2xl hover:scale-105 active:scale-95 transition-transform rose-glow relative">
                             <i class="fa-solid fa-heart"></i>
                         </button>
-                        <p class="text-[11px] text-rose-300/70 mt-3 font-medium">Kalbe dokunarak puan kazan!</p>
+                        <p class="text-[11px] text-rose-300/70 mt-3 font-medium">Kalbe dokunarak puan kazan</p>
                     </div>
 
                     <div class="grid grid-cols-2 gap-3 pt-2">
@@ -483,8 +483,8 @@
 
         let state = {
             chat: [
-                { id: 1, user: 'TAHA', text: 'Hoş geldin biriciğim ❤️', time: '12:00', image: null },
-                { id: 2, user: 'SUDEM', text: 'Seni çok seviyorum!', time: '12:01', image: null }
+                { id: 1, user: 'TAHA', text: 'Hoşgeldin Güzelimmm💓', time: '12:00', image: null },
+                { id: 2, user: 'SUDEM', text: 'hmhm', time: '12:01', image: null }
             ],
             streak: {
                 count: 0,
@@ -495,7 +495,7 @@
                 lastTapDate: new Date().toDateString()
             },
             memories: [
-                { id: 1, title: 'İlk Buluşmamız', desc: 'Harika bir gündü, unutulmaz anlar...', photo: null, date: '2023-10-14' }
+                { id: 1, title: 'UYGULAMA', desc: 'BU UYGULAMANIN KURULUŞU', photo: null, date: '2026-10-15' }
             ],
             scores: {
                 clicker: { points: 0, taha: 0, sudem: 0, power: 1, auto: 0, multCost: 50, autoCost: 100 },
