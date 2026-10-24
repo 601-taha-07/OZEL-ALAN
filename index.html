@@ -1,799 +1,453 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="tr" class="h-full bg-[#0D0814]">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Taha & Sudem - Sonsuza Kadar</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-deep: #0b0710;
-            --bg-card: rgba(22, 13, 30, 0.75);
-            --border-glass: rgba(236, 72, 153, 0.18);
-            --primary: #ec4899;
-            --primary-glow: rgba(236, 72, 153, 0.35);
-            --accent: #f43f5e;
-            --text-main: #f3e8ff;
-            --text-muted: #c084fc;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            background-color: var(--bg-deep);
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(147, 51, 234, 0.12) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(244, 63, 94, 0.12) 0%, transparent 40%);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow-x: hidden;
-        }
-
-        .app-container {
-            width: 100%;
-            max-width: 480px;
-            min-height: 100vh;
-            background: var(--bg-deep);
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            box-shadow: 0 0 50px rgba(0,0,0,0.8);
-            border-left: 1px solid rgba(255,255,255,0.03);
-            border-right: 1px solid rgba(255,255,255,0.03);
-        }
-
-        @media (min-width: 481px) {
-            .app-container {
-                min-height: 92vh;
-                max-height: 92vh;
-                border-radius: 28px;
-                border: 1px solid var(--border-glass);
-                overflow: hidden;
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TAHA & SUDEM — Özel Aşk Portalı</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        theme: {
+                            bg: '#0D0814',
+                            card: '#160E22',
+                            border: '#2D1B3E',
+                            hover: '#221533',
+                            rose: '#E60067',
+                            pink: '#F472B6',
+                            gold: '#D4AF37',
+                            purple: '#A855F7'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
             }
         }
-
-        /* Giriş Ekranı */
-        #login-screen {
-            position: absolute;
-            inset: 0;
-            background: rgba(11, 7, 16, 0.96);
-            backdrop-filter: blur(20px);
-            z-index: 100;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 24px;
-            text-align: center;
+    </script>
+    <style>
+        body {
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            font-family: 'Outfit', sans-serif;
+            background-color: #0D0814;
+        }
+        
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0D0814;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2D1B3E;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #E60067;
         }
 
-        .login-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-            background: linear-gradient(135deg, #fff, #f43f5e);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .glass-panel {
+            background: rgba(22, 14, 34, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(230, 0, 103, 0.15);
         }
 
-        .login-subtitle {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-bottom: 32px;
-        }
-
-        .users-row {
-            display: flex;
-            gap: 16px;
-            width: 100%;
-            max-width: 360px;
-            margin-bottom: 24px;
-        }
-
-        .user-card {
-            flex: 1;
-            background: var(--bg-card);
-            border: 2px solid var(--border-glass);
-            border-radius: 20px;
-            padding: 20px 12px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .user-card:hover, .user-card.selected {
-            border-color: var(--primary);
-            background: rgba(236, 72, 153, 0.08);
-            transform: translateY(-4px);
-            box-shadow: 0 10px 25px var(--primary-glow);
-        }
-
-        .user-avatar {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--primary);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        }
-
-        .user-name {
-            font-weight: 600;
-            font-size: 1rem;
-        }
-
-        .password-box {
-            width: 100%;
-            max-width: 360px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .password-input {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-glass);
-            border-radius: 14px;
-            padding: 14px 18px;
-            color: #fff;
-            font-size: 1rem;
-            text-align: center;
-            outline: none;
-            transition: all 0.3s;
-        }
-
-        .password-input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 15px var(--primary-glow);
-        }
-
-        .login-btn {
-            width: 100%;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            color: white;
-            border: none;
-            border-radius: 14px;
-            padding: 14px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 4px 15px var(--primary-glow);
-        }
-
-        .login-btn:hover {
-            opacity: 0.9;
-            transform: scale(0.99);
-        }
-
-        .login-error {
-            color: #f87171;
-            font-size: 0.85rem;
-            margin-top: 8px;
-            min-height: 20px;
-        }
-
-        /* Üst Başlık */
-        .app-header {
-            padding: 16px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgba(255,255,255,0.06);
-            background: rgba(11, 7, 16, 0.8);
+        .glass-card {
+            background: rgba(28, 18, 44, 0.75);
             backdrop-filter: blur(10px);
+            border: 1px solid rgba(230, 0, 103, 0.12);
         }
 
-        .header-profile {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        .rose-glow {
+            box-shadow: 0 0 35px -5px rgba(230, 0, 103, 0.45);
         }
 
-        .header-avatar {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 1px solid var(--primary);
+        .gold-glow {
+            box-shadow: 0 0 35px -5px rgba(212, 175, 55, 0.35);
         }
 
-        .header-title {
-            font-size: 1rem;
-            font-weight: 650;
+        @keyframes floatUp {
+            0% { opacity: 1; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateY(-50px) scale(1.3); }
         }
-
-        .settings-trigger {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--border-glass);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            color: #fff;
-            font-size: 1.1rem;
-            transition: all 0.3s;
-        }
-
-        .settings-trigger:hover {
-            background: rgba(236, 72, 153, 0.15);
-            border-color: var(--primary);
-        }
-
-        /* İçerik Alanı */
-        .content-body {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-            display: none;
-            flex-direction: column;
-            gap: 20px;
-            padding-bottom: 90px;
-        }
-
-        .content-body.active {
-            display: flex;
-        }
-
-        /* Alt Navigasyon */
-        .bottom-nav {
+        .click-pop {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 75px;
-            background: rgba(15, 9, 23, 0.92);
-            backdrop-filter: blur(15px);
-            border-top: 1px solid rgba(255,255,255,0.06);
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding: 0 10px;
-            z-index: 50;
-        }
-
-        .nav-item {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            cursor: pointer;
-            font-size: 0.75rem;
-            font-weight: 500;
-            transition: all 0.3s;
-            flex: 1;
-        }
-
-        .nav-item svg {
-            width: 22px;
-            height: 22px;
-            fill: currentColor;
-            transition: all 0.3s;
-        }
-
-        .nav-item.active, .nav-item:hover {
-            color: var(--primary);
-        }
-
-        .nav-item.active svg {
-            filter: drop-shadow(0 0 8px var(--primary));
-        }
-
-        /* Seri Kutusu - Taşma Korumalı */
-        .streak-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-glass);
-            border-radius: 22px;
-            padding: 24px;
-            text-align: center;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
-            width: 100%;
-            overflow: hidden;
-        }
-
-        .streak-number {
-            font-size: clamp(2rem, 8vw, 3.5rem);
-            font-weight: 700;
-            background: linear-gradient(135deg, #fff, var(--primary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin: 10px 0;
-            word-break: break-all;
-            overflow-wrap: break-word;
-            max-width: 100%;
-        }
-
-        .streak-heart-btn {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            border: none;
-            color: white;
-            font-size: 2rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 16px auto 12px;
-            cursor: pointer;
-            box-shadow: 0 6px 20px var(--primary-glow);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .streak-heart-btn:active {
-            transform: scale(0.92);
-        }
-
-        .streak-status-row {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 16px;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        .freeze-info {
-            margin-top: 12px;
-            font-size: 0.8rem;
-            color: #f43f5e;
-            background: rgba(244, 63, 94, 0.1);
-            padding: 6px 12px;
-            border-radius: 10px;
-            display: inline-block;
-        }
-
-        /* Sohbet Ekranı */
-        .chat-box {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            max-height: calc(100vh - 220px);
-            overflow-y: auto;
-            padding-right: 4px;
-        }
-
-        .chat-msg {
-            max-width: 80%;
-            padding: 12px 16px;
-            border-radius: 16px;
-            font-size: 0.9rem;
-            word-break: break-word;
-            line-height: 1.4;
-        }
-
-        .chat-msg.taha {
-            background: rgba(147, 51, 234, 0.2);
-            border: 1px solid rgba(147, 51, 234, 0.3);
-            align-self: flex-start;
-            border-bottom-left-radius: 4px;
-        }
-
-        .chat-msg.sudem {
-            background: rgba(244, 63, 94, 0.2);
-            border: 1px solid rgba(244, 63, 94, 0.3);
-            align-self: flex-end;
-            border-bottom-right-radius: 4px;
-        }
-
-        .chat-msg img {
-            max-width: 100%;
-            border-radius: 10px;
-            margin-top: 6px;
-            cursor: pointer;
-        }
-
-        .chat-input-area {
-            display: flex;
-            gap: 8px;
-            margin-top: 10px;
-        }
-
-        .chat-input {
-            flex: 1;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--border-glass);
-            border-radius: 14px;
-            padding: 12px 16px;
-            color: #fff;
-            outline: none;
-            font-size: 0.9rem;
-        }
-
-        .chat-input:focus {
-            border-color: var(--primary);
-        }
-
-        .chat-file-btn, .chat-send-btn {
-            background: rgba(255,255,255,0.08);
-            border: 1px solid var(--border-glass);
-            color: #fff;
-            padding: 0 14px;
-            border-radius: 14px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.2s;
-        }
-
-        .chat-send-btn {
-            background: var(--primary);
-            border: none;
-        }
-
-        /* Anılar Sekmesi */
-        .memory-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-glass);
-            border-radius: 18px;
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .memory-form {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            background: rgba(255,255,255,0.02);
-            border: 1px dashed var(--border-glass);
-            padding: 16px;
-            border-radius: 18px;
-        }
-
-        .memory-input {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--border-glass);
-            border-radius: 12px;
-            padding: 10px 14px;
-            color: #fff;
-            font-size: 0.9rem;
-            outline: none;
-        }
-
-        .file-upload-label {
-            background: rgba(236, 72, 153, 0.1);
-            border: 1px solid var(--primary);
-            color: var(--primary);
-            padding: 10px;
-            border-radius: 12px;
-            text-align: center;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 600;
-            transition: all 0.2s;
-        }
-
-        .file-upload-label:hover {
-            background: rgba(236, 72, 153, 0.2);
-        }
-
-        /* Oyunlar Sekmesi - Taşma Korumalı */
-        .game-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-glass);
-            border-radius: 22px;
-            padding: 20px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 14px;
-            width: 100%;
-            overflow: hidden;
-        }
-
-        .clicker-score-display {
-            font-size: clamp(1.5rem, 6vw, 2.2rem);
-            font-weight: 700;
-            color: var(--primary);
-            word-break: break-all;
-            overflow-wrap: break-word;
-            max-width: 100%;
-        }
-
-        .clicker-target {
-            width: 110px;
-            height: 110px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 2.5rem;
-            cursor: pointer;
-            box-shadow: 0 8px 25px var(--primary-glow);
-            transition: transform 0.1s;
-            user-select: none;
-        }
-
-        .clicker-target:active {
-            transform: scale(0.9);
-        }
-
-        .upgrade-btn {
-            background: rgba(255,255,255,0.06);
-            border: 1px solid var(--border-glass);
-            color: #fff;
-            padding: 10px 16px;
-            border-radius: 12px;
-            font-size: 0.85rem;
-            cursor: pointer;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.2s;
-            text-align: left;
-        }
-
-        .upgrade-btn:hover {
-            border-color: var(--primary);
-            background: rgba(236, 72, 153, 0.1);
-        }
-
-        .score-board {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            background: rgba(0,0,0,0.2);
-            padding: 8px 14px;
-            border-radius: 10px;
-            width: 100%;
-            word-break: break-all;
-        }
-
-        /* Ayarlar Çekmecesi (Sağdan Açılan) */
-        .settings-drawer {
-            position: fixed;
-            top: 0;
-            right: -100%;
-            width: 100%;
-            max-width: 360px;
-            height: 100vh;
-            background: rgba(14, 9, 21, 0.98);
-            backdrop-filter: blur(20px);
-            z-index: 200;
-            box-shadow: -10px 0 40px rgba(0,0,0,0.8);
-            transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            flex-direction: column;
-            padding: 24px;
-            border-left: 1px solid var(--border-glass);
-        }
-
-        .settings-drawer.open {
-            right: 0;
-        }
-
-        .drawer-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-        }
-
-        .drawer-close {
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        .song-option {
-            background: rgba(255,255,255,0.04);
-            border: 1px solid var(--border-glass);
-            padding: 12px 16px;
-            border-radius: 14px;
-            margin-bottom: 10px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.2s;
-        }
-
-        .song-option.active {
-            border-color: var(--primary);
-            background: rgba(236, 72, 153, 0.12);
-        }
-
-        .logout-btn {
-            margin-top: auto;
-            background: rgba(244, 63, 94, 0.15);
-            border: 1px solid rgba(244, 63, 94, 0.3);
-            color: #f87171;
-            padding: 14px;
-            border-radius: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            text-align: center;
+            pointer-events: none;
+            animation: floatUp 0.8s ease-out forwards;
+            font-weight: bold;
+            color: #F472B6;
+            text-shadow: 0 0 10px rgba(230,0,103,0.8);
         }
     </style>
 </head>
-<body>
+<body class="h-full w-full text-slate-100 overflow-x-hidden flex flex-col justify-between selection:bg-rose-900 selection:text-white">
 
-    <div class="app-container">
-        <!-- Giriş Ekranı -->
-        <div id="login-screen">
-            <h1 class="login-title">Taha & Sudem</h1>
-            <p class="login-subtitle">Aşk Portalımıza Hoş Geldiniz</p>
-            
-            <div class="users-row">
-                <div class="user-card" id="card-taha" onclick="selectUser('TAHA')">
-                    <img src="https://i.ibb.co/bwQGgHn/MG-20261020-WA0054-1.jpg" class="user-avatar" alt="Taha">
-                    <span class="user-name">TAHA</span>
-                </div>
-                <div class="user-card" id="card-sudem" onclick="selectUser('SUDEM')">
-                    <img src="https://i.ibb.co/r2g9wC2X/MG-20261024-WA0080.jpg" class="user-avatar" alt="Sudem">
-                    <span class="user-name">SUDEM</span>
-                </div>
+    <!-- AUDIO ENGINE -->
+    <audio id="bg-music" loop preload="auto"></audio>
+
+    <!-- ================= LOGIN SCREEN ================= -->
+    <div id="login-screen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0D0814] transition-opacity duration-500">
+        <div class="w-full max-w-md bg-[#160E22] border border-[#2D1B3E] rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden">
+            <div class="absolute -top-20 -right-20 w-48 h-48 bg-rose-600/20 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-20 -left-20 w-48 h-48 bg-purple-600/20 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="text-center mb-8 relative z-10">
+                <span class="text-xs uppercase tracking-[0.3em] text-amber-400 font-semibold">Aşk Portalı</span>
+                <h1 class="text-3xl font-serif font-bold text-slate-100 mt-1">Taha & Sudem</h1>
+                <p class="text-xs text-rose-300/70 mt-1">Giriş yapmak için profilini seç</p>
             </div>
 
-            <div class="password-box">
-                <input type="password" id="pass-input" class="password-input" placeholder="Şifrenizi Girin..." autocomplete="off">
-                <button class="login-btn" onclick="handleLogin()">Giriş Yap</button>
-                <div class="login-error" id="login-error"></div>
+            <!-- Profile Selector Cards -->
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <button id="btn-select-taha" onclick="selectProfile('TAHA')" 
+                    class="profile-btn py-5 px-4 rounded-2xl border border-[#2D1B3E] bg-[#1C122C] hover:bg-[#2A1A40] transition-all duration-200 flex flex-col items-center justify-center gap-3 group">
+                    <img src="https://i.ibb.co/bwQGgHn/MG-20261020-WA0054-1.jpg" alt="Taha" class="w-16 h-16 rounded-full object-cover border-2 border-amber-400 shadow-md group-hover:scale-105 transition-transform">
+                    <span class="text-sm font-bold tracking-wider text-amber-300">TAHA</span>
+                </button>
+                <button id="btn-select-sudem" onclick="selectProfile('SUDEM')" 
+                    class="profile-btn py-5 px-4 rounded-2xl border border-[#2D1B3E] bg-[#1C122C] hover:bg-[#2A1A40] transition-all duration-200 flex flex-col items-center justify-center gap-3 group">
+                    <img src="https://i.ibb.co/r2g9wC2X/MG-20261024-WA0080.jpg" alt="Sudem" class="w-16 h-16 rounded-full object-cover border-2 border-rose-400 shadow-md group-hover:scale-105 transition-transform">
+                    <span class="text-sm font-bold tracking-wider text-rose-400">SUDEM</span>
+                </button>
             </div>
-        </div>
 
-        <!-- Üst Başlık -->
-        <header class="app-header">
-            <div class="header-profile">
-                <img id="current-user-avatar" src="" class="header-avatar" alt="Profil">
+            <!-- Password Entry -->
+            <div id="password-container" class="hidden space-y-4 transition-all duration-300">
                 <div>
-                    <div class="header-title" id="current-user-name">TAHA</div>
-                    <div style="font-size: 0.7rem; color: var(--text-muted);">Aşk Portalımız</div>
+                    <label id="pwd-label" class="block text-xs font-medium text-rose-200/80 mb-2">Şifre Giriniz</label>
+                    <input type="password" id="login-password" placeholder="••••"
+                        class="w-full bg-[#0D0814] border border-[#2D1B3E] rounded-xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-rose-500 transition-colors tracking-widest text-center"
+                        onkeyup="if(event.key==='Enter') executeLogin()">
                 </div>
-            </div>
-            <button class="settings-trigger" onclick="toggleSettings(true)">⚙️</button>
-        </header>
-
-        <!-- Sekmeler İçeriği -->
-        <!-- 1. SERİ SEKMESİ -->
-        <div class="content-body active" id="tab-streak">
-            <div class="streak-card">
-                <div style="font-size: 0.9rem; color: var(--text-muted);">ORTAK AŞK SERİMİZ</div>
-                <div class="streak-number" id="streak-count">0</div>
-                <div style="font-size: 0.85rem; color: var(--text-main);">Günün serisini ilerletmek için ikiniz de dokunmalısınız</div>
-                
-                <button class="streak-heart-btn" onclick="tapStreak()">❤️</button>
-                
-                <div class="streak-status-row">
-                    <div id="status-taha">TAHA: YAPILMADI ❌</div>
-                    <div id="status-sudem">SUDEM: YAPILMADI ❌</div>
-                </div>
-
-                <div style="margin-top: 14px;">
-                    <div class="freeze-info" id="freeze-info">Kalan Dondurma Hakkı: 3 / 3</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 2. SOHBET SEKMESİ -->
-        <div class="content-body" id="tab-chat">
-            <div class="chat-box" id="chat-messages"></div>
-            <div class="chat-input-area">
-                <label class="chat-file-btn">
-                    📷<input type="file" id="chat-file" accept="image/*" style="display: none;" onchange="sendImage(event)">
-                </label>
-                <input type="text" id="chat-text" class="chat-input" placeholder="Mesaj yaz..." onkeypress="if(event.key==='Enter')sendMessage()">
-                <button class="chat-send-btn" onclick="sendMessage()">Gönder</button>
-            </div>
-        </div>
-
-        <!-- 3. ANILAR SEKMESİ -->
-        <div class="content-body" id="tab-memories">
-            <div class="memory-form">
-                <input type="text" id="memory-title" class="memory-input" placeholder="Anı Başlığı...">
-                <input type="date" id="memory-date" class="memory-input">
-                <textarea id="memory-desc" class="memory-input" placeholder="Anı Notu..." rows="2" style="resize:none;"></textarea>
-                <label class="file-upload-label">
-                    🖼️ Fotoğraf Seç<input type="file" id="memory-file" accept="image/*" style="display:none;" onchange="previewMemoryPhoto(event)">
-                </label>
-                <div id="memory-photo-preview" style="font-size:0.8rem; color:var(--text-muted); text-align:center;"></div>
-                <button class="login-btn" onclick="addMemory()">Anıyı Kaydet</button>
-            </div>
-            <div id="memories-list" style="display:flex; flex-direction:column; gap:12px;"></div>
-        </div>
-
-        <!-- 4. OYUN SEKMESİ -->
-        <div class="content-body" id="tab-game">
-            <div class="game-card">
-                <div style="font-weight:600; font-size:1.1rem;">Aşk Tıklama Oyunu</div>
-                <div class="clicker-score-display" id="clicker-score">Puan: 0</div>
-                
-                <div class="clicker-target" onclick="clickHeart()">💖</div>
-
-                <div style="width:100%; display:flex; flex-direction:column; gap:8px;">
-                    <button class="upgrade-btn" onclick="buyUpgrade('multiplier')">
-                        <span>2 Kat Tıklama Gücü (+1)</span>
-                        <span id="cost-multiplier" style="color:var(--primary); font-weight:600;">50 Puan</span>
-                    </button>
-                    <button class="upgrade-btn" onclick="buyUpgrade('auto')">
-                        <span>Oto-Tıklama (Saniyede +1)</span>
-                        <span id="cost-auto" style="color:var(--primary); font-weight:600;">150 Puan</span>
-                    </button>
-                </div>
-
-                <div class="score-board">
-                    <div>🏆 Taha Max: <span id="max-score-taha">0</span></div>
-                    <div>🏆 Sudem Max: <span id="max-score-sudem">0</span></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Alt Navigasyon -->
-        <nav class="bottom-nav">
-            <button class="nav-item active" onclick="switchTab('streak', this)">
-                <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-                Seri
-            </button>
-            <button class="nav-item" onclick="switchTab('chat', this)">
-                <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
-                Sohbet
-            </button>
-            <button class="nav-item" onclick="switchTab('memories', this)">
-                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5.04-6.71l-2.75 3.54-1.96-2.36L6.5 17h11l-3.54-4.71z"/></svg>
-                Anılar
-            </button>
-            <button class="nav-item" onclick="switchTab('game', this)">
-                <svg viewBox="0 0 24 24"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm3-3c-.83 0-1.5-.67-1.5-1.5S17.67 9 18.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
-                Oyun
-            </button>
-        </nav>
-
-        <!-- Sağ Ayarlar Çekmecesi -->
-        <div class="settings-drawer" id="settings-drawer">
-            <div class="drawer-header">
-                <div style="font-weight: 600; font-size: 1.1rem;">Ayarlar & Müzik</div>
-                <button class="drawer-close" onclick="toggleSettings(false)">&times;</button>
+                <button onclick="executeLogin()" 
+                    class="w-full py-3.5 bg-gradient-to-r from-rose-600 to-amber-500 hover:from-rose-500 hover:to-amber-400 text-slate-950 font-bold text-sm rounded-xl transition-all shadow-lg shadow-rose-950/50">
+                    Giriş Yap
+                </button>
             </div>
 
-            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">MÜZİK SEÇİMİ</div>
-            <div class="song-option" id="song-taha-opt" onclick="setSong('taha')">
-                <span>Motive - Hanımefendi</span>
-                <span id="check-taha">✓</span>
+            <div id="login-error" class="hidden mt-4 text-center text-xs text-rose-400 bg-rose-950/60 border border-rose-800/50 py-2.5 px-3 rounded-xl">
+                Şifre hatalı. Lütfen tekrar deneyin.
             </div>
-            <div class="song-option" id="song-sudem-opt" onclick="setSong('sudem')">
-                <span>Moonave - Lanet</span>
-                <span id="check-sudem" style="display:none;">✓</span>
-            </div>
-
-            <div style="margin-top: 20px;">
-                <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px;">SES SEVİYESİ</div>
-                <input type="range" min="0" max="1" step="0.05" value="0.5" style="width:100%; accent-color:var(--primary);" oninput="audioElement.volume = this.value">
-            </div>
-
-            <button class="logout-btn" onclick="logout()">Çıkış Yap</button>
         </div>
     </div>
 
-    <!-- Müzik Altyapısı -->
-    <audio id="bg-audio" loop></audio>
+    <!-- ================= MAIN APP WRAPPER ================= -->
+    <div id="app-wrapper" class="hidden min-h-screen flex flex-col max-w-4xl mx-auto w-full relative pb-10">
 
-    <!-- Firebase SDK Entegrasyonu -->
+        <!-- HEADER -->
+        <header class="sticky top-0 z-30 glass-panel border-b border-[#2D1B3E] px-4 py-3.5 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-rose-600 via-pink-500 to-amber-400 flex items-center justify-center text-slate-950 font-serif text-sm font-bold shadow-md">
+                    TS
+                </div>
+                <div>
+                    <h2 class="text-sm font-bold tracking-wide text-slate-100 leading-tight">Taha & Sudem</h2>
+                    <div class="flex items-center gap-1.5 mt-0.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <span id="active-user-badge" class="text-[11px] text-rose-200/70 font-medium">Aktif: -</span>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="toggleSettingsDrawer(true)" class="w-9 h-9 rounded-xl bg-[#1C122C] border border-[#2D1B3E] hover:bg-[#2A1A40] flex items-center justify-center text-rose-300 transition-colors">
+                <i class="fa-solid fa-gear text-sm"></i>
+            </button>
+        </header>
+
+        <!-- NAVIGATION TABS -->
+        <nav class="flex border-b border-[#2D1B3E] bg-[#0D0814]/90 backdrop-blur-md sticky top-[61px] z-20 overflow-x-auto no-scrollbar">
+            <button onclick="switchTab('streak')" id="tab-btn-streak" class="nav-tab flex-1 min-w-[80px] py-3 text-xs font-semibold text-center text-slate-400 border-b-2 border-transparent transition-all flex items-center justify-center gap-1.5">
+                <i class="fa-solid fa-fire text-sm"></i>
+                <span>Aşk Serisi</span>
+            </button>
+            <button onclick="switchTab('chat')" id="tab-btn-chat" class="nav-tab flex-1 min-w-[80px] py-3 text-xs font-semibold text-center text-slate-400 border-b-2 border-transparent transition-all flex items-center justify-center gap-1.5">
+                <i class="fa-regular fa-comments text-sm"></i>
+                <span>Sohbet</span>
+            </button>
+            <button onclick="switchTab('gallery')" id="tab-btn-gallery" class="nav-tab flex-1 min-w-[80px] py-3 text-xs font-semibold text-center text-slate-400 border-b-2 border-transparent transition-all flex items-center justify-center gap-1.5">
+                <i class="fa-regular fa-image text-sm"></i>
+                <span>Anılar</span>
+            </button>
+            <button onclick="switchTab('games')" id="tab-btn-games" class="nav-tab flex-1 min-w-[80px] py-3 text-xs font-semibold text-center text-slate-400 border-b-2 border-transparent transition-all flex items-center justify-center gap-1.5">
+                <i class="fa-solid fa-gamepad text-sm"></i>
+                <span>Oyunlar</span>
+            </button>
+        </nav>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="flex-1 p-3 sm:p-5 flex flex-col">
+
+            <!-- TAB 1: AŞK SERİSİ -->
+            <section id="section-streak" class="tab-content space-y-5">
+                <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-[#2D1B3E] text-center relative overflow-hidden">
+                    <span class="text-xs font-semibold tracking-widest text-amber-400 uppercase">Günlük Bağlantı</span>
+                    <div class="my-4 flex items-center justify-center gap-3">
+                        <span id="streak-counter" class="text-6xl sm:text-7xl font-bold font-serif text-slate-100 max-w-full truncate px-2">0</span>
+                        <span class="text-3xl text-rose-500 animate-pulse shrink-0"><i class="fa-solid fa-fire"></i></span>
+                    </div>
+                    <p class="text-xs text-rose-200/70 max-w-xs mx-auto">Her gün ikiniz de kalbe dokunarak serinizi ilerletin.</p>
+
+                    <div class="mt-8 flex justify-center">
+                        <button id="streak-heart-btn" onclick="tapStreakHeart()" 
+                            class="w-24 h-24 rounded-full bg-gradient-to-tr from-rose-600 via-pink-600 to-amber-500 text-white text-3xl flex items-center justify-center shadow-xl hover:scale-105 active:scale-95 transition-all duration-300 rose-glow relative group">
+                            <i class="fa-solid fa-heart transition-transform group-hover:scale-110"></i>
+                        </button>
+                    </div>
+                    <p id="streak-heart-hint" class="text-[11px] text-rose-300/80 mt-4 font-medium"></p>
+                </div>
+
+                <!-- Status Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div class="glass-card p-4 rounded-2xl border border-[#2D1B3E] flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <img src="https://i.ibb.co/bwQGgHn/MG-20261020-WA0054-1.jpg" alt="Taha" class="w-9 h-9 rounded-full object-cover border border-amber-400">
+                            <div>
+                                <h4 class="text-xs font-bold text-slate-200">TAHA</h4>
+                                <p class="text-[10px] text-slate-400">Bugünkü Durum</p>
+                            </div>
+                        </div>
+                        <span id="taha-streak-status" class="text-xs px-3 py-1 rounded-full font-semibold">YAPILMADI ❌</span>
+                    </div>
+
+                    <div class="glass-card p-4 rounded-2xl border border-[#2D1B3E] flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <img src="https://i.ibb.co/r2g9wC2X/MG-20261024-WA0080.jpg" alt="Sudem" class="w-9 h-9 rounded-full object-cover border border-rose-400">
+                            <div>
+                                <h4 class="text-xs font-bold text-slate-200">SUDEM</h4>
+                                <p class="text-[10px] text-slate-400">Bugünkü Durum</p>
+                            </div>
+                        </div>
+                        <span id="sudem-streak-status" class="text-xs px-3 py-1 rounded-full font-semibold">YAPILMADI ❌</span>
+                    </div>
+                </div>
+
+                <!-- Auto Freeze Status -->
+                <div class="glass-card p-4 rounded-2xl border border-[#2D1B3E] flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-xl bg-purple-950/60 border border-purple-800/50 flex items-center justify-center text-purple-300 text-xs">
+                            <i class="fa-solid fa-snowflake"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-xs font-bold text-slate-200">Otomatik Seri Dondurma</h4>
+                            <p class="text-[10px] text-slate-400">Unutulan günlerde seri otomatik korunur</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span id="freeze-credits-count" class="text-sm font-bold text-purple-300">3/3</span>
+                        <p class="text-[9px] text-slate-400">Aylık Hak</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: CHAT -->
+            <section id="section-chat" class="tab-content hidden flex flex-col h-[520px] max-h-[70vh]">
+                <div id="chat-messages" class="flex-1 overflow-y-auto space-y-3 p-3.5 glass-card rounded-2xl border border-[#2D1B3E] mb-3"></div>
+                <div class="flex items-center gap-2 bg-[#160E22] p-2 rounded-2xl border border-[#2D1B3E] shrink-0">
+                    <label class="w-10 h-10 rounded-xl bg-[#1C122C] border border-[#2D1B3E] hover:bg-[#2A1A40] flex items-center justify-center text-rose-300 cursor-pointer transition-colors shrink-0">
+                        <i class="fa-solid fa-paperclip text-sm"></i>
+                        <input type="file" id="chat-file-input" accept="image/*" class="hidden" onchange="handleChatImageUpload(this)">
+                    </label>
+                    <input type="text" id="chat-input-text" placeholder="Mesajınızı yazın..." 
+                        class="flex-1 bg-transparent px-2 py-2 text-xs sm:text-sm text-slate-100 focus:outline-none"
+                        onkeyup="if(event.key==='Enter') sendChatMessage()">
+                    <button onclick="sendChatMessage()" class="w-10 h-10 rounded-xl bg-gradient-to-tr from-rose-600 to-pink-500 hover:from-rose-500 hover:to-pink-400 text-white flex items-center justify-center transition-all shrink-0 shadow-md">
+                        <i class="fa-solid fa-paper-plane text-xs"></i>
+                    </button>
+                </div>
+            </section>
+
+            <!-- TAB 3: GALLERY & MEMORIES -->
+            <section id="section-gallery" class="tab-content hidden space-y-4">
+                <div class="glass-card p-4 rounded-2xl border border-[#2D1B3E]">
+                    <h3 class="text-xs font-bold text-slate-200 mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-plus text-amber-400 text-xs"></i> Yeni Anı Ekle
+                    </h3>
+                    <div class="space-y-3">
+                        <input type="text" id="memory-title" placeholder="Anı Başlığı..." class="w-full bg-[#0D0814] border border-[#2D1B3E] rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-rose-500">
+                        <textarea id="memory-desc" placeholder="Kısa bir not ekleyin..." class="w-full bg-[#0D0814] border border-[#2D1B3E] rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-rose-500 h-16 resize-none"></textarea>
+                        
+                        <div class="flex items-center gap-2">
+                            <label class="flex-1 bg-[#1C122C] border border-[#2D1B3E] hover:bg-[#2A1A40] px-3 py-2.5 rounded-xl text-xs text-rose-200 text-center cursor-pointer transition-colors font-medium">
+                                <i class="fa-regular fa-image mr-1.5"></i>Fotoğraf Seç
+                                <input type="file" id="memory-photo-file" accept="image/*" class="hidden" onchange="previewMemoryPhoto(this)">
+                            </label>
+                            <button onclick="saveMemory()" class="px-5 py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 text-xs font-bold rounded-xl transition-colors">Kaydet</button>
+                        </div>
+                        <div id="memory-photo-preview" class="hidden text-[10px] text-emerald-400 font-semibold">Görsel seçildi ✅</div>
+                    </div>
+                </div>
+
+                <div id="memories-feed" class="space-y-4"></div>
+            </section>
+
+            <!-- TAB 4: MINI GAMES -->
+            <section id="section-games" class="tab-content hidden space-y-5">
+                <div class="flex items-center justify-between border-b border-[#2D1B3E] pb-3">
+                    <span class="text-xs font-bold text-rose-200 uppercase tracking-wider">Mini Oyun Sekmesi</span>
+                    <div class="flex gap-2">
+                        <button onclick="switchGame('clicker')" id="btn-game-clicker" class="px-3.5 py-1.5 text-xs rounded-xl border border-[#2D1B3E] bg-[#1C122C] text-slate-200 font-semibold">Tıklama Oyunu</button>
+                        <button onclick="switchGame('memory')" id="btn-game-memory" class="px-3.5 py-1.5 text-xs rounded-xl border border-[#2D1B3E] bg-[#1C122C] text-slate-400 font-semibold">Aşk Hafızası</button>
+                    </div>
+                </div>
+
+                <!-- GAME 1: AŞK TIKLAMA OYUNU -->
+                <div id="game-clicker-wrapper" class="glass-card p-4 sm:p-6 rounded-3xl border border-[#2D1B3E] space-y-5">
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="font-bold text-slate-200">Aşk Tıklama Oyunu</span>
+                        <div class="flex items-center gap-2">
+                            <span class="text-slate-400">Kalp Puanı: <strong id="clicker-points" class="text-amber-300 text-sm">0</strong></span>
+                        </div>
+                    </div>
+
+                    <div class="relative w-full h-56 bg-[#0D0814] rounded-2xl border border-[#2D1B3E] flex flex-col items-center justify-center overflow-hidden" id="clicker-container">
+                        <button onclick="clickHeart(event)" class="w-28 h-28 rounded-full bg-gradient-to-tr from-rose-600 via-pink-500 to-amber-400 text-white text-5xl flex items-center justify-center shadow-2xl hover:scale-105 active:scale-95 transition-transform rose-glow relative">
+                            <i class="fa-solid fa-heart"></i>
+                        </button>
+                        <p class="text-[11px] text-rose-300/70 mt-3 font-medium">Kalbe dokunarak puan kazan!</p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3 pt-2">
+                        <button onclick="buyMultiplier()" id="btn-upgrade-mult" class="glass-card p-3 rounded-2xl border border-[#2D1B3E] hover:border-rose-500/50 transition-all text-left space-y-1">
+                            <div class="flex items-center justify-between text-xs font-bold text-amber-300">
+                                <span>2x Tıklama Gücü</span>
+                                <span id="mult-level-tag" class="text-[10px] text-slate-400">Lvl 1</span>
+                            </div>
+                            <p class="text-[10px] text-slate-400">Her tıkta ekstra puan</p>
+                            <span id="mult-cost-tag" class="text-[11px] font-semibold text-rose-400 block pt-1">Maliyet: 50 Puan</span>
+                        </button>
+
+                        <button onclick="buyAutoClicker()" id="btn-upgrade-auto" class="glass-card p-3 rounded-2xl border border-[#2D1B3E] hover:border-purple-500/50 transition-all text-left space-y-1">
+                            <div class="flex items-center justify-between text-xs font-bold text-purple-300">
+                                <span>Oto Tıklama</span>
+                                <span id="auto-level-tag" class="text-[10px] text-slate-400">Lvl 0</span>
+                            </div>
+                            <p class="text-[10px] text-slate-400">Saniyede otomatik puan</p>
+                            <span id="auto-cost-tag" class="text-[11px] font-semibold text-rose-400 block pt-1">Maliyet: 100 Puan</span>
+                        </button>
+                    </div>
+
+                    <div class="pt-3 border-t border-[#2D1B3E] grid grid-cols-2 gap-3 text-center text-xs">
+                        <div class="bg-[#160E22] p-2.5 rounded-xl border border-[#2D1B3E] flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <img src="https://i.ibb.co/bwQGgHn/MG-20261020-WA0054-1.jpg" alt="Taha" class="w-6 h-6 rounded-full object-cover border border-amber-400">
+                                <span class="text-[10px] text-slate-400 uppercase tracking-wider">Taha</span>
+                            </div>
+                            <span id="clicker-taha-max" class="text-sm font-bold text-amber-300">0</span>
+                        </div>
+                        <div class="bg-[#160E22] p-2.5 rounded-xl border border-[#2D1B3E] flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <img src="https://i.ibb.co/r2g9wC2X/MG-20261024-WA0080.jpg" alt="Sudem" class="w-6 h-6 rounded-full object-cover border border-rose-400">
+                                <span class="text-[10px] text-slate-400 uppercase tracking-wider">Sudem</span>
+                            </div>
+                            <span id="clicker-sudem-max" class="text-sm font-bold text-rose-400">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GAME 2: MEMORY MATCH -->
+                <div id="game-memory-wrapper" class="hidden glass-card p-4 sm:p-6 rounded-3xl border border-[#2D1B3E] space-y-4">
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="font-bold text-slate-200">Aşk Hafızası</span>
+                        <div class="flex items-center gap-3">
+                            <span class="text-slate-400">Hamle: <strong id="memory-moves" class="text-amber-300">0</strong></span>
+                            <button onclick="initMemoryGame()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-rotate-right"></i></button>
+                        </div>
+                    </div>
+
+                    <div id="memory-grid" class="grid grid-cols-4 gap-2 aspect-square max-w-xs mx-auto w-full p-1 bg-[#0D0814] rounded-2xl border border-[#2D1B3E]"></div>
+
+                    <div class="pt-3 border-t border-[#2D1B3E] grid grid-cols-2 gap-3 text-center text-xs">
+                        <div class="bg-[#160E22] p-2.5 rounded-xl border border-[#2D1B3E] flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <img src="https://i.ibb.co/bwQGgHn/MG-20261020-WA0054-1.jpg" alt="Taha" class="w-6 h-6 rounded-full object-cover border border-amber-400">
+                                <span class="text-[10px] text-slate-400 uppercase tracking-wider">Taha</span>
+                            </div>
+                            <span id="memory-taha-max" class="text-sm font-bold text-amber-300">-</span>
+                        </div>
+                        <div class="bg-[#160E22] p-2.5 rounded-xl border border-[#2D1B3E] flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <img src="https://i.ibb.co/r2g9wC2X/MG-20261024-WA0080.jpg" alt="Sudem" class="w-6 h-6 rounded-full object-cover border border-rose-400">
+                                <span class="text-[10px] text-slate-400 uppercase tracking-wider">Sudem</span>
+                            </div>
+                            <span id="memory-sudem-max" class="text-sm font-bold text-rose-400">-</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- ================= SETTINGS DRAWER ================= -->
+    <div id="settings-drawer-backdrop" onclick="toggleSettingsDrawer(false)" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-40 hidden transition-opacity duration-300"></div>
+    
+    <div id="settings-drawer" class="fixed top-0 right-0 bottom-0 w-full max-w-xs sm:max-w-sm bg-[#160E22] border-l border-[#2D1B3E] z-50 transform translate-x-full transition-transform duration-300 flex flex-col p-6 shadow-2xl">
+        <div class="flex items-center justify-between pb-4 border-b border-[#2D1B3E] mb-6">
+            <h3 class="text-sm font-bold text-slate-100 flex items-center gap-2">
+                <i class="fa-solid fa-sliders text-amber-400"></i> Ayarlar & Müzik
+            </h3>
+            <button onclick="toggleSettingsDrawer(false)" class="w-8 h-8 rounded-lg bg-[#1C122C] text-slate-400 hover:text-white flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <div class="space-y-4 flex-1">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-rose-200/70">Müzik Parçaları</span>
+            
+            <div onclick="selectTrack('hanimafendi')" id="track-item-hanimafendi" class="p-3.5 rounded-2xl border border-[#2D1B3E] bg-[#1C122C] hover:bg-[#2A1A40] cursor-pointer transition-all flex items-center justify-between">
+                <div>
+                    <h4 class="text-xs font-bold text-slate-200">Motive - Hanımefendi</h4>
+                    <p class="text-[10px] text-amber-300 mt-0.5">TAHA Parçası</p>
+                </div>
+                <span id="check-hanimafendi" class="text-xs text-emerald-400 hidden"><i class="fa-solid fa-circle-check"></i></span>
+            </div>
+
+            <div onclick="selectTrack('lanet')" id="track-item-lanet" class="p-3.5 rounded-2xl border border-[#2D1B3E] bg-[#1C122C] hover:bg-[#2A1A40] cursor-pointer transition-all flex items-center justify-between">
+                <div>
+                    <h4 class="text-xs font-bold text-slate-200">Moonave - Lanet</h4>
+                    <p class="text-[10px] text-rose-400 mt-0.5">SUDEM Parçası</p>
+                </div>
+                <span id="check-lanet" class="text-xs text-emerald-400 hidden"><i class="fa-solid fa-circle-check"></i></span>
+            </div>
+
+            <div class="pt-4 border-t border-[#2D1B3E] space-y-3">
+                <div class="flex items-center justify-between text-xs text-slate-300">
+                    <span>Ses Düzeyi</span>
+                    <button onclick="toggleMute()" id="mute-btn" class="text-slate-400 hover:text-white">
+                        <i id="mute-icon" class="fa-solid fa-volume-high"></i>
+                    </button>
+                </div>
+                <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.7" oninput="changeVolume(this.value)" class="w-full accent-rose-500 bg-[#0D0814] h-1.5 rounded-lg appearance-none cursor-pointer">
+            </div>
+        </div>
+
+        <div class="pt-4 border-t border-[#2D1B3E]">
+            <button onclick="logout()" class="w-full py-3 bg-rose-950/60 border border-rose-800/50 hover:bg-rose-900/60 text-rose-300 text-xs font-bold rounded-xl transition-colors flex items-center justify-center gap-2">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Çıkış Yap
+            </button>
+        </div>
+    </div>
+
+    <!-- FIREBASE & APP LOGIC -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
+        import { getFirestore, doc, setDoc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBiKVvqJtFu6DyyOplc_iQfTdFxtKNEq7U",
@@ -805,301 +459,568 @@
         };
 
         const app = initializeApp(firebaseConfig);
-    </script>
+        const db = getFirestore(app);
 
-    <script>
-        let currentUser = localStorage.getItem('portal_user') || null;
-        let selectedLoginUser = 'TAHA';
-        let currentSongKey = 'taha';
-        let audioElement = document.getElementById('bg-audio');
-
-        const songs = {
-            taha: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
-            sudem: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"
+        const TRACK_URLS = {
+            hanimafendi: "https://cdn.dbimg.app/zqABf3lo.mp4",
+            lanet: "https://cdn.dbimg.app/ppaKTlh1.mp4"
         };
 
-        let appData = JSON.parse(localStorage.getItem('portal_data')) || {
-            streak: 0,
-            tahaDone: false,
-            sudemDone: false,
-            lastStreakDate: '',
-            freezeCount: 3,
-            lastMonth: new Date().getMonth(),
-            messages: [],
-            memories: [],
-            clicker: { points: 0, power: 1, auto: 0, costMult: 50, costAuto: 150, maxTaha: 0, maxSudem: 0 }
-        };
-
-        const avatars = {
+        const PROFILES = {
             TAHA: "https://i.ibb.co/bwQGgHn/MG-20261020-WA0054-1.jpg",
             SUDEM: "https://i.ibb.co/r2g9wC2X/MG-20261024-WA0080.jpg"
         };
 
-        const passwords = {
+        const PASSWORDS = {
             TAHA: "601",
             SUDEM: "17"
         };
 
-        window.onload = function() {
-            checkMonthlyReset();
-            if (currentUser) {
-                document.getElementById('login-screen').style.display = 'none';
-                initApp();
-            } else {
-                selectUser('TAHA');
+        let currentUser = null;
+        let selectedProfileTemp = null;
+        let activeTrack = null;
+        let isMuted = false;
+
+        let state = {
+            chat: [
+                { id: 1, user: 'TAHA', text: 'Hoş geldin biriciğim ❤️', time: '12:00', image: null },
+                { id: 2, user: 'SUDEM', text: 'Seni çok seviyorum!', time: '12:01', image: null }
+            ],
+            streak: {
+                count: 0,
+                lastResetMonth: new Date().getMonth(),
+                freezes: 3,
+                tahaDone: false,
+                sudemDone: false,
+                lastTapDate: new Date().toDateString()
+            },
+            memories: [
+                { id: 1, title: 'İlk Buluşmamız', desc: 'Harika bir gündü, unutulmaz anlar...', photo: null, date: '2023-10-14' }
+            ],
+            scores: {
+                clicker: { points: 0, taha: 0, sudem: 0, power: 1, auto: 0, multCost: 50, autoCost: 100 },
+                memory: { taha: null, sudem: null }
             }
-            setInterval(syncState, 1000);
         };
 
-        function selectUser(user) {
-            selectedLoginUser = user;
-            document.getElementById('card-taha').style.borderColor = user === 'TAHA' ? 'var(--primary)' : 'var(--border-glass)';
-            document.getElementById('card-sudem').style.borderColor = user === 'SUDEM' ? 'var(--primary)' : 'var(--border-glass)';
+        function formatNumberCompact(num) {
+            if (num === null || num === undefined) return '0';
+            if (typeof num === 'string') return num;
+            if (num < 10000) return num.toLocaleString('tr-TR');
+            const suffixes = ['', 'K', 'M', 'B', 'T', 'Q'];
+            const i = Math.floor(Math.log10(num) / 3);
+            if (i >= suffixes.length) return num.toExponential(2);
+            const formatted = (num / Math.pow(10, i * 3)).toFixed(1);
+            return (formatted.endsWith('.0') ? formatted.slice(0, -2) : formatted) + suffixes[i];
         }
 
-        function handleLogin() {
-            const pass = document.getElementById('pass-input').value;
-            const err = document.getElementById('login-error');
-            if (pass === passwords[selectedLoginUser]) {
-                currentUser = selectedLoginUser;
-                localStorage.setItem('portal_user', currentUser);
-                document.getElementById('login-screen').style.display = 'none';
-                initApp();
-            } else {
-                err.textContent = 'Şifre hatalı!';
+        window.onload = function() {
+            loadStateFromFirebase();
+            checkAutoStreakAndFreeze();
+            startAutoClickerTimer();
+        };
+
+        async function loadStateFromFirebase() {
+            try {
+                const docRef = doc(db, "portal", "mainData");
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    state = docSnap.data();
+                } else {
+                    await setDoc(docRef, state);
+                }
+            } catch(e) {
+                console.error("Firebase yükleme hatası:", e);
+            }
+            renderAllUI();
+
+            // Anlık (Real-time) senkronizasyon dinleyicisi
+            onSnapshot(doc(db, "portal", "mainData"), (docSnap) => {
+                if (docSnap.exists()) {
+                    state = docSnap.data();
+                    renderAllUI();
+                }
+            });
+        }
+
+        async function saveStateToFirebase() {
+            try {
+                await setDoc(doc(db, "portal", "mainData"), state);
+            } catch(e) {
+                console.error("Firebase kaydetme hatası:", e);
             }
         }
 
-        function logout() {
-            localStorage.removeItem('portal_user');
-            location.reload();
-        }
-
-        function initApp() {
-            document.getElementById('current-user-name').textContent = currentUser;
-            document.getElementById('current-user-avatar').src = avatars[currentUser];
-            
-            currentSongKey = currentUser === 'TAHA' ? 'taha' : 'sudem';
-            updateSongUI();
-            
-            audioElement.src = songs[currentSongKey];
-            audioElement.play().catch(() => {});
-
-            renderStreak();
-            renderMessages();
+        function renderAllUI() {
+            renderChat();
+            renderStreakUI();
             renderMemories();
-            renderClicker();
+            renderLeaderboards();
+            renderClickerUI();
         }
 
-        function toggleSettings(open) {
-            document.getElementById('settings-drawer').classList.toggle('open', open);
-        }
+        function checkAutoStreakAndFreeze() {
+            const todayStr = new Date().toDateString();
+            const currentMonth = new Date().getMonth();
 
-        function setSong(key) {
-            currentSongKey = key;
-            audioElement.src = songs[key];
-            audioElement.play().catch(()=>{});
-            updateSongUI();
-        }
-
-        function updateSongUI() {
-            document.getElementById('song-taha-opt').classList.toggle('active', currentSongKey === 'taha');
-            document.getElementById('song-sudem-opt').classList.toggle('active', currentSongKey === 'sudem');
-            document.getElementById('check-taha').style.display = currentSongKey === 'taha' ? 'inline' : 'none';
-            document.getElementById('check-sudem').style.display = currentSongKey === 'sudem' ? 'inline' : 'none';
-        }
-
-        function switchTab(tabId, btn) {
-            document.querySelectorAll('.content-body').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            document.getElementById('tab-' + tabId).classList.add('active');
-            btn.classList.add('active');
-        }
-
-        function checkMonthlyReset() {
-            const nowMonth = new Date().getMonth();
-            if (appData.lastMonth !== nowMonth) {
-                appData.freezeCount = 3;
-                appData.lastMonth = nowMonth;
-                saveData();
+            let updated = false;
+            if (state.streak.lastResetMonth !== currentMonth) {
+                state.streak.freezes = 3;
+                state.streak.lastResetMonth = currentMonth;
+                updated = true;
             }
-        }
 
-        function tapStreak() {
-            const today = new Date().toDateString();
-            if (appData.lastStreakDate !== today) {
-                if (appData.lastStreakDate) {
-                    const lastDate = new Date(appData.lastStreakDate);
-                    const diffDays = Math.floor((new Date() - lastDate) / (1000 * 60 * 60 * 24));
-                    if (diffDays > 1) {
-                        if (appData.freezeCount > 0) {
-                            appData.freezeCount--;
-                        } else {
-                            appData.streak = 0;
-                        }
+            if (state.streak.lastTapDate !== todayStr) {
+                if (!state.streak.tahaDone || !state.streak.sudemDone) {
+                    if (state.streak.freezes > 0) {
+                        state.streak.freezes -= 1;
+                    } else {
+                        state.streak.count = 0;
                     }
                 }
-                appData.tahaDone = false;
-                appData.sudemDone = false;
-                appData.lastStreakDate = today;
+                state.streak.tahaDone = false;
+                state.streak.sudemDone = false;
+                state.streak.lastTapDate = todayStr;
+                updated = true;
             }
-
-            if (currentUser === 'TAHA') appData.tahaDone = true;
-            if (currentUser === 'SUDEM') appData.sudemDone = true;
-
-            if (appData.tahaDone && appData.sudemDone) {
-                appData.streak++;
-                appData.tahaDone = false;
-                appData.sudemDone = false;
-            }
-            saveData();
-            renderStreak();
+            if (updated) saveStateToFirebase();
         }
 
-        function renderStreak() {
-            document.getElementById('streak-count').textContent = appData.streak;
-            document.getElementById('status-taha').textContent = `TAHA: ${appData.tahaDone ? 'YAPILDI ✅' : 'YAPILMADI ❌'}`;
-            document.getElementById('status-sudem').textContent = `SUDEM: ${appData.sudemDone ? 'YAPILDI ✅' : 'YAPILMADI ❌'}`;
-            document.getElementById('freeze-info').textContent = `Kalan Dondurma Hakkı: ${appData.freezeCount} / 3`;
+        window.selectProfile = function(user) {
+            selectedProfileTemp = user;
+            document.querySelectorAll('.profile-btn').forEach(btn => {
+                btn.classList.remove('border-amber-400', 'border-rose-500', 'bg-[#2A1A40]');
+            });
+
+            const selectedBtn = document.getElementById(`btn-select-${user.toLowerCase()}`);
+            selectedBtn.classList.add('bg-[#2A1A40]', user === 'TAHA' ? 'border-amber-400' : 'border-rose-500');
+
+            document.getElementById('password-container').classList.remove('hidden');
+            document.getElementById('pwd-label').innerText = `${user} Şifresi`;
+            document.getElementById('login-password').value = '';
+            document.getElementById('login-password').focus();
+            document.getElementById('login-error').classList.add('hidden');
         }
 
-        function sendMessage() {
-            const input = document.getElementById('chat-text');
+        window.executeLogin = function() {
+            if (!selectedProfileTemp) return;
+            const pwdInput = document.getElementById('login-password').value;
+
+            if (pwdInput === PASSWORDS[selectedProfileTemp]) {
+                currentUser = selectedProfileTemp;
+                document.getElementById('login-screen').classList.add('opacity-0');
+                setTimeout(() => {
+                    document.getElementById('login-screen').classList.add('hidden');
+                    document.getElementById('app-wrapper').classList.remove('hidden');
+                    setupUserSession();
+                }, 300);
+            } else {
+                document.getElementById('login-error').classList.remove('hidden');
+            }
+        }
+
+        function setupUserSession() {
+            document.getElementById('active-user-badge').innerText = `Aktif: ${currentUser}`;
+            window.selectTrack(currentUser === 'TAHA' ? 'hanimafendi' : 'lanet');
+            window.switchTab('streak');
+            renderAllUI();
+        }
+
+        window.logout = function() {
+            currentUser = null;
+            selectedProfileTemp = null;
+            window.toggleSettingsDrawer(false);
+            const audio = document.getElementById('bg-music');
+            audio.pause();
+            
+            document.getElementById('app-wrapper').classList.add('hidden');
+            document.getElementById('login-screen').classList.remove('hidden', 'opacity-0');
+            document.getElementById('password-container').classList.add('hidden');
+            document.querySelectorAll('.profile-btn').forEach(btn => btn.classList.remove('border-amber-400', 'border-rose-500', 'bg-[#2A1A40]'));
+        }
+
+        window.toggleSettingsDrawer = function(open) {
+            const drawer = document.getElementById('settings-drawer');
+            const backdrop = document.getElementById('settings-drawer-backdrop');
+            if (open) {
+                backdrop.classList.remove('hidden');
+                drawer.classList.remove('translate-x-full');
+            } else {
+                drawer.classList.add('translate-x-full');
+                backdrop.classList.add('hidden');
+            }
+        }
+
+        window.selectTrack = function(trackKey) {
+            activeTrack = trackKey;
+            const audio = document.getElementById('bg-music');
+            audio.src = TRACK_URLS[trackKey];
+            audio.play().catch(() => {});
+
+            document.getElementById('check-hanimafendi').classList.toggle('hidden', trackKey !== 'hanimafendi');
+            document.getElementById('check-lanet').classList.toggle('hidden', trackKey !== 'lanet');
+        }
+
+        window.changeVolume = function(val) {
+            const audio = document.getElementById('bg-music');
+            audio.volume = val;
+        }
+
+        window.toggleMute = function() {
+            const audio = document.getElementById('bg-music');
+            isMuted = !isMuted;
+            audio.muted = isMuted;
+            document.getElementById('mute-icon').className = isMuted ? 'fa-solid fa-volume-xmark text-rose-400' : 'fa-solid fa-volume-high';
+        }
+
+        window.switchTab = function(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.nav-tab').forEach(btn => {
+                btn.classList.remove('text-amber-300', 'border-amber-300', 'text-rose-400', 'border-rose-400');
+                btn.classList.add('text-slate-400', 'border-transparent');
+            });
+
+            const activeSection = document.getElementById(`section-${tabId}`);
+            activeSection.classList.remove('hidden');
+
+            const activeBtn = document.getElementById(`tab-btn-${tabId}`);
+            const activeColor = currentUser === 'TAHA' ? 'text-amber-300' : 'text-rose-400';
+            const borderColor = currentUser === 'TAHA' ? 'border-amber-300' : 'border-rose-400';
+            
+            activeBtn.classList.remove('text-slate-400', 'border-transparent');
+            activeBtn.classList.add(activeColor, borderColor);
+
+            if (tabId === 'games') window.switchGame('clicker');
+        }
+
+        function renderChat() {
+            const container = document.getElementById('chat-messages');
+            if (!container) return;
+            container.innerHTML = '';
+
+            state.chat.forEach(msg => {
+                const isMe = msg.user === currentUser;
+                const msgWrapper = document.createElement('div');
+                msgWrapper.className = `flex flex-col ${isMe ? 'items-end' : 'items-start'}`;
+
+                const alignClass = isMe 
+                    ? 'bg-gradient-to-r from-rose-900/50 to-pink-900/40 border border-rose-500/30 text-slate-100 rounded-2xl rounded-tr-none' 
+                    : 'bg-[#1C122C] border border-[#2D1B3E] text-slate-200 rounded-2xl rounded-tl-none';
+
+                const avatarUrl = PROFILES[msg.user] || PROFILES.TAHA;
+                const borderCol = msg.user === 'TAHA' ? 'border-amber-400' : 'border-rose-400';
+
+                let contentHtml = `<p class="text-xs leading-relaxed">${msg.text}</p>`;
+                if (msg.image) contentHtml += `<img src="${msg.image}" class="mt-2 rounded-xl max-h-48 object-cover w-full border border-white/10">`;
+
+                msgWrapper.innerHTML = `
+                    <div class="flex items-center gap-2 mb-1 ${isMe ? 'flex-row-reverse' : 'flex-row'}">
+                        <img src="${avatarUrl}" alt="${msg.user}" class="w-6 h-6 rounded-full object-cover border ${borderCol}">
+                        <span class="text-[10px] font-bold ${msg.user === 'TAHA' ? 'text-amber-300' : 'text-rose-400'}">${msg.user}</span>
+                        <span class="text-[9px] text-slate-400">${msg.time}</span>
+                    </div>
+                    <div class="max-w-[80%] p-3 ${alignClass}">
+                        ${contentHtml}
+                    </div>
+                `;
+                container.appendChild(msgWrapper);
+            });
+
+            container.scrollTop = container.scrollHeight;
+        }
+
+        window.sendChatMessage = function() {
+            const input = document.getElementById('chat-input-text');
             const text = input.value.trim();
             if (!text) return;
 
-            appData.messages.push({ sender: currentUser, text: text, time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) });
+            const now = new Date();
+            const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+            state.chat.push({ id: Date.now(), user: currentUser, text: text, time: timeStr, image: null });
             input.value = '';
-            saveData();
-            renderMessages();
+            saveStateToFirebase();
+            renderChat();
         }
 
-        function sendImage(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(evt) {
-                appData.messages.push({ sender: currentUser, img: evt.target.result, time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) });
-                saveData();
-                renderMessages();
-            };
-            reader.readAsDataURL(file);
+        window.handleChatImageUpload = function(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const now = new Date();
+                    const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+                    state.chat.push({ id: Date.now(), user: currentUser, text: 'Fotoğraf gönderildi.', time: timeStr, image: e.target.result });
+                    saveStateToFirebase();
+                    renderChat();
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
         }
 
-        function renderMessages() {
-            const box = document.getElementById('chat-messages');
-            box.innerHTML = appData.messages.map(m => `
-                <div class="chat-msg ${m.sender.toLowerCase()}">
-                    <div style="font-size:0.75rem; font-weight:600; margin-bottom:2px; opacity:0.8;">${m.sender}</div>
-                    ${m.text ? `<div>${m.text}</div>` : ''}
-                    ${m.img ? `<img src="${m.img}" onclick="window.open(this.src)">` : ''}
-                    <div style="font-size:0.65rem; text-align:right; opacity:0.6; margin-top:4px;">${m.time}</div>
-                </div>
-            `).join('');
-            box.scrollTop = box.scrollHeight;
+        function renderStreakUI() {
+            const counterEl = document.getElementById('streak-counter');
+            if (!counterEl) return;
+            counterEl.innerText = formatNumberCompact(state.streak.count);
+            document.getElementById('freeze-credits-count').innerText = `${state.streak.freezes}/3`;
+
+            const tahaStatusEl = document.getElementById('taha-streak-status');
+            const sudemStatusEl = document.getElementById('sudem-streak-status');
+
+            if (state.streak.tahaDone) {
+                tahaStatusEl.innerText = "YAPILDI ✅";
+                tahaStatusEl.className = "text-xs px-3 py-1 rounded-full font-semibold bg-emerald-950/60 text-emerald-400 border border-emerald-800/50";
+            } else {
+                tahaStatusEl.innerText = "YAPILMADI ❌";
+                tahaStatusEl.className = "text-xs px-3 py-1 rounded-full font-semibold bg-rose-950/60 text-rose-400 border border-rose-800/50";
+            }
+
+            if (state.streak.sudemDone) {
+                sudemStatusEl.innerText = "YAPILDI ✅";
+                sudemStatusEl.className = "text-xs px-3 py-1 rounded-full font-semibold bg-emerald-950/60 text-emerald-400 border border-emerald-800/50";
+            } else {
+                sudemStatusEl.innerText = "YAPILMADI ❌";
+                sudemStatusEl.className = "text-xs px-3 py-1 rounded-full font-semibold bg-rose-950/60 text-rose-400 border border-rose-800/50";
+            }
+
+            const myDone = currentUser === 'TAHA' ? state.streak.tahaDone : state.streak.sudemDone;
+            const btn = document.getElementById('streak-heart-btn');
+            const hint = document.getElementById('streak-heart-hint');
+
+            if (myDone) {
+                btn.classList.add('opacity-50', 'pointer-events-none');
+                hint.innerText = "Bugünkü serinizi tamamladınız!";
+            } else {
+                btn.classList.remove('opacity-50', 'pointer-events-none');
+                hint.innerText = "Bugünün kalbine dokunmak için tıkla!";
+            }
         }
 
-        let tempMemoryImg = '';
-        function previewMemoryPhoto(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(evt) {
-                tempMemoryImg = evt.target.result;
-                document.getElementById('memory-photo-preview').textContent = "Fotoğraf eklendi ✅";
-            };
-            reader.readAsDataURL(file);
+        window.tapStreakHeart = function() {
+            if (currentUser === 'TAHA') state.streak.tahaDone = true;
+            if (currentUser === 'SUDEM') state.streak.sudemDone = true;
+
+            if (state.streak.tahaDone && state.streak.sudemDone) {
+                state.streak.count += 1;
+            }
+
+            saveStateToFirebase();
+            renderStreakUI();
         }
 
-        function addMemory() {
+        let tempMemoryPhoto = null;
+
+        window.previewMemoryPhoto = function(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    tempMemoryPhoto = e.target.result;
+                    document.getElementById('memory-photo-preview').classList.remove('hidden');
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        window.saveMemory = function() {
             const title = document.getElementById('memory-title').value.trim();
-            const date = document.getElementById('memory-date').value;
             const desc = document.getElementById('memory-desc').value.trim();
             if (!title) return;
 
-            appData.memories.unshift({ title, date, desc, img: tempMemoryImg });
+            const now = new Date();
+            const dateStr = now.toISOString().split('T')[0];
+
+            state.memories.unshift({ id: Date.now(), title, desc, photo: tempMemoryPhoto, date: dateStr });
             document.getElementById('memory-title').value = '';
-            document.getElementById('memory-date').value = '';
             document.getElementById('memory-desc').value = '';
-            document.getElementById('memory-photo-preview').textContent = '';
-            tempMemoryImg = '';
-            saveData();
+            tempMemoryPhoto = null;
+            document.getElementById('memory-photo-preview').classList.add('hidden');
+
+            saveStateToFirebase();
             renderMemories();
         }
 
         function renderMemories() {
-            const list = document.getElementById('memories-list');
-            list.innerHTML = appData.memories.map(m => `
-                <div class="memory-card">
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <span style="font-weight:600; font-size:1rem;">${m.title}</span>
-                        <span style="font-size:0.75rem; color:var(--text-muted);">${m.date}</span>
+            const container = document.getElementById('memories-feed');
+            if (!container) return;
+            container.innerHTML = '';
+
+            state.memories.forEach(mem => {
+                const card = document.createElement('div');
+                card.className = "glass-card p-4 rounded-2xl border border-[#2D1B3E] space-y-2";
+                card.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <h4 class="text-xs font-bold text-slate-100">${mem.title}</h4>
+                        <span class="text-[10px] text-slate-400">${mem.date}</span>
                     </div>
-                    ${m.desc ? `<div style="font-size:0.9rem; color:#d8b4fe;">${m.desc}</div>` : ''}
-                    ${m.img ? `<img src="${m.img}" style="width:100%; border-radius:12px; margin-top:4px; max-height:220px; object-fit:cover;" onclick="window.open(this.src)">` : ''}
-                </div>
-            `).join('');
+                    ${mem.desc ? `<p class="text-xs text-rose-200/80 leading-relaxed">${mem.desc}</p>` : ''}
+                    ${mem.photo ? `<img src="${mem.photo}" class="w-full h-48 object-cover rounded-xl border border-[#2D1B3E] mt-2">` : ''}
+                `;
+                container.appendChild(card);
+            });
         }
 
-        function clickHeart() {
-            appData.clicker.points += appData.clicker.power;
+        window.switchGame = function(gameType) {
+            document.getElementById('game-clicker-wrapper').classList.toggle('hidden', gameType !== 'clicker');
+            document.getElementById('game-memory-wrapper').classList.toggle('hidden', gameType !== 'memory');
+
+            document.getElementById('btn-game-clicker').className = gameType === 'clicker' 
+                ? 'px-3.5 py-1.5 text-xs rounded-xl border border-[#2D1B3E] bg-[#2A1A40] text-slate-100 font-bold'
+                : 'px-3.5 py-1.5 text-xs rounded-xl border border-[#2D1B3E] bg-[#1C122C] text-slate-400 font-semibold';
+
+            document.getElementById('btn-game-memory').className = gameType === 'memory' 
+                ? 'px-3.5 py-1.5 text-xs rounded-xl border border-[#2D1B3E] bg-[#2A1A40] text-slate-100 font-bold'
+                : 'px-3.5 py-1.5 text-xs rounded-xl border border-[#2D1B3E] bg-[#1C122C] text-slate-400 font-semibold';
+
+            if (gameType === 'memory') initMemoryGame();
+        }
+
+        function renderLeaderboards() {
+            const el = document.getElementById('clicker-taha-max');
+            if (!el) return;
+            el.innerText = formatNumberCompact(state.scores.clicker.taha);
+            document.getElementById('clicker-sudem-max').innerText = formatNumberCompact(state.scores.clicker.sudem);
+            document.getElementById('memory-taha-max').innerText = state.scores.memory.taha !== null ? state.scores.memory.taha : '-';
+            document.getElementById('memory-sudem-max').innerText = state.scores.memory.sudem !== null ? state.scores.memory.sudem : '-';
+        }
+
+        window.clickHeart = function(event) {
+            const p = state.scores.clicker;
+            p.points += p.power;
+
             if (currentUser === 'TAHA') {
-                if (appData.clicker.points > appData.clicker.maxTaha) appData.clicker.maxTaha = appData.clicker.points;
+                p.taha = Math.max(p.taha, p.points);
             } else {
-                if (appData.clicker.points > appData.clicker.maxSudem) appData.clicker.maxSudem = appData.clicker.points;
+                p.sudem = Math.max(p.sudem, p.points);
             }
-            saveData();
-            renderClicker();
+
+            const container = document.getElementById('clicker-container');
+            const pop = document.createElement('div');
+            pop.className = 'click-pop';
+            pop.innerText = `+${formatNumberCompact(p.power)}`;
+            pop.style.left = `${event.clientX - container.getBoundingClientRect().left}px`;
+            pop.style.top = `${event.clientY - container.getBoundingClientRect().top}px`;
+            container.appendChild(pop);
+            setTimeout(() => pop.remove(), 800);
+
+            saveStateToFirebase();
+            renderClickerUI();
+            renderLeaderboards();
         }
 
-        function buyUpgrade(type) {
-            if (type === 'multiplier') {
-                if (appData.clicker.points >= appData.clicker.costMult) {
-                    appData.clicker.points -= appData.clicker.costMult;
-                    appData.clicker.power += 1;
-                    appData.clicker.costMult = Math.floor(appData.clicker.costMult * 1.8);
+        window.buyMultiplier = function() {
+            const p = state.scores.clicker;
+            if (p.points >= p.multCost) {
+                p.points -= p.multCost;
+                p.power += 1;
+                p.multCost = Math.floor(p.multCost * 2.2);
+                saveStateToFirebase();
+                renderClickerUI();
+            }
+        }
+
+        window.buyAutoClicker = function() {
+            const p = state.scores.clicker;
+            if (p.points >= p.autoCost) {
+                p.points -= p.autoCost;
+                p.auto += 1;
+                p.autoCost = Math.floor(p.autoCost * 2.5);
+                saveStateToFirebase();
+                renderClickerUI();
+            }
+        }
+
+        function startAutoClickerTimer() {
+            setInterval(() => {
+                const p = state.scores.clicker;
+                if (p.auto > 0) {
+                    p.points += p.auto;
+                    if (currentUser === 'TAHA') p.taha = Math.max(p.taha, p.points);
+                    if (currentUser === 'SUDEM') p.sudem = Math.max(p.sudem, p.points);
+                    saveStateToFirebase();
+                    renderClickerUI();
+                    renderLeaderboards();
                 }
-            } else if (type === 'auto') {
-                if (appData.clicker.points >= appData.clicker.costAuto) {
-                    appData.clicker.points -= appData.clicker.costAuto;
-                    appData.clicker.auto += 1;
-                    appData.clicker.costAuto = Math.floor(appData.clicker.costAuto * 1.8);
+            }, 1000);
+        }
+
+        function renderClickerUI() {
+            const p = state.scores.clicker;
+            const ptsEl = document.getElementById('clicker-points');
+            if (!ptsEl) return;
+            ptsEl.innerText = formatNumberCompact(p.points);
+            document.getElementById('mult-level-tag').innerText = `Lvl ${p.power}`;
+            document.getElementById('mult-cost-tag').innerText = `Maliyet: ${formatNumberCompact(p.multCost)} Puan`;
+            document.getElementById('auto-level-tag').innerText = `Lvl ${p.auto}`;
+            document.getElementById('auto-cost-tag').innerText = `Maliyet: ${formatNumberCompact(p.autoCost)} Puan`;
+        }
+
+        const EMOJIS = ['🌹', '💖', '👑', '🕊️', '✨', '💍', '💌', '🌙'];
+        let memoryCards = [], flippedCards = [], matchedCount = 0, moves = 0, lockGrid = false;
+
+        function initMemoryGame() {
+            const grid = document.getElementById('memory-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+            moves = 0;
+            matchedCount = 0;
+            flippedCards = [];
+            lockGrid = false;
+            document.getElementById('memory-moves').innerText = '0';
+
+            const deck = [...EMOJIS, ...EMOJIS].sort(() => Math.random() - 0.5);
+            memoryCards = deck;
+
+            deck.forEach((emoji, index) => {
+                const card = document.createElement('button');
+                card.className = 'w-full h-full bg-[#1C122C] border border-[#2D1B3E] rounded-xl flex items-center justify-center text-xl transition-all duration-300';
+                card.dataset.index = index;
+                card.dataset.emoji = emoji;
+                card.innerText = '❓';
+                card.onclick = () => handleCardClick(card);
+                grid.appendChild(card);
+            });
+        }
+
+        function handleCardClick(card) {
+            if (lockGrid || card.innerText !== '❓' || flippedCards.includes(card)) return;
+
+            card.innerText = card.dataset.emoji;
+            card.classList.add('bg-[#2A1A40]', 'border-rose-500');
+            flippedCards.push(card);
+
+            if (flippedCards.length === 2) {
+                moves++;
+                document.getElementById('memory-moves').innerText = moves;
+                checkMemoryMatch();
+            }
+        }
+
+        function checkMemoryMatch() {
+            lockGrid = true;
+            const [c1, c2] = flippedCards;
+
+            if (c1.dataset.emoji === c2.dataset.emoji) {
+                matchedCount += 2;
+                flippedCards = [];
+                lockGrid = false;
+
+                if (matchedCount === memoryCards.length) {
+                    if (currentUser === 'TAHA') {
+                        state.scores.memory.taha = state.scores.memory.taha === null ? moves : Math.min(state.scores.memory.taha, moves);
+                    } else {
+                        state.scores.memory.sudem = state.scores.memory.sudem === null ? moves : Math.min(state.scores.memory.sudem, moves);
+                    }
+                    saveStateToFirebase();
+                    renderLeaderboards();
                 }
-            }
-            saveData();
-            renderClicker();
-        }
-
-        setInterval(() => {
-            if (appData.clicker.auto > 0) {
-                appData.clicker.points += appData.clicker.auto;
-                if (currentUser === 'TAHA' && appData.clicker.points > appData.clicker.maxTaha) appData.clicker.maxTaha = appData.clicker.points;
-                if (currentUser === 'SUDEM' && appData.clicker.points > appData.clicker.maxSudem) appData.clicker.maxSudem = appData.clicker.points;
-                saveData();
-                renderClicker();
-            }
-        }, 1000);
-
-        function renderClicker() {
-            document.getElementById('clicker-score').textContent = `Puan: ${appData.clicker.points}`;
-            document.getElementById('cost-multiplier').textContent = `${appData.clicker.costMult} Puan`;
-            document.getElementById('cost-auto').textContent = `${appData.clicker.costAuto} Puan`;
-            document.getElementById('max-score-taha').textContent = appData.clicker.maxTaha;
-            document.getElementById('max-score-sudem').textContent = appData.clicker.maxSudem;
-        }
-
-        function saveData() {
-            localStorage.setItem('portal_data', JSON.stringify(appData));
-        }
-
-        function syncState() {
-            const saved = JSON.parse(localStorage.getItem('portal_data'));
-            if (saved) {
-                appData = saved;
-                renderStreak();
-                renderMessages();
-                renderMemories();
-                renderClicker();
+            } else {
+                setTimeout(() => {
+                    c1.innerText = '❓';
+                    c2.innerText = '❓';
+                    c1.classList.remove('bg-[#2A1A40]', 'border-rose-500');
+                    c2.classList.remove('bg-[#2A1A40]', 'border-rose-500');
+                    flippedCards = [];
+                    lockGrid = false;
+                }, 800);
             }
         }
     </script>
