@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taha & Sudem - Sonsuza Kadar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #0b0710;
+            --bg-card: rgba(22, 13, 30, 0.75);
+            --border-glass: rgba(236, 72, 153, 0.18);
+            --primary: #ec4899;
+            --primary-glow: rgba(236, 72, 153, 0.35);
+            --accent: #f43f5e;
+            --text-main: #f3e8ff;
+            --text-muted: #c084fc;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(147, 51, 234, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(244, 63, 94, 0.12) 0%, transparent 40%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 480px;
+            min-height: 100vh;
+            background: var(--bg-deep);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+            border-left: 1px solid rgba(255,255,255,0.03);
+            border-right: 1px solid rgba(255,255,255,0.03);
+        }
+
+        @media (min-width: 481px) {
+            .app-container {
+                min-height: 92vh;
+                max-height: 92vh;
+                border-radius: 28px;
+                border: 1px solid var(--border-glass);
+                overflow: hidden;
+            }
+        }
+
+        /* Giriş Ekranı */
+        #login-screen {
+            position: absolute;
+            inset: 0;
+            background: rgba(11, 7, 16, 0.96);
+            backdrop-filter: blur(20px);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .login-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #fff, #f43f5e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .login-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 32px;
+        }
+
+        .users-row {
+            display: flex;
+            gap: 16px;
+            width: 100%;
+            max-width: 360px;
+            margin-bottom: 24px;
+        }
+
+        .user-card {
+            flex: 1;
+            background: var(--bg-card);
+            border: 2px solid var(--border-glass);
+            border-radius: 20px;
+            padding: 20px 12px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-card:hover, .user-card.selected {
+            border-color: var(--primary);
+            background: rgba(236, 72, 153, 0.08);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px var(--primary-glow);
+        }
+
+        .user-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .password-box {
+            width: 100%;
+            max-width: 360px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .password-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-glass);
+            border-radius: 14px;
+            padding: 14px 18px;
+            color: #fff;
+            font-size: 1rem;
+            text-align: center;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .password-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        .login-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            border: none;
+            border-radius: 14px;
+            padding: 14px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px var(--primary-glow);
+        }
+
+        .login-btn:hover {
+            opacity: 0.9;
+            transform: scale(0.99);
+        }
+
+        .login-error {
+            color: #f87171;
+            font-size: 0.85rem;
+            margin-top: 8px;
+            min-height: 20px;
+        }
+
+        /* Üst Başlık */
+        .app-header {
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            background: rgba(11, 7, 16, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .header-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid var(--primary);
+        }
+
+        .header-title {
+            font-size: 1rem;
+            font-weight: 650;
+        }
+
+        .settings-trigger {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border-glass);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            color: #fff;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+
+        .settings-trigger:hover {
+            background: rgba(236, 72, 153, 0.15);
+            border-color: var(--primary);
+        }
+
+        /* İçerik Alanı */
+        .content-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: none;
+            flex-direction: column;
+            gap: 20px;
+            padding-bottom: 90px;
+        }
+
+        .content-body.active {
+            display: flex;
+        }
+
+        /* Alt Navigasyon */
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 75px;
+            background: rgba(15, 9, 23, 0.92);
+            backdrop-filter: blur(15px);
+            border-top: 1px solid rgba(255,255,255,0.06);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0 10px;
+            z-index: 50;
+        }
+
+        .nav-item {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            flex: 1;
+        }
+
+        .nav-item svg {
+            width: 22px;
+            height: 22px;
+            fill: currentColor;
+            transition: all 0.3s;
+        }
+
+        .nav-item.active, .nav-item:hover {
+            color: var(--primary);
+        }
+
+        .nav-item.active svg {
+            filter: drop-shadow(0 0 8px var(--primary));
+        }
+
+        /* Seri Kutusu - Taşma Korumalı */
+        .streak-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: 22px;
+            padding: 24px;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .streak-number {
+            font-size: clamp(2rem, 8vw, 3.5rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 10px 0;
+            word-break: break-all;
+            overflow-wrap: break-word;
+            max-width: 100%;
+        }
+
+        .streak-heart-btn {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border: none;
+            color: white;
+            font-size: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 16px auto 12px;
+            cursor: pointer;
+            box-shadow: 0 6px 20px var(--primary-glow);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .streak-heart-btn:active {
+            transform: scale(0.92);
+        }
+
+        .streak-status-row {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 16px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .freeze-info {
+            margin-top: 12px;
+            font-size: 0.8rem;
+            color: #f43f5e;
+            background: rgba(244, 63, 94, 0.1);
+            padding: 6px 12px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        /* Sohbet Ekranı */
+        .chat-box {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-height: calc(100vh - 220px);
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .chat-msg {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 16px;
+            font-size: 0.9rem;
+            word-break: break-word;
+            line-height: 1.4;
+        }
+
+        .chat-msg.taha {
+            background: rgba(147, 51, 234, 0.2);
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+
+        .chat-msg.sudem {
+            background: rgba(244, 63, 94, 0.2);
+            border: 1px solid rgba(244, 63, 94, 0.3);
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+
+        .chat-msg img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-top: 6px;
+            cursor: pointer;
+        }
+
+        .chat-input-area {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .chat-input {
+            flex: 1;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border-glass);
+            border-radius: 14px;
+            padding: 12px 16px;
+            color: #fff;
+            outline: none;
+            font-size: 0.9rem;
+        }
+
+        .chat-input:focus {
+            border-color: var(--primary);
+        }
+
+        .chat-file-btn, .chat-send-btn {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid var(--border-glass);
+            color: #fff;
+            padding: 0 14px;
+            border-radius: 14px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .chat-send-btn {
+            background: var(--primary);
+            border: none;
+        }
+
+        /* Anılar Sekmesi */
+        .memory-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: 18px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .memory-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: rgba(255,255,255,0.02);
+            border: 1px dashed var(--border-glass);
+            padding: 16px;
+            border-radius: 18px;
+        }
+
+        .memory-input {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 10px 14px;
+            color: #fff;
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        .file-upload-label {
+            background: rgba(236, 72, 153, 0.1);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 10px;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .file-upload-label:hover {
+            background: rgba(236, 72, 153, 0.2);
+        }
+
+        /* Oyunlar Sekmesi - Taşma Korumalı */
+        .game-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: 22px;
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .clicker-score-display {
+            font-size: clamp(1.5rem, 6vw, 2.2rem);
+            font-weight: 700;
+            color: var(--primary);
+            word-break: break-all;
+            overflow-wrap: break-word;
+            max-width: 100%;
+        }
+
+        .clicker-target {
+            width: 110px;
+            height: 110px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.5rem;
+            cursor: pointer;
+            box-shadow: 0 8px 25px var(--primary-glow);
+            transition: transform 0.1s;
+            user-select: none;
+        }
+
+        .clicker-target:active {
+            transform: scale(0.9);
+        }
+
+        .upgrade-btn {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid var(--border-glass);
+            color: #fff;
+            padding: 10px 16px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+            text-align: left;
+        }
+
+        .upgrade-btn:hover {
+            border-color: var(--primary);
+            background: rgba(236, 72, 153, 0.1);
+        }
+
+        .score-board {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            background: rgba(0,0,0,0.2);
+            padding: 8px 14px;
+            border-radius: 10px;
+            width: 100%;
+            word-break: break-all;
+        }
+
+        /* Ayarlar Çekmecesi (Sağdan Açılan) */
+        .settings-drawer {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            max-width: 360px;
+            height: 100vh;
+            background: rgba(14, 9, 21, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 200;
+            box-shadow: -10px 0 40px rgba(0,0,0,0.8);
+            transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            padding: 24px;
+            border-left: 1px solid var(--border-glass);
+        }
+
+        .settings-drawer.open {
+            right: 0;
+        }
+
+        .drawer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .drawer-close {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .song-option {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border-glass);
+            padding: 12px 16px;
+            border-radius: 14px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+        }
+
+        .song-option.active {
+            border-color: var(--primary);
+            background: rgba(236, 72, 153, 0.12);
+        }
+
+        .logout-btn {
+            margin-top: auto;
+            background: rgba(244, 63, 94, 0.15);
+            border: 1px solid rgba(244, 63, 94, 0.3);
+            color: #f87171;
+            padding: 14px;
+            border-radius: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- Giriş Ekranı -->
+        <div id="login-screen">
+            <h1 class="login-title">Taha & Sudem</h1>
+            <p class="login-subtitle">Aşk Portalımıza Hoş Geldiniz</p>
+            
+            <div class="users-row">
+                <div class="user-card" id="card-taha" onclick="selectUser('TAHA')">
+                    <img src="https://i.ibb.co/bwQGgHn/MG-20261020-WA0054-1.jpg" class="user-avatar" alt="Taha">
+                    <span class="user-name">TAHA</span>
+                </div>
+                <div class="user-card" id="card-sudem" onclick="selectUser('SUDEM')">
+                    <img src="https://i.ibb.co/r2g9wC2X/MG-20261024-WA0080.jpg" class="user-avatar" alt="Sudem">
+                    <span class="user-name">SUDEM</span>
+                </div>
+            </div>
+
+            <div class="password-box">
+                <input type="password" id="pass-input" class="password-input" placeholder="Şifrenizi Girin..." autocomplete="off">
+                <button class="login-btn" onclick="handleLogin()">Giriş Yap</button>
+                <div class="login-error" id="login-error"></div>
+            </div>
+        </div>
+
+        <!-- Üst Başlık -->
+        <header class="app-header">
+            <div class="header-profile">
+                <img id="current-user-avatar" src="" class="header-avatar" alt="Profil">
+                <div>
+                    <div class="header-title" id="current-user-name">TAHA</div>
+                    <div style="font-size: 0.7rem; color: var(--text-muted);">Aşk Portalımız</div>
+                </div>
+            </div>
+            <button class="settings-trigger" onclick="toggleSettings(true)">⚙️</button>
+        </header>
+
+        <!-- Sekmeler İçeriği -->
+        <!-- 1. SERİ SEKMESİ -->
+        <div class="content-body active" id="tab-streak">
+            <div class="streak-card">
+                <div style="font-size: 0.9rem; color: var(--text-muted);">ORTAK AŞK SERİMİZ</div>
+                <div class="streak-number" id="streak-count">0</div>
+                <div style="font-size: 0.85rem; color: var(--text-main);">Günün serisini ilerletmek için ikiniz de dokunmalısınız</div>
+                
+                <button class="streak-heart-btn" onclick="tapStreak()">❤️</button>
+                
+                <div class="streak-status-row">
+                    <div id="status-taha">TAHA: YAPILMADI ❌</div>
+                    <div id="status-sudem">SUDEM: YAPILMADI ❌</div>
+                </div>
+
+                <div style="margin-top: 14px;">
+                    <div class="freeze-info" id="freeze-info">Kalan Dondurma Hakkı: 3 / 3</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. SOHBET SEKMESİ -->
+        <div class="content-body" id="tab-chat">
+            <div class="chat-box" id="chat-messages"></div>
+            <div class="chat-input-area">
+                <label class="chat-file-btn">
+                    📷<input type="file" id="chat-file" accept="image/*" style="display: none;" onchange="sendImage(event)">
+                </label>
+                <input type="text" id="chat-text" class="chat-input" placeholder="Mesaj yaz..." onkeypress="if(event.key==='Enter')sendMessage()">
+                <button class="chat-send-btn" onclick="sendMessage()">Gönder</button>
+            </div>
+        </div>
+
+        <!-- 3. ANILAR SEKMESİ -->
+        <div class="content-body" id="tab-memories">
+            <div class="memory-form">
+                <input type="text" id="memory-title" class="memory-input" placeholder="Anı Başlığı...">
+                <input type="date" id="memory-date" class="memory-input">
+                <textarea id="memory-desc" class="memory-input" placeholder="Anı Notu..." rows="2" style="resize:none;"></textarea>
+                <label class="file-upload-label">
+                    🖼️ Fotoğraf Seç<input type="file" id="memory-file" accept="image/*" style="display:none;" onchange="previewMemoryPhoto(event)">
+                </label>
+                <div id="memory-photo-preview" style="font-size:0.8rem; color:var(--text-muted); text-align:center;"></div>
+                <button class="login-btn" onclick="addMemory()">Anıyı Kaydet</button>
+            </div>
+            <div id="memories-list" style="display:flex; flex-direction:column; gap:12px;"></div>
+        </div>
+
+        <!-- 4. OYUN SEKMESİ -->
+        <div class="content-body" id="tab-game">
+            <div class="game-card">
+                <div style="font-weight:600; font-size:1.1rem;">Aşk Tıklama Oyunu</div>
+                <div class="clicker-score-display" id="clicker-score">Puan: 0</div>
+                
+                <div class="clicker-target" onclick="clickHeart()">💖</div>
+
+                <div style="width:100%; display:flex; flex-direction:column; gap:8px;">
+                    <button class="upgrade-btn" onclick="buyUpgrade('multiplier')">
+                        <span>2 Kat Tıklama Gücü (+1)</span>
+                        <span id="cost-multiplier" style="color:var(--primary); font-weight:600;">50 Puan</span>
+                    </button>
+                    <button class="upgrade-btn" onclick="buyUpgrade('auto')">
+                        <span>Oto-Tıklama (Saniyede +1)</span>
+                        <span id="cost-auto" style="color:var(--primary); font-weight:600;">150 Puan</span>
+                    </button>
+                </div>
+
+                <div class="score-board">
+                    <div>🏆 Taha Max: <span id="max-score-taha">0</span></div>
+                    <div>🏆 Sudem Max: <span id="max-score-sudem">0</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alt Navigasyon -->
+        <nav class="bottom-nav">
+            <button class="nav-item active" onclick="switchTab('streak', this)">
+                <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                Seri
+            </button>
+            <button class="nav-item" onclick="switchTab('chat', this)">
+                <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+                Sohbet
+            </button>
+            <button class="nav-item" onclick="switchTab('memories', this)">
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5.04-6.71l-2.75 3.54-1.96-2.36L6.5 17h11l-3.54-4.71z"/></svg>
+                Anılar
+            </button>
+            <button class="nav-item" onclick="switchTab('game', this)">
+                <svg viewBox="0 0 24 24"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm3-3c-.83 0-1.5-.67-1.5-1.5S17.67 9 18.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+                Oyun
+            </button>
+        </nav>
+
+        <!-- Sağ Ayarlar Çekmecesi -->
+        <div class="settings-drawer" id="settings-drawer">
+            <div class="drawer-header">
+                <div style="font-weight: 600; font-size: 1.1rem;">Ayarlar & Müzik</div>
+                <button class="drawer-close" onclick="toggleSettings(false)">&times;</button>
+            </div>
+
+            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">MÜZİK SEÇİMİ</div>
+            <div class="song-option" id="song-taha-opt" onclick="setSong('taha')">
+                <span>Motive - Hanımefendi</span>
+                <span id="check-taha">✓</span>
+            </div>
+            <div class="song-option" id="song-sudem-opt" onclick="setSong('sudem')">
+                <span>Moonave - Lanet</span>
+                <span id="check-sudem" style="display:none;">✓</span>
+            </div>
+
+            <div style="margin-top: 20px;">
+                <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px;">SES SEVİYESİ</div>
+                <input type="range" min="0" max="1" step="0.05" value="0.5" style="width:100%; accent-color:var(--primary);" oninput="audioElement.volume = this.value">
+            </div>
+
+            <button class="logout-btn" onclick="logout()">Çıkış Yap</button>
+        </div>
+    </div>
+
+    <!-- Müzik Altyapısı -->
+    <audio id="bg-audio" loop></audio>
+
+    <!-- Firebase SDK Entegrasyonu -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBiKVvqJtFu6DyyOplc_iQfTdFxtKNEq7U",
+            authDomain: "ozel-alan-1cdfe.firebaseapp.com",
+            projectId: "ozel-alan-1cdfe",
+            storageBucket: "ozel-alan-1cdfe.firebasestorage.app",
+            messagingSenderId: "439772420365",
+            appId: "1:439772420365:web:a92c197caac1777014f844"
+        };
+
+        const app = initializeApp(firebaseConfig);
+    </script>
+
+    <script>
+        let currentUser = localStorage.getItem('portal_user') || null;
+        let selectedLoginUser = 'TAHA';
+        let currentSongKey = 'taha';
+        let audioElement = document.getElementById('bg-audio');
+
+        const songs = {
+            taha: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+            sudem: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"
+        };
+
+        let appData = JSON.parse(localStorage.getItem('portal_data')) || {
+            streak: 0,
+            tahaDone: false,
+            sudemDone: false,
+            lastStreakDate: '',
+            freezeCount: 3,
+            lastMonth: new Date().getMonth(),
+            messages: [],
+            memories: [],
+            clicker: { points: 0, power: 1, auto: 0, costMult: 50, costAuto: 150, maxTaha: 0, maxSudem: 0 }
+        };
+
+        const avatars = {
+            TAHA: "https://i.ibb.co/bwQGgHn/MG-20261020-WA0054-1.jpg",
+            SUDEM: "https://i.ibb.co/r2g9wC2X/MG-20261024-WA0080.jpg"
+        };
+
+        const passwords = {
+            TAHA: "601",
+            SUDEM: "17"
+        };
+
+        window.onload = function() {
+            checkMonthlyReset();
+            if (currentUser) {
+                document.getElementById('login-screen').style.display = 'none';
+                initApp();
+            } else {
+                selectUser('TAHA');
+            }
+            setInterval(syncState, 1000);
+        };
+
+        function selectUser(user) {
+            selectedLoginUser = user;
+            document.getElementById('card-taha').style.borderColor = user === 'TAHA' ? 'var(--primary)' : 'var(--border-glass)';
+            document.getElementById('card-sudem').style.borderColor = user === 'SUDEM' ? 'var(--primary)' : 'var(--border-glass)';
+        }
+
+        function handleLogin() {
+            const pass = document.getElementById('pass-input').value;
+            const err = document.getElementById('login-error');
+            if (pass === passwords[selectedLoginUser]) {
+                currentUser = selectedLoginUser;
+                localStorage.setItem('portal_user', currentUser);
+                document.getElementById('login-screen').style.display = 'none';
+                initApp();
+            } else {
+                err.textContent = 'Şifre hatalı!';
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('portal_user');
+            location.reload();
+        }
+
+        function initApp() {
+            document.getElementById('current-user-name').textContent = currentUser;
+            document.getElementById('current-user-avatar').src = avatars[currentUser];
+            
+            currentSongKey = currentUser === 'TAHA' ? 'taha' : 'sudem';
+            updateSongUI();
+            
+            audioElement.src = songs[currentSongKey];
+            audioElement.play().catch(() => {});
+
+            renderStreak();
+            renderMessages();
+            renderMemories();
+            renderClicker();
+        }
+
+        function toggleSettings(open) {
+            document.getElementById('settings-drawer').classList.toggle('open', open);
+        }
+
+        function setSong(key) {
+            currentSongKey = key;
+            audioElement.src = songs[key];
+            audioElement.play().catch(()=>{});
+            updateSongUI();
+        }
+
+        function updateSongUI() {
+            document.getElementById('song-taha-opt').classList.toggle('active', currentSongKey === 'taha');
+            document.getElementById('song-sudem-opt').classList.toggle('active', currentSongKey === 'sudem');
+            document.getElementById('check-taha').style.display = currentSongKey === 'taha' ? 'inline' : 'none';
+            document.getElementById('check-sudem').style.display = currentSongKey === 'sudem' ? 'inline' : 'none';
+        }
+
+        function switchTab(tabId, btn) {
+            document.querySelectorAll('.content-body').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            document.getElementById('tab-' + tabId).classList.add('active');
+            btn.classList.add('active');
+        }
+
+        function checkMonthlyReset() {
+            const nowMonth = new Date().getMonth();
+            if (appData.lastMonth !== nowMonth) {
+                appData.freezeCount = 3;
+                appData.lastMonth = nowMonth;
+                saveData();
+            }
+        }
+
+        function tapStreak() {
+            const today = new Date().toDateString();
+            if (appData.lastStreakDate !== today) {
+                if (appData.lastStreakDate) {
+                    const lastDate = new Date(appData.lastStreakDate);
+                    const diffDays = Math.floor((new Date() - lastDate) / (1000 * 60 * 60 * 24));
+                    if (diffDays > 1) {
+                        if (appData.freezeCount > 0) {
+                            appData.freezeCount--;
+                        } else {
+                            appData.streak = 0;
+                        }
+                    }
+                }
+                appData.tahaDone = false;
+                appData.sudemDone = false;
+                appData.lastStreakDate = today;
+            }
+
+            if (currentUser === 'TAHA') appData.tahaDone = true;
+            if (currentUser === 'SUDEM') appData.sudemDone = true;
+
+            if (appData.tahaDone && appData.sudemDone) {
+                appData.streak++;
+                appData.tahaDone = false;
+                appData.sudemDone = false;
+            }
+            saveData();
+            renderStreak();
+        }
+
+        function renderStreak() {
+            document.getElementById('streak-count').textContent = appData.streak;
+            document.getElementById('status-taha').textContent = `TAHA: ${appData.tahaDone ? 'YAPILDI ✅' : 'YAPILMADI ❌'}`;
+            document.getElementById('status-sudem').textContent = `SUDEM: ${appData.sudemDone ? 'YAPILDI ✅' : 'YAPILMADI ❌'}`;
+            document.getElementById('freeze-info').textContent = `Kalan Dondurma Hakkı: ${appData.freezeCount} / 3`;
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chat-text');
+            const text = input.value.trim();
+            if (!text) return;
+
+            appData.messages.push({ sender: currentUser, text: text, time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) });
+            input.value = '';
+            saveData();
+            renderMessages();
+        }
+
+        function sendImage(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                appData.messages.push({ sender: currentUser, img: evt.target.result, time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) });
+                saveData();
+                renderMessages();
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function renderMessages() {
+            const box = document.getElementById('chat-messages');
+            box.innerHTML = appData.messages.map(m => `
+                <div class="chat-msg ${m.sender.toLowerCase()}">
+                    <div style="font-size:0.75rem; font-weight:600; margin-bottom:2px; opacity:0.8;">${m.sender}</div>
+                    ${m.text ? `<div>${m.text}</div>` : ''}
+                    ${m.img ? `<img src="${m.img}" onclick="window.open(this.src)">` : ''}
+                    <div style="font-size:0.65rem; text-align:right; opacity:0.6; margin-top:4px;">${m.time}</div>
+                </div>
+            `).join('');
+            box.scrollTop = box.scrollHeight;
+        }
+
+        let tempMemoryImg = '';
+        function previewMemoryPhoto(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                tempMemoryImg = evt.target.result;
+                document.getElementById('memory-photo-preview').textContent = "Fotoğraf eklendi ✅";
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function addMemory() {
+            const title = document.getElementById('memory-title').value.trim();
+            const date = document.getElementById('memory-date').value;
+            const desc = document.getElementById('memory-desc').value.trim();
+            if (!title) return;
+
+            appData.memories.unshift({ title, date, desc, img: tempMemoryImg });
+            document.getElementById('memory-title').value = '';
+            document.getElementById('memory-date').value = '';
+            document.getElementById('memory-desc').value = '';
+            document.getElementById('memory-photo-preview').textContent = '';
+            tempMemoryImg = '';
+            saveData();
+            renderMemories();
+        }
+
+        function renderMemories() {
+            const list = document.getElementById('memories-list');
+            list.innerHTML = appData.memories.map(m => `
+                <div class="memory-card">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span style="font-weight:600; font-size:1rem;">${m.title}</span>
+                        <span style="font-size:0.75rem; color:var(--text-muted);">${m.date}</span>
+                    </div>
+                    ${m.desc ? `<div style="font-size:0.9rem; color:#d8b4fe;">${m.desc}</div>` : ''}
+                    ${m.img ? `<img src="${m.img}" style="width:100%; border-radius:12px; margin-top:4px; max-height:220px; object-fit:cover;" onclick="window.open(this.src)">` : ''}
+                </div>
+            `).join('');
+        }
+
+        function clickHeart() {
+            appData.clicker.points += appData.clicker.power;
+            if (currentUser === 'TAHA') {
+                if (appData.clicker.points > appData.clicker.maxTaha) appData.clicker.maxTaha = appData.clicker.points;
+            } else {
+                if (appData.clicker.points > appData.clicker.maxSudem) appData.clicker.maxSudem = appData.clicker.points;
+            }
+            saveData();
+            renderClicker();
+        }
+
+        function buyUpgrade(type) {
+            if (type === 'multiplier') {
+                if (appData.clicker.points >= appData.clicker.costMult) {
+                    appData.clicker.points -= appData.clicker.costMult;
+                    appData.clicker.power += 1;
+                    appData.clicker.costMult = Math.floor(appData.clicker.costMult * 1.8);
+                }
+            } else if (type === 'auto') {
+                if (appData.clicker.points >= appData.clicker.costAuto) {
+                    appData.clicker.points -= appData.clicker.costAuto;
+                    appData.clicker.auto += 1;
+                    appData.clicker.costAuto = Math.floor(appData.clicker.costAuto * 1.8);
+                }
+            }
+            saveData();
+            renderClicker();
+        }
+
+        setInterval(() => {
+            if (appData.clicker.auto > 0) {
+                appData.clicker.points += appData.clicker.auto;
+                if (currentUser === 'TAHA' && appData.clicker.points > appData.clicker.maxTaha) appData.clicker.maxTaha = appData.clicker.points;
+                if (currentUser === 'SUDEM' && appData.clicker.points > appData.clicker.maxSudem) appData.clicker.maxSudem = appData.clicker.points;
+                saveData();
+                renderClicker();
+            }
+        }, 1000);
+
+        function renderClicker() {
+            document.getElementById('clicker-score').textContent = `Puan: ${appData.clicker.points}`;
+            document.getElementById('cost-multiplier').textContent = `${appData.clicker.costMult} Puan`;
+            document.getElementById('cost-auto').textContent = `${appData.clicker.costAuto} Puan`;
+            document.getElementById('max-score-taha').textContent = appData.clicker.maxTaha;
+            document.getElementById('max-score-sudem').textContent = appData.clicker.maxSudem;
+        }
+
+        function saveData() {
+            localStorage.setItem('portal_data', JSON.stringify(appData));
+        }
+
+        function syncState() {
+            const saved = JSON.parse(localStorage.getItem('portal_data'));
+            if (saved) {
+                appData = saved;
+                renderStreak();
+                renderMessages();
+                renderMemories();
+                renderClicker();
+            }
+        }
+    </script>
+</body>
+</html>
