@@ -487,10 +487,7 @@
         let isMuted = false;
 
         let state = {
-            chat: [
-                { id: 1, user: 'TAHA', text: 'Hoşgeldin Güzelimmm💓', time: '12:00', image: null },
-                { id: 2, user: 'SUDEM', text: 'hmhm', time: '12:01', image: null }
-            ],
+            chat: [],
             streak: {
                 count: 0,
                 lastResetMonth: new Date().getMonth(),
@@ -956,14 +953,20 @@
 
         function startAutoClickerTimer() {
             setInterval(() => {
-                const p = state.scores.clicker;
-                if (p.auto > 0) {
-                    p.points += p.auto;
-                    if (currentUser === 'TAHA') p.taha = Math.max(p.taha, p.points);
-                    if (currentUser === 'SUDEM') p.sudem = Math.max(p.sudem, p.points);
-                    saveStateToFirebase();
-                    renderClickerUI();
-                    renderLeaderboards();
+                const gamesSection = document.getElementById('section-games');
+                const clickerWrapper = document.getElementById('game-clicker-wrapper');
+                const isClickerActive = gamesSection && !gamesSection.classList.contains('hidden') && clickerWrapper && !clickerWrapper.classList.contains('hidden');
+
+                if (isClickerActive && document.visibilityState === 'visible') {
+                    const p = state.scores.clicker;
+                    if (p.auto > 0) {
+                        p.points += p.auto;
+                        if (currentUser === 'TAHA') p.taha = Math.max(p.taha, p.points);
+                        if (currentUser === 'SUDEM') p.sudem = Math.max(p.sudem, p.points);
+                        saveStateToFirebase();
+                        renderClickerUI();
+                        renderLeaderboards();
+                    }
                 }
             }, 1000);
         }
