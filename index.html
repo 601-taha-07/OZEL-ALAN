@@ -393,6 +393,11 @@
         </main>
     </div>
 
+    <!-- ================= IMAGE LIGHTBOX MODAL ================= -->
+    <div id="image-modal" onclick="closeImageModal()" class="fixed inset-0 bg-slate-950/90 z-50 hidden flex items-center justify-center p-4">
+        <img id="modal-img" src="" class="max-w-full max-h-full rounded-2xl border border-[#2D1B3E] object-contain shadow-2xl">
+    </div>
+
     <!-- ================= SETTINGS DRAWER ================= -->
     <div id="settings-drawer-backdrop" onclick="toggleSettingsDrawer(false)" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-40 hidden transition-opacity duration-300"></div>
     
@@ -534,7 +539,6 @@
             }
             renderAllUI();
 
-            // Anlık (Real-time) senkronizasyon dinleyicisi
             onSnapshot(doc(db, "portal", "mainData"), (docSnap) => {
                 if (docSnap.exists()) {
                     state = docSnap.data();
@@ -711,7 +715,7 @@
                 const borderCol = msg.user === 'TAHA' ? 'border-amber-400' : 'border-rose-400';
 
                 let contentHtml = `<p class="text-xs leading-relaxed">${msg.text}</p>`;
-                if (msg.image) contentHtml += `<img src="${msg.image}" class="mt-2 rounded-xl max-h-48 object-cover w-full border border-white/10">`;
+                if (msg.image) contentHtml += `<img src="${msg.image}" onclick="openImageModal('${msg.image}')" class="mt-2 rounded-xl max-h-48 object-cover w-full border border-white/10 cursor-pointer">`;
 
                 msgWrapper.innerHTML = `
                     <div class="flex items-center gap-2 mb-1 ${isMe ? 'flex-row-reverse' : 'flex-row'}">
@@ -838,6 +842,12 @@
             renderMemories();
         }
 
+        window.deleteMemory = function(id) {
+            state.memories = state.memories.filter(mem => mem.id !== id);
+            saveStateToFirebase();
+            renderMemories();
+        }
+
         function renderMemories() {
             const container = document.getElementById('memories-feed');
             if (!container) return;
@@ -845,17 +855,33 @@
 
             state.memories.forEach(mem => {
                 const card = document.createElement('div');
-                card.className = "glass-card p-4 rounded-2xl border border-[#2D1B3E] space-y-2";
+                card.className = "glass-card p-4 rounded-2xl border border-[#2D1B3E] space-y-2 relative";
                 card.innerHTML = `
                     <div class="flex items-center justify-between">
                         <h4 class="text-xs font-bold text-slate-100">${mem.title}</h4>
-                        <span class="text-[10px] text-slate-400">${mem.date}</span>
+                        <div class="flex items-center gap-3">
+                            <span class="text-[10px] text-slate-400">${mem.date}</span>
+                            <button onclick="deleteMemory(${mem.id})" class="text-rose-400 hover:text-rose-300 text-xs p-1 transition-colors" title="Anıyı Sil">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
                     </div>
                     ${mem.desc ? `<p class="text-xs text-rose-200/80 leading-relaxed">${mem.desc}</p>` : ''}
-                    ${mem.photo ? `<img src="${mem.photo}" class="w-full h-48 object-cover rounded-xl border border-[#2D1B3E] mt-2">` : ''}
+                    ${mem.photo ? `<img src="${mem.photo}" onclick="openImageModal('${mem.photo}')" class="w-full h-48 object-cover rounded-xl border border-[#2D1B3E] mt-2 cursor-pointer hover:opacity-95 transition-opacity">` : ''}
                 `;
                 container.appendChild(card);
             });
+        }
+
+        window.openImageModal = function(src) {
+            const modal = document.getElementById('image-modal');
+            const modalImg = document.getElementById('modal-img');
+            modalImg.src = src;
+            modal.classList.remove('hidden');
+        }
+
+        window.closeImageModal = function() {
+            document.getElementById('image-modal').classList.add('hidden');
         }
 
         window.switchGame = function(gameType) {
