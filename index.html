@@ -258,12 +258,8 @@
             <section id="section-chat" class="tab-content hidden flex flex-col h-[520px] max-h-[70vh]">
                 <div id="chat-messages" class="flex-1 overflow-y-auto space-y-3 p-3.5 glass-card rounded-2xl border border-[#2D1B3E] mb-3"></div>
                 <div class="flex items-center gap-2 bg-[#160E22] p-2 rounded-2xl border border-[#2D1B3E] shrink-0">
-                    <label class="w-10 h-10 rounded-xl bg-[#1C122C] border border-[#2D1B3E] hover:bg-[#2A1A40] flex items-center justify-center text-rose-300 cursor-pointer transition-colors shrink-0">
-                        <i class="fa-solid fa-paperclip text-sm"></i>
-                        <input type="file" id="chat-file-input" accept="image/*" class="hidden" onchange="handleChatImageUpload(this)">
-                    </label>
                     <input type="text" id="chat-input-text" placeholder="Mesajınızı yazın..." 
-                        class="flex-1 bg-transparent px-2 py-2 text-xs sm:text-sm text-slate-100 focus:outline-none"
+                        class="flex-1 bg-transparent px-3 py-2 text-xs sm:text-sm text-slate-100 focus:outline-none"
                         onkeyup="if(event.key==='Enter') sendChatMessage()">
                     <button onclick="sendChatMessage()" class="w-10 h-10 rounded-xl bg-gradient-to-tr from-rose-600 to-pink-500 hover:from-rose-500 hover:to-pink-400 text-white flex items-center justify-center transition-all shrink-0 shadow-md">
                         <i class="fa-solid fa-paper-plane text-xs"></i>
@@ -712,7 +708,6 @@
                 const borderCol = msg.user === 'TAHA' ? 'border-amber-400' : 'border-rose-400';
 
                 let contentHtml = `<p class="text-xs leading-relaxed">${msg.text}</p>`;
-                if (msg.image) contentHtml += `<img src="${msg.image}" onclick="openImageModal('${msg.image}')" class="mt-2 rounded-xl max-h-48 object-cover w-full border border-white/10 cursor-pointer">`;
 
                 msgWrapper.innerHTML = `
                     <div class="flex items-center gap-2 mb-1 ${isMe ? 'flex-row-reverse' : 'flex-row'}">
@@ -738,24 +733,10 @@
             const now = new Date();
             const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
 
-            state.chat.push({ id: Date.now(), user: currentUser, text: text, time: timeStr, image: null });
+            state.chat.push({ id: Date.now(), user: currentUser, text: text, time: timeStr });
             input.value = '';
             saveStateToFirebase();
             renderChat();
-        }
-
-        window.handleChatImageUpload = function(input) {
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const now = new Date();
-                    const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-                    state.chat.push({ id: Date.now(), user: currentUser, text: 'Fotoğraf gönderildi.', time: timeStr, image: e.target.result });
-                    saveStateToFirebase();
-                    renderChat();
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
         }
 
         function renderStreakUI() {
