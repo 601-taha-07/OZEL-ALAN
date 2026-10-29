@@ -523,7 +523,13 @@
                 const docRef = doc(db, "portal", "mainData");
                 const docSnap = await getDoc(docRef);
                 if (docSnap.exists()) {
-                    state = docSnap.data();
+                    const cloudData = docSnap.data();
+                    // Merge fields safely to preserve existing cloud data
+                    state = { ...state, ...cloudData };
+                    if (cloudData.streak) state.streak = { ...state.streak, ...cloudData.streak };
+                    if (cloudData.scores) state.scores = { ...state.scores, ...cloudData.scores };
+                    if (cloudData.scores?.clicker) state.scores.clicker = { ...state.scores.clicker, ...cloudData.scores.clicker };
+                    if (cloudData.scores?.memory) state.scores.memory = { ...state.scores.memory, ...cloudData.scores.memory };
                 } else {
                     await setDoc(docRef, state);
                 }
@@ -534,7 +540,12 @@
 
             onSnapshot(doc(db, "portal", "mainData"), (docSnap) => {
                 if (docSnap.exists()) {
-                    state = docSnap.data();
+                    const cloudData = docSnap.data();
+                    state = { ...state, ...cloudData };
+                    if (cloudData.streak) state.streak = { ...state.streak, ...cloudData.streak };
+                    if (cloudData.scores) state.scores = { ...state.scores, ...cloudData.scores };
+                    if (cloudData.scores?.clicker) state.scores.clicker = { ...state.scores.clicker, ...cloudData.scores.clicker };
+                    if (cloudData.scores?.memory) state.scores.memory = { ...state.scores.memory, ...cloudData.scores.memory };
                     renderAllUI();
                 }
             });
@@ -907,9 +918,9 @@
             p.points += p.power;
 
             if (currentUser === 'TAHA') {
-                p.taha = Math.max(p.taha, p.points);
+                p.taha = Math.max(p.taha || 0, p.points);
             } else {
-                p.sudem = Math.max(p.sudem, p.points);
+                p.sudem = Math.max(p.sudem || 0, p.points);
             }
 
             const container = document.getElementById('clicker-container');
@@ -958,8 +969,8 @@
                     const p = state.scores.clicker;
                     if (p.auto > 0) {
                         p.points += p.auto;
-                        if (currentUser === 'TAHA') p.taha = Math.max(p.taha, p.points);
-                        if (currentUser === 'SUDEM') p.sudem = Math.max(p.sudem, p.points);
+                        if (currentUser === 'TAHA') p.taha = Math.max(p.taha || 0, p.points);
+                        if (currentUser === 'SUDEM') p.sudem = Math.max(p.sudem || 0, p.points);
                         saveStateToFirebase();
                         renderClickerUI();
                         renderLeaderboards();
