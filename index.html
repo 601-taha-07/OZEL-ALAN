@@ -557,8 +557,9 @@
         }
 
         function checkAutoStreakAndFreeze() {
-            const todayStr = new Date().toDateString();
-            const currentMonth = new Date().getMonth();
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const currentMonth = today.getMonth();
 
             let updated = false;
             if (state.streak.lastResetMonth !== currentMonth) {
@@ -567,19 +568,27 @@
                 updated = true;
             }
 
-            if (state.streak.lastTapDate !== todayStr) {
-                if (!state.streak.tahaDone || !state.streak.sudemDone) {
-                    if (state.streak.freezes > 0) {
-                        state.streak.freezes -= 1;
-                    } else {
-                        state.streak.count = 0;
+            const lastDate = state.streak.lastTapDate ? new Date(state.streak.lastTapDate) : new Date();
+            lastDate.setHours(0, 0, 0, 0);
+
+            const diffDays = Math.round((today - lastDate) / (1000 * 60 * 60 * 24));
+
+            if (diffDays > 0) {
+                for (let i = 0; i < diffDays; i++) {
+                    if (!state.streak.tahaDone || !state.streak.sudemDone) {
+                        if (state.streak.freezes > 0) {
+                            state.streak.freezes -= 1;
+                        } else {
+                            state.streak.count = 0;
+                        }
                     }
+                    state.streak.tahaDone = false;
+                    state.streak.sudemDone = false;
                 }
-                state.streak.tahaDone = false;
-                state.streak.sudemDone = false;
-                state.streak.lastTapDate = todayStr;
+                state.streak.lastTapDate = new Date().toDateString();
                 updated = true;
             }
+
             if (updated) saveStateToFirebase();
         }
 
@@ -686,6 +695,13 @@
             
             activeBtn.classList.remove('text-slate-400', 'border-transparent');
             activeBtn.classList.add(activeColor, borderColor);
+
+            if (tabId === 'chat') {
+                setTimeout(() => {
+                    const container = document.getElementById('chat-messages');
+                    if (container) container.scrollTop = container.scrollHeight;
+                }, 50);
+            }
 
             if (tabId === 'games') window.switchGame('clicker');
         }
