@@ -1040,7 +1040,7 @@
         const EMOJIS = ['🌹', '💖', '👑', '🕊️', '✨', '💍', '💌', '🌙'];
         let memoryCards = [], flippedCards = [], matchedCount = 0, moves = 0, lockGrid = false;
 
-        function initMemoryGame() {
+        window.initMemoryGame = function() {
             const grid = document.getElementById('memory-grid');
             if (!grid) return;
             grid.innerHTML = '';
