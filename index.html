@@ -496,7 +496,20 @@
                 { id: 1, title: 'UYGULAMA', desc: 'BU UYGULAMANIN KURULUŞU', photo: null, date: '2026-10-15' }
             ],
             scores: {
-                clicker: { points: 0, taha: 0, sudem: 0, power: 1, auto: 0, multCost: 50, autoCost: 100 },
+                clicker: { 
+                    tahaPoints: 0, 
+                    sudemPoints: 0, 
+                    tahaMax: 0, 
+                    sudemMax: 0, 
+                    tahaPower: 1, 
+                    sudemPower: 1, 
+                    tahaAuto: 0, 
+                    sudemAuto: 0, 
+                    tahaMultCost: 50, 
+                    sudemMultCost: 50, 
+                    tahaAutoCost: 100, 
+                    sudemAutoCost: 100 
+                },
                 memory: { taha: null, sudem: null }
             }
         };
@@ -524,7 +537,6 @@
                 const docSnap = await getDoc(docRef);
                 if (docSnap.exists()) {
                     const cloudData = docSnap.data();
-                    // Merge fields safely to preserve existing cloud data
                     state = { ...state, ...cloudData };
                     if (cloudData.streak) state.streak = { ...state.streak, ...cloudData.streak };
                     if (cloudData.scores) state.scores = { ...state.scores, ...cloudData.scores };
@@ -905,28 +917,32 @@
         }
 
         function renderLeaderboards() {
+            const cl = state.scores.clicker;
             const el = document.getElementById('clicker-taha-max');
             if (!el) return;
-            el.innerText = formatNumberCompact(state.scores.clicker.taha);
-            document.getElementById('clicker-sudem-max').innerText = formatNumberCompact(state.scores.clicker.sudem);
+            el.innerText = formatNumberCompact(cl.tahaMax || cl.taha || 0);
+            document.getElementById('clicker-sudem-max').innerText = formatNumberCompact(cl.sudemMax || cl.sudem || 0);
             document.getElementById('memory-taha-max').innerText = state.scores.memory.taha !== null ? state.scores.memory.taha : '-';
             document.getElementById('memory-sudem-max').innerText = state.scores.memory.sudem !== null ? state.scores.memory.sudem : '-';
         }
 
         window.clickHeart = function(event) {
-            const p = state.scores.clicker;
-            p.points += p.power;
-
+            const cl = state.scores.clicker;
+            
             if (currentUser === 'TAHA') {
-                p.taha = Math.max(p.taha || 0, p.points);
+                cl.tahaPoints = (cl.tahaPoints || 0) + (cl.tahaPower || cl.power || 1);
+                cl.tahaMax = Math.max(cl.tahaMax || 0, cl.tahaPoints);
             } else {
-                p.sudem = Math.max(p.sudem || 0, p.points);
+                cl.sudemPoints = (cl.sudemPoints || 0) + (cl.sudemPower || cl.power || 1);
+                cl.sudemMax = Math.max(cl.sudemMax || 0, cl.sudemPoints);
             }
+
+            const currentPower = currentUser === 'TAHA' ? (cl.tahaPower || cl.power || 1) : (cl.sudemPower || cl.power || 1);
 
             const container = document.getElementById('clicker-container');
             const pop = document.createElement('div');
             pop.className = 'click-pop';
-            pop.innerText = `+${formatNumberCompact(p.power)}`;
+            pop.innerText = `+${formatNumberCompact(currentPower)}`;
             pop.style.left = `${event.clientX - container.getBoundingClientRect().left}px`;
             pop.style.top = `${event.clientY - container.getBoundingClientRect().top}px`;
             container.appendChild(pop);
@@ -938,22 +954,40 @@
         }
 
         window.buyMultiplier = function() {
-            const p = state.scores.clicker;
-            if (p.points >= p.multCost) {
-                p.points -= p.multCost;
-                p.power += 1;
-                p.multCost = Math.floor(p.multCost * 2.2);
+            const cl = state.scores.clicker;
+            const currentPoints = currentUser === 'TAHA' ? (cl.tahaPoints || 0) : (cl.sudemPoints || 0);
+            const currentCost = currentUser === 'TAHA' ? (cl.tahaMultCost || cl.multCost || 50) : (cl.sudemMultCost || cl.multCost || 50);
+
+            if (currentPoints >= currentCost) {
+                if (currentUser === 'TAHA') {
+                    cl.tahaPoints -= currentCost;
+                    cl.tahaPower = (cl.tahaPower || cl.power || 1) + 1;
+                    cl.tahaMultCost = Math.floor(currentCost * 2.2);
+                } else {
+                    cl.sudemPoints -= currentCost;
+                    cl.sudemPower = (cl.sudemPower || cl.power || 1) + 1;
+                    cl.sudemMultCost = Math.floor(currentCost * 2.2);
+                }
                 saveStateToFirebase();
                 renderClickerUI();
             }
         }
 
         window.buyAutoClicker = function() {
-            const p = state.scores.clicker;
-            if (p.points >= p.autoCost) {
-                p.points -= p.autoCost;
-                p.auto += 1;
-                p.autoCost = Math.floor(p.autoCost * 2.5);
+            const cl = state.scores.clicker;
+            const currentPoints = currentUser === 'TAHA' ? (cl.tahaPoints || 0) : (cl.sudemPoints || 0);
+            const currentCost = currentUser === 'TAHA' ? (cl.tahaAutoCost || cl.autoCost || 100) : (cl.sudemAutoCost || cl.autoCost || 100);
+
+            if (currentPoints >= currentCost) {
+                if (currentUser === 'TAHA') {
+                    cl.tahaPoints -= currentCost;
+                    cl.tahaAuto = (cl.tahaAuto || cl.auto || 0) + 1;
+                    cl.tahaAutoCost = Math.floor(currentCost * 2.5);
+                } else {
+                    cl.sudemPoints -= currentCost;
+                    cl.sudemAuto = (cl.sudemAuto || cl.auto || 0) + 1;
+                    cl.sudemAutoCost = Math.floor(currentCost * 2.5);
+                }
                 saveStateToFirebase();
                 renderClickerUI();
             }
@@ -965,12 +999,18 @@
                 const clickerWrapper = document.getElementById('game-clicker-wrapper');
                 const isClickerActive = gamesSection && !gamesSection.classList.contains('hidden') && clickerWrapper && !clickerWrapper.classList.contains('hidden');
 
-                if (isClickerActive && document.visibilityState === 'visible') {
-                    const p = state.scores.clicker;
-                    if (p.auto > 0) {
-                        p.points += p.auto;
-                        if (currentUser === 'TAHA') p.taha = Math.max(p.taha || 0, p.points);
-                        if (currentUser === 'SUDEM') p.sudem = Math.max(p.sudem || 0, p.points);
+                if (isClickerActive && document.visibilityState === 'visible' && currentUser) {
+                    const cl = state.scores.clicker;
+                    const autoVal = currentUser === 'TAHA' ? (cl.tahaAuto || 0) : (cl.sudemAuto || 0);
+                    
+                    if (autoVal > 0) {
+                        if (currentUser === 'TAHA') {
+                            cl.tahaPoints = (cl.tahaPoints || 0) + autoVal;
+                            cl.tahaMax = Math.max(cl.tahaMax || 0, cl.tahaPoints);
+                        } else {
+                            cl.sudemPoints = (cl.sudemPoints || 0) + autoVal;
+                            cl.sudemMax = Math.max(cl.sudemMax || 0, cl.sudemPoints);
+                        }
                         saveStateToFirebase();
                         renderClickerUI();
                         renderLeaderboards();
@@ -980,14 +1020,21 @@
         }
 
         function renderClickerUI() {
-            const p = state.scores.clicker;
+            const cl = state.scores.clicker;
             const ptsEl = document.getElementById('clicker-points');
-            if (!ptsEl) return;
-            ptsEl.innerText = formatNumberCompact(p.points);
-            document.getElementById('mult-level-tag').innerText = `Lvl ${p.power}`;
-            document.getElementById('mult-cost-tag').innerText = `Maliyet: ${formatNumberCompact(p.multCost)} Puan`;
-            document.getElementById('auto-level-tag').innerText = `Lvl ${p.auto}`;
-            document.getElementById('auto-cost-tag').innerText = `Maliyet: ${formatNumberCompact(p.autoCost)} Puan`;
+            if (!ptsEl || !currentUser) return;
+
+            const currentPoints = currentUser === 'TAHA' ? (cl.tahaPoints || 0) : (cl.sudemPoints || 0);
+            const currentPower = currentUser === 'TAHA' ? (cl.tahaPower || cl.power || 1) : (cl.sudemPower || cl.power || 1);
+            const currentAuto = currentUser === 'TAHA' ? (cl.tahaAuto || cl.auto || 0) : (cl.sudemAuto || cl.auto || 0);
+            const currentMultCost = currentUser === 'TAHA' ? (cl.tahaMultCost || cl.multCost || 50) : (cl.sudemMultCost || cl.multCost || 50);
+            const currentAutoCost = currentUser === 'TAHA' ? (cl.tahaAutoCost || cl.autoCost || 100) : (cl.sudemAutoCost || cl.autoCost || 100);
+
+            ptsEl.innerText = formatNumberCompact(currentPoints);
+            document.getElementById('mult-level-tag').innerText = `Lvl ${currentPower}`;
+            document.getElementById('mult-cost-tag').innerText = `Maliyet: ${formatNumberCompact(currentMultCost)} Puan`;
+            document.getElementById('auto-level-tag').innerText = `Lvl ${currentAuto}`;
+            document.getElementById('auto-cost-tag').innerText = `Maliyet: ${formatNumberCompact(currentAutoCost)} Puan`;
         }
 
         const EMOJIS = ['🌹', '💖', '👑', '🕊️', '✨', '💍', '💌', '🌙'];
