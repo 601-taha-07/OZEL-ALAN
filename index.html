@@ -647,11 +647,11 @@
         let activeTrack = null;
         let isMuted = false;
         let heartbeatInterval = null;
+        let localTheme = 'bordo';
 
         let state = {
             chat: [],
             presence: { TAHA: 0, SUDEM: 0 },
-            theme: 'bordo',
             scale: { tahaInput: '', sudemInput: '', result: null },
             memories: [
                 { id: 1, title: 'UYGULAMA', desc: 'BU UYGULAMANIN KURULUŞU', photo: null, date: '2026-10-15' }
@@ -733,8 +733,8 @@
                 const docSnap = await getDoc(docRef);
                 if (docSnap.exists()) {
                     const cloudData = docSnap.data();
+                    delete cloudData.theme;
                     state = { ...state, ...cloudData };
-                    if (cloudData.theme) applyTheme(cloudData.theme, false);
                     if (cloudData.presence) state.presence = { ...state.presence, ...cloudData.presence };
                     if (cloudData.scale) state.scale = { ...state.scale, ...cloudData.scale };
                     if (cloudData.scores) state.scores = { ...state.scores, ...cloudData.scores };
@@ -751,8 +751,8 @@
             onSnapshot(doc(db, "portal", "mainData"), (docSnap) => {
                 if (docSnap.exists()) {
                     const cloudData = docSnap.data();
+                    delete cloudData.theme;
                     state = { ...state, ...cloudData };
-                    if (cloudData.theme) applyTheme(cloudData.theme, false);
                     if (cloudData.presence) state.presence = { ...state.presence, ...cloudData.presence };
                     if (cloudData.scale) state.scale = { ...state.scale, ...cloudData.scale };
                     if (cloudData.scores) state.scores = { ...state.scores, ...cloudData.scores };
@@ -765,7 +765,9 @@
 
         async function saveStateToFirebase() {
             try {
-                await setDoc(doc(db, "portal", "mainData"), state);
+                const dataToSave = { ...state };
+                delete dataToSave.theme;
+                await setDoc(doc(db, "portal", "mainData"), dataToSave);
             } catch(e) {
                 console.error("Firebase kaydetme hatası:", e);
             }
@@ -783,16 +785,13 @@
 
         // TEMA YÖNETİMİ
         window.setTheme = function(themeName) {
-            applyTheme(themeName, true);
+            applyTheme(themeName);
         }
 
-        function applyTheme(themeName, save = false) {
-            state.theme = themeName;
+        function applyTheme(themeName) {
+            localTheme = themeName;
             document.body.className = document.body.className.replace(/theme-\w+/g, '');
             document.body.classList.add(`theme-${themeName}`);
-            if (save) {
-                saveStateToFirebase();
-            }
             renderThemeUI();
         }
 
@@ -801,7 +800,7 @@
             themes.forEach(t => {
                 const el = document.getElementById(`theme-check-${t}`);
                 if (el) {
-                    el.classList.toggle('hidden', state.theme !== t);
+                    el.classList.toggle('hidden', localTheme !== t);
                 }
             });
         }
@@ -1044,9 +1043,9 @@
                 currentUser = selectedProfileTemp;
 
                 if (currentUser === 'SUDEM') {
-                    applyTheme('bordo', true);
+                    applyTheme('bordo');
                 } else if (currentUser === 'TAHA') {
-                    applyTheme('yesil', true);
+                    applyTheme('yesil');
                 }
 
                 document.getElementById('login-screen').classList.add('opacity-0');
