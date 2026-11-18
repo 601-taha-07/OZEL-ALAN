@@ -115,6 +115,7 @@
             font-family: 'Outfit', sans-serif;
             background-color: var(--col-bg);
             color: var(--col-text);
+            overflow-x: hidden;
         }
 
         .theme-text { color: var(--col-text); }
@@ -128,52 +129,46 @@
         body.theme-beyaz .bg-\[\#0D0814\], body.theme-beyaz .bg-\[\#160E22\], body.theme-beyaz .bg-\[\#1C122C\] { background-color: #F8FAFC !important; }
 
         ::-webkit-scrollbar {
-            width: 5px;
-            height: 5px;
+            width: 4px;
+            height: 4px;
         }
         ::-webkit-scrollbar-track {
-            background: var(--col-bg);
+            background: transparent;
         }
         ::-webkit-scrollbar-thumb {
             background: var(--col-border);
             border-radius: 9999px;
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--col-primary);
-        }
 
         .glass-panel {
             background: var(--col-card);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border: 1px solid var(--col-border);
         }
 
         .glass-card {
             background: var(--col-card);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(8px);
             border: 1px solid var(--col-border);
         }
 
         .rose-glow {
-            box-shadow: 0 0 35px -5px var(--col-primary);
-        }
-
-        .gold-glow {
-            box-shadow: 0 0 35px -5px rgba(212, 175, 55, 0.35);
+            box-shadow: 0 0 25px -5px var(--col-primary);
         }
 
         @keyframes floatUp {
             0% { opacity: 1; transform: translateY(0) scale(1); }
-            100% { opacity: 0; transform: translateY(-50px) scale(1.3); }
+            100% { opacity: 0; transform: translateY(-40px) scale(1.2); }
         }
         .click-pop {
             position: absolute;
             pointer-events: none;
-            animation: floatUp 0.8s ease-out forwards;
+            animation: floatUp 0.6s ease-out forwards;
             font-weight: bold;
             color: var(--col-primary);
-            text-shadow: 0 0 10px rgba(230,0,103,0.8);
+            text-shadow: 0 0 8px rgba(230,0,103,0.6);
+            z-index: 50;
         }
 
         @keyframes weighShake {
@@ -189,10 +184,19 @@
 
         @keyframes tempBounce {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            50% { transform: translateY(-8px); }
         }
         .anim-bounce-short {
-            animation: tempBounce 0.5s ease-in-out 4;
+            animation: tempBounce 0.4s ease-in-out 4;
+        }
+
+        /* Mobil Scroll Optimizasyonları ve Esneklik */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
     </style>
 </head>
@@ -202,46 +206,46 @@
     <audio id="bg-music" loop preload="auto"></audio>
 
     <!-- ================= LOGIN SCREEN ================= -->
-    <div id="login-screen" class="fixed inset-0 z-50 flex items-center justify-center p-4 transition-opacity duration-500" style="background-color: #0D0814 !important;">
-        <div class="w-full max-w-md glass-card rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden" style="background: #160E22 !important; border-color: #2D1B3E !important; color: #F1F5F9 !important;">
+    <div id="login-screen" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 transition-opacity duration-500 overflow-y-auto" style="background-color: #0D0814 !important;">
+        <div class="w-full max-w-sm sm:max-w-md glass-card rounded-3xl p-5 sm:p-8 shadow-2xl relative overflow-hidden my-auto" style="background: #160E22 !important; border-color: #2D1B3E !important; color: #F1F5F9 !important;">
             <div class="absolute -top-20 -right-20 w-48 h-48 bg-rose-600/20 rounded-full blur-3xl pointer-events-none"></div>
             <div class="absolute -bottom-20 -left-20 w-48 h-48 bg-purple-600/20 rounded-full blur-3xl pointer-events-none"></div>
 
-            <div class="text-center mb-8 relative z-10">
-                <span class="text-xs uppercase tracking-[0.3em] text-amber-400 font-semibold">ÖZEL ALANIMIZ</span>
-                <h1 class="text-3xl font-serif font-bold text-slate-100 mt-1">Taha & Sudem</h1>
+            <div class="text-center mb-6 sm:mb-8 relative z-10">
+                <span class="text-[10px] sm:text-xs uppercase tracking-[0.3em] text-amber-400 font-semibold">ÖZEL ALANIMIZ</span>
+                <h1 class="text-2xl sm:text-3xl font-serif font-bold text-slate-100 mt-1">Taha & Sudem</h1>
                 <p class="text-xs text-slate-400 mt-1">Giriş yapmak için profilini seç</p>
             </div>
 
             <!-- Profile Selector Cards -->
-            <div class="grid grid-cols-2 gap-4 mb-6">
+            <div class="grid grid-cols-2 gap-3 sm:gap-4 mb-5 sm:mb-6">
                 <button id="btn-select-taha" onclick="selectProfile('TAHA')" 
-                    class="profile-btn py-5 px-4 rounded-2xl border border-[#2D1B3E] glass-card hover:bg-[#221533] transition-all duration-200 flex flex-col items-center justify-center gap-3 group" style="background: #160E22 !important; border-color: #2D1B3E !important;">
-                    <img src="https://i.ibb.co/bwQGgHn/MG-20261020-WA0054-1.jpg" alt="Taha" class="w-16 h-16 rounded-full object-cover border-2 border-amber-400 shadow-md group-hover:scale-105 transition-transform">
-                    <span class="text-sm font-bold tracking-wider text-amber-300">TAHA</span>
+                    class="profile-btn py-4 sm:py-5 px-3 sm:px-4 rounded-2xl border border-[#2D1B3E] glass-card hover:bg-[#221533] transition-all duration-200 flex flex-col items-center justify-center gap-2.5 group" style="background: #160E22 !important; border-color: #2D1B3E !important;">
+                    <img src="https://i.ibb.co/bwQGgHn/MG-20261020-WA0054-1.jpg" alt="Taha" class="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover border-2 border-amber-400 shadow-md group-hover:scale-105 transition-transform">
+                    <span class="text-xs sm:text-sm font-bold tracking-wider text-amber-300">TAHA</span>
                 </button>
                 <button id="btn-select-sudem" onclick="selectProfile('SUDEM')" 
-                    class="profile-btn py-5 px-4 rounded-2xl border border-[#2D1B3E] glass-card hover:bg-[#221533] transition-all duration-200 flex flex-col items-center justify-center gap-3 group" style="background: #160E22 !important; border-color: #2D1B3E !important;">
-                    <img src="https://i.ibb.co/r2g9wC2X/MG-20261024-WA0080.jpg" alt="Sudem" class="w-16 h-16 rounded-full object-cover border-2 border-rose-400 shadow-md group-hover:scale-105 transition-transform">
-                    <span class="text-sm font-bold tracking-wider text-rose-400">SUDEM</span>
+                    class="profile-btn py-4 sm:py-5 px-3 sm:px-4 rounded-2xl border border-[#2D1B3E] glass-card hover:bg-[#221533] transition-all duration-200 flex flex-col items-center justify-center gap-2.5 group" style="background: #160E22 !important; border-color: #2D1B3E !important;">
+                    <img src="https://i.ibb.co/r2g9wC2X/MG-20261024-WA0080.jpg" alt="Sudem" class="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover border-2 border-rose-400 shadow-md group-hover:scale-105 transition-transform">
+                    <span class="text-xs sm:text-sm font-bold tracking-wider text-rose-400">SUDEM</span>
                 </button>
             </div>
 
             <!-- Password Entry -->
-            <div id="password-container" class="hidden space-y-4 transition-all duration-300">
+            <div id="password-container" class="hidden space-y-3.5 sm:space-y-4 transition-all duration-300">
                 <div>
-                    <label id="pwd-label" class="block text-xs font-medium text-slate-400 mb-2">Şifre Giriniz</label>
+                    <label id="pwd-label" class="block text-xs font-medium text-slate-400 mb-1.5 sm:mb-2">Şifre Giriniz</label>
                     <input type="password" id="login-password" placeholder="••••"
-                        class="w-full bg-[#0D0814] border border-[#2D1B3E] rounded-xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-rose-500 transition-colors tracking-widest text-center"
+                        class="w-full bg-[#0D0814] border border-[#2D1B3E] rounded-xl px-4 py-2.5 sm:py-3 text-sm text-slate-100 focus:outline-none focus:border-rose-500 transition-colors tracking-widest text-center"
                         onkeyup="if(event.key==='Enter') executeLogin()">
                 </div>
                 <button onclick="executeLogin()" 
-                    class="w-full py-3.5 bg-gradient-to-r from-rose-600 to-amber-500 hover:from-rose-500 hover:to-amber-400 text-slate-950 font-bold text-sm rounded-xl transition-all shadow-lg shadow-rose-950/50">
+                    class="w-full py-3 sm:py-3.5 bg-gradient-to-r from-rose-600 to-amber-500 hover:from-rose-500 hover:to-amber-400 text-slate-950 font-bold text-xs sm:text-sm rounded-xl transition-all shadow-lg shadow-rose-950/50">
                     Giriş Yap
                 </button>
             </div>
 
-            <div id="login-error" class="hidden mt-4 text-center text-xs text-rose-400 bg-rose-950/60 border border-rose-800/50 py-2.5 px-3 rounded-xl">
+            <div id="login-error" class="hidden mt-3 sm:mt-4 text-center text-xs text-rose-400 bg-rose-950/60 border border-rose-800/50 py-2 px-3 rounded-xl">
                 Şifre hatalı. Lütfen tekrar deneyin.
             </div>
         </div>
@@ -251,98 +255,98 @@
     <div id="app-wrapper" class="hidden min-h-screen flex flex-col max-w-4xl mx-auto w-full relative pb-10">
 
         <!-- HEADER -->
-        <header class="sticky top-0 z-30 glass-panel border-b border-[var(--col-border)] px-4 py-3.5 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-rose-600 via-pink-500 to-amber-400 flex items-center justify-center text-slate-950 font-serif text-sm font-bold shadow-md">
+        <header class="sticky top-0 z-30 glass-panel border-b border-[var(--col-border)] px-3 sm:px-4 py-3 flex items-center justify-between shrink-0">
+            <div class="flex items-center gap-2.5 sm:gap-3">
+                <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gradient-to-tr from-rose-600 via-pink-500 to-amber-400 flex items-center justify-center text-slate-950 font-serif text-xs sm:text-sm font-bold shadow-md shrink-0">
                     TS
                 </div>
-                <div>
-                    <h2 class="text-sm font-bold tracking-wide theme-text leading-tight">Taha & Sudem</h2>
+                <div class="min-w-0">
+                    <h2 class="text-xs sm:text-sm font-bold tracking-wide theme-text leading-tight truncate">Taha & Sudem</h2>
                     <div class="flex items-center gap-1.5 mt-0.5">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                        <span id="active-user-badge" class="text-[11px] theme-subtext font-medium">Aktif: -</span>
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
+                        <span id="active-user-badge" class="text-[10px] sm:text-[11px] theme-subtext font-medium truncate">Aktif: -</span>
                     </div>
                 </div>
             </div>
 
-            <button onclick="toggleSettingsDrawer(true)" class="w-9 h-9 rounded-xl glass-card border border-[var(--col-border)] hover:bg-[var(--col-hover)] flex items-center justify-center theme-text transition-colors">
-                <i class="fa-solid fa-gear text-sm"></i>
+            <button onclick="toggleSettingsDrawer(true)" class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl glass-card border border-[var(--col-border)] hover:bg-[var(--col-hover)] flex items-center justify-center theme-text transition-colors shrink-0">
+                <i class="fa-solid fa-gear text-xs sm:text-sm"></i>
             </button>
         </header>
 
         <!-- NAVIGATION TABS -->
-        <nav class="flex border-b border-[var(--col-border)] glass-panel backdrop-blur-md sticky top-[61px] z-20 overflow-x-auto no-scrollbar">
-            <button onclick="switchTab('streak')" id="tab-btn-streak" class="nav-tab flex-1 min-w-[80px] py-3 text-xs font-semibold text-center theme-subtext border-b-2 border-transparent transition-all flex items-center justify-center gap-1.5">
-                <i class="fa-solid fa-clock text-sm"></i>
+        <nav class="flex border-b border-[var(--col-border)] glass-panel backdrop-blur-md sticky top-[53px] sm:top-[61px] z-20 overflow-x-auto no-scrollbar shrink-0">
+            <button onclick="switchTab('streak')" id="tab-btn-streak" class="nav-tab flex-1 min-w-[70px] sm:min-w-[80px] py-2.5 sm:py-3 text-[11px] sm:text-xs font-semibold text-center theme-subtext border-b-2 border-transparent transition-all flex items-center justify-center gap-1 sm:gap-1.5 whitespace-nowrap px-2">
+                <i class="fa-solid fa-clock text-xs"></i>
                 <span>Zamanlar</span>
             </button>
-            <button onclick="switchTab('chat')" id="tab-btn-chat" class="nav-tab flex-1 min-w-[80px] py-3 text-xs font-semibold text-center theme-subtext border-b-2 border-transparent transition-all flex items-center justify-center gap-1.5">
-                <i class="fa-regular fa-comments text-sm"></i>
+            <button onclick="switchTab('chat')" id="tab-btn-chat" class="nav-tab flex-1 min-w-[70px] sm:min-w-[80px] py-2.5 sm:py-3 text-[11px] sm:text-xs font-semibold text-center theme-subtext border-b-2 border-transparent transition-all flex items-center justify-center gap-1 sm:gap-1.5 whitespace-nowrap px-2">
+                <i class="fa-regular fa-comments text-xs"></i>
                 <span>Sohbet</span>
             </button>
-            <button onclick="switchTab('gallery')" id="tab-btn-gallery" class="nav-tab flex-1 min-w-[80px] py-3 text-xs font-semibold text-center theme-subtext border-b-2 border-transparent transition-all flex items-center justify-center gap-1.5">
-                <i class="fa-regular fa-image text-sm"></i>
+            <button onclick="switchTab('gallery')" id="tab-btn-gallery" class="nav-tab flex-1 min-w-[70px] sm:min-w-[80px] py-2.5 sm:py-3 text-[11px] sm:text-xs font-semibold text-center theme-subtext border-b-2 border-transparent transition-all flex items-center justify-center gap-1 sm:gap-1.5 whitespace-nowrap px-2">
+                <i class="fa-regular fa-image text-xs"></i>
                 <span>Anılar</span>
             </button>
-            <button onclick="switchTab('games')" id="tab-btn-games" class="nav-tab flex-1 min-w-[80px] py-3 text-xs font-semibold text-center theme-subtext border-b-2 border-transparent transition-all flex items-center justify-center gap-1.5">
-                <i class="fa-solid fa-gamepad text-sm"></i>
+            <button onclick="switchTab('games')" id="tab-btn-games" class="nav-tab flex-1 min-w-[70px] sm:min-w-[80px] py-2.5 sm:py-3 text-[11px] sm:text-xs font-semibold text-center theme-subtext border-b-2 border-transparent transition-all flex items-center justify-center gap-1 sm:gap-1.5 whitespace-nowrap px-2">
+                <i class="fa-solid fa-gamepad text-xs"></i>
                 <span>Oyunlar</span>
             </button>
-            <button onclick="switchTab('scale')" id="tab-btn-scale" class="nav-tab flex-1 min-w-[80px] py-3 text-xs font-semibold text-center theme-subtext border-b-2 border-transparent transition-all flex items-center justify-center gap-1.5">
-                <i class="fa-solid fa-scale-balanced text-sm"></i>
+            <button onclick="switchTab('scale')" id="tab-btn-scale" class="nav-tab flex-1 min-w-[70px] sm:min-w-[80px] py-2.5 sm:py-3 text-[11px] sm:text-xs font-semibold text-center theme-subtext border-b-2 border-transparent transition-all flex items-center justify-center gap-1 sm:gap-1.5 whitespace-nowrap px-2">
+                <i class="fa-solid fa-scale-balanced text-xs"></i>
                 <span>Terazi</span>
             </button>
         </nav>
 
         <!-- MAIN CONTENT AREA -->
-        <main class="flex-1 p-3 sm:p-5 flex flex-col">
+        <main class="flex-1 p-2.5 sm:p-5 flex flex-col">
 
             <!-- TAB 1: ZAMANLAMA EKRANI -->
-            <section id="section-streak" class="tab-content space-y-4">
+            <section id="section-streak" class="tab-content space-y-3 sm:space-y-4">
                 
                 <!-- Birliktelik Süresi -->
-                <div class="glass-card p-4 sm:p-5 rounded-3xl border border-[var(--col-border)] text-center relative overflow-hidden">
+                <div class="glass-card p-3 sm:p-5 rounded-2xl sm:rounded-3xl border border-[var(--col-border)] text-center relative overflow-hidden">
                     <div class="absolute -top-12 -right-12 w-32 h-32 bg-rose-600/10 rounded-full blur-2xl pointer-events-none"></div>
-                    <span class="text-[11px] font-bold tracking-widest text-rose-400 uppercase flex items-center justify-center gap-1.5">
+                    <span class="text-[10px] sm:text-[11px] font-bold tracking-widest text-rose-400 uppercase flex items-center justify-center gap-1.5">
                         <i class="fa-solid fa-heart"></i> Ne Zamandır Birlikteyiz? (7 Kasım 2026 - 23:52)
                     </span>
-                    <div id="timer-together" class="grid grid-cols-3 sm:grid-cols-7 gap-2 mt-3.5"></div>
+                    <div id="timer-together" class="grid grid-cols-4 sm:grid-cols-7 gap-1.5 sm:gap-2 mt-3"></div>
                 </div>
 
                 <!-- Yıl Dönümüne Kalan Süre -->
-                <div class="glass-card p-4 sm:p-5 rounded-3xl border border-[var(--col-border)] text-center relative overflow-hidden">
-                    <span class="text-[11px] font-bold tracking-widest text-amber-400 uppercase flex items-center justify-center gap-1.5">
+                <div class="glass-card p-3 sm:p-5 rounded-2xl sm:rounded-3xl border border-[var(--col-border)] text-center relative overflow-hidden">
+                    <span class="text-[10px] sm:text-[11px] font-bold tracking-widest text-amber-400 uppercase flex items-center justify-center gap-1.5">
                         <i class="fa-solid fa-calendar-days"></i> Yıl Dönümüne Kalan Süre (7 Kasım)
                     </span>
-                    <div id="timer-anniversary" class="grid grid-cols-3 sm:grid-cols-7 gap-2 mt-3.5"></div>
+                    <div id="timer-anniversary" class="grid grid-cols-4 sm:grid-cols-7 gap-1.5 sm:gap-2 mt-3"></div>
                 </div>
 
                 <!-- Sudem'in Doğum Gününe Kalan Süre -->
-                <div class="glass-card p-4 sm:p-5 rounded-3xl border border-[var(--col-border)] text-center relative overflow-hidden">
-                    <span class="text-[11px] font-bold tracking-widest text-pink-400 uppercase flex items-center justify-center gap-1.5">
+                <div class="glass-card p-3 sm:p-5 rounded-2xl sm:rounded-3xl border border-[var(--col-border)] text-center relative overflow-hidden">
+                    <span class="text-[10px] sm:text-[11px] font-bold tracking-widest text-pink-400 uppercase flex items-center justify-center gap-1.5">
                         <i class="fa-solid fa-cake-candles"></i> Sudem'in Doğum Gününe Kalan (1 Mart)
                     </span>
-                    <div id="timer-sudem-bday" class="grid grid-cols-3 sm:grid-cols-7 gap-2 mt-3.5"></div>
+                    <div id="timer-sudem-bday" class="grid grid-cols-4 sm:grid-cols-7 gap-1.5 sm:gap-2 mt-3"></div>
                 </div>
 
                 <!-- Taha'nın Doğum Gününe Kalan Süre -->
-                <div class="glass-card p-4 sm:p-5 rounded-3xl border border-[var(--col-border)] text-center relative overflow-hidden">
-                    <span class="text-[11px] font-bold tracking-widest text-amber-300 uppercase flex items-center justify-center gap-1.5">
+                <div class="glass-card p-3 sm:p-5 rounded-2xl sm:rounded-3xl border border-[var(--col-border)] text-center relative overflow-hidden">
+                    <span class="text-[10px] sm:text-[11px] font-bold tracking-widest text-amber-300 uppercase flex items-center justify-center gap-1.5">
                         <i class="fa-solid fa-cake-candles"></i> Taha'nın Doğum Gününe Kalan (14 Şubat)
                     </span>
-                    <div id="timer-taha-bday" class="grid grid-cols-3 sm:grid-cols-7 gap-2 mt-3.5"></div>
+                    <div id="timer-taha-bday" class="grid grid-cols-4 sm:grid-cols-7 gap-1.5 sm:gap-2 mt-3"></div>
                 </div>
 
             </section>
 
             <!-- TAB 2: CHAT -->
-            <section id="section-chat" class="tab-content hidden flex flex-col h-[520px] max-h-[70vh]">
-                <div id="chat-messages" class="flex-1 overflow-y-auto space-y-3 p-3.5 glass-card rounded-2xl border border-[var(--col-border)] mb-3"></div>
+            <section id="section-chat" class="tab-content hidden flex flex-col h-[480px] sm:h-[520px] max-h-[70vh]">
+                <div id="chat-messages" class="flex-1 overflow-y-auto space-y-3 p-3 glass-card rounded-2xl border border-[var(--col-border)] mb-3"></div>
                 <div class="flex items-center gap-2 glass-card p-2 rounded-2xl border border-[var(--col-border)] shrink-0">
                     <input type="text" id="chat-input-text" placeholder="Mesajınızı yazın..." 
-                        class="flex-1 bg-transparent px-3 py-2 text-xs sm:text-sm theme-text focus:outline-none"
+                        class="flex-1 bg-transparent px-3 py-2 text-xs sm:text-sm theme-text focus:outline-none min-w-0"
                         onkeyup="if(event.key==='Enter') sendChatMessage()">
-                    <button onclick="sendChatMessage()" class="w-10 h-10 rounded-xl bg-gradient-to-tr from-rose-600 to-pink-500 hover:from-rose-500 hover:to-pink-400 text-white flex items-center justify-center transition-all shrink-0 shadow-md">
+                    <button onclick="sendChatMessage()" class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-rose-600 to-pink-500 hover:from-rose-500 hover:to-pink-400 text-white flex items-center justify-center transition-all shrink-0 shadow-md">
                         <i class="fa-solid fa-paper-plane text-xs"></i>
                     </button>
                 </div>
@@ -350,7 +354,7 @@
 
             <!-- TAB 3: GALLERY & MEMORIES -->
             <section id="section-gallery" class="tab-content hidden space-y-4">
-                <div class="glass-card p-4 rounded-2xl border border-[var(--col-border)]">
+                <div class="glass-card p-3.5 sm:p-4 rounded-2xl border border-[var(--col-border)]">
                     <h3 class="text-xs font-bold theme-text mb-3 flex items-center gap-2">
                         <i class="fa-solid fa-plus text-amber-400 text-xs"></i> Yeni Anı Ekle
                     </h3>
@@ -359,11 +363,11 @@
                         <textarea id="memory-desc" placeholder="Kısa bir not ekleyin..." class="w-full bg-[var(--col-bg)] border border-[var(--col-border)] rounded-xl px-3 py-2.5 text-xs theme-text focus:outline-none focus:border-rose-500 h-16 resize-none"></textarea>
                         
                         <div class="flex items-center gap-2">
-                            <label class="flex-1 glass-card border border-[var(--col-border)] hover:bg-[var(--col-hover)] px-3 py-2.5 rounded-xl text-xs theme-text text-center cursor-pointer transition-colors font-medium">
+                            <label class="flex-1 glass-card border border-[var(--col-border)] hover:bg-[var(--col-hover)] px-3 py-2.5 rounded-xl text-xs theme-text text-center cursor-pointer transition-colors font-medium truncate">
                                 <i class="fa-regular fa-image mr-1.5"></i>Fotoğraf Seç
                                 <input type="file" id="memory-photo-file" accept="image/*" class="hidden" onchange="previewMemoryPhoto(this)">
                             </label>
-                            <button onclick="saveMemory()" class="px-5 py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 text-xs font-bold rounded-xl transition-colors">Kaydet</button>
+                            <button onclick="saveMemory()" class="px-4 sm:px-5 py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 text-xs font-bold rounded-xl transition-colors shrink-0">Kaydet</button>
                         </div>
                         <div id="memory-photo-preview" class="hidden text-[10px] text-emerald-400 font-semibold">Görsel seçildi ✅</div>
                     </div>
@@ -373,17 +377,17 @@
             </section>
 
             <!-- TAB 4: MINI GAMES -->
-            <section id="section-games" class="tab-content hidden space-y-5">
-                <div class="flex items-center justify-between border-b border-[var(--col-border)] pb-3">
-                    <span class="text-xs font-bold text-rose-200 uppercase tracking-wider">Mini Oyun Sekmesi</span>
-                    <div class="flex gap-2">
-                        <button onclick="switchGame('clicker')" id="btn-game-clicker" class="px-3.5 py-1.5 text-xs rounded-xl border border-[var(--col-border)] glass-card theme-text font-semibold">Tıklama Oyunu</button>
-                        <button onclick="switchGame('memory')" id="btn-game-memory" class="px-3.5 py-1.5 text-xs rounded-xl border border-[var(--col-border)] glass-card theme-subtext font-semibold">Aşk Hafızası</button>
+            <section id="section-games" class="tab-content hidden space-y-4 sm:space-y-5">
+                <div class="flex items-center justify-between border-b border-[var(--col-border)] pb-3 gap-2 overflow-x-auto no-scrollbar">
+                    <span class="text-[11px] sm:text-xs font-bold text-rose-200 uppercase tracking-wider whitespace-nowrap">Mini Oyunlar</span>
+                    <div class="flex gap-1.5 sm:gap-2 shrink-0">
+                        <button onclick="switchGame('clicker')" id="btn-game-clicker" class="px-3 py-1.5 text-[11px] sm:text-xs rounded-xl border border-[var(--col-border)] glass-card theme-text font-semibold whitespace-nowrap">Tıklama Oyunu</button>
+                        <button onclick="switchGame('memory')" id="btn-game-memory" class="px-3 py-1.5 text-[11px] sm:text-xs rounded-xl border border-[var(--col-border)] glass-card theme-subtext font-semibold whitespace-nowrap">Aşk Hafızası</button>
                     </div>
                 </div>
 
                 <!-- GAME 1: AŞK TIKLAMA OYUNU -->
-                <div id="game-clicker-wrapper" class="glass-card p-4 sm:p-6 rounded-3xl border border-[var(--col-border)] space-y-5">
+                <div id="game-clicker-wrapper" class="glass-card p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-[var(--col-border)] space-y-4 sm:space-y-5">
                     <div class="flex items-center justify-between text-xs">
                         <span class="font-bold theme-text">Kalbime Dokun Oyunu</span>
                         <div class="flex items-center gap-2">
@@ -391,14 +395,14 @@
                         </div>
                     </div>
 
-                    <div class="relative w-full h-56 bg-[var(--col-bg)] rounded-2xl border border-[var(--col-border)] flex flex-col items-center justify-center overflow-hidden" id="clicker-container">
-                        <button onclick="clickHeart(event)" class="w-28 h-28 rounded-full bg-gradient-to-tr from-rose-600 via-pink-500 to-amber-400 text-white text-5xl flex items-center justify-center shadow-2xl hover:scale-105 active:scale-95 transition-transform rose-glow relative">
+                    <div class="relative w-full h-48 sm:h-56 bg-[var(--col-bg)] rounded-2xl border border-[var(--col-border)] flex flex-col items-center justify-center overflow-hidden" id="clicker-container">
+                        <button onclick="clickHeart(event)" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-gradient-to-tr from-rose-600 via-pink-500 to-amber-400 text-white text-4xl sm:text-5xl flex items-center justify-center shadow-2xl hover:scale-105 active:scale-95 transition-transform rose-glow relative">
                             <i class="fa-solid fa-heart"></i>
                         </button>
-                        <p class="text-[11px] theme-subtext mt-3 font-medium">Kalbe dokunarak puan kazan</p>
+                        <p class="text-[10px] sm:text-[11px] theme-subtext mt-2 sm:mt-3 font-medium">Kalbe dokunarak puan kazan</p>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-3 pt-2">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
                         <button onclick="buyMultiplier()" id="btn-upgrade-mult" class="glass-card p-3 rounded-2xl border border-[var(--col-border)] hover:border-rose-500/50 transition-all text-left space-y-1">
                             <div class="flex items-center justify-between text-xs font-bold text-amber-300">
                                 <span>2x Tıklama Gücü</span>
@@ -421,23 +425,23 @@
                     <div class="pt-3 border-t border-[var(--col-border)] grid grid-cols-2 gap-3 text-center text-xs">
                         <div class="glass-card p-2.5 rounded-xl border border-[var(--col-border)] flex items-center justify-between">
                             <div class="flex items-center gap-2">
-                                <img src="https://i.ibb.co/bwQGgHn/MG-20261020-WA0054-1.jpg" alt="Taha" class="w-6 h-6 rounded-full object-cover border border-amber-400">
-                                <span class="text-[10px] theme-subtext uppercase tracking-wider">Taha</span>
+                                <img src="https://i.ibb.co/bwQGgHn/MG-20261020-WA0054-1.jpg" alt="Taha" class="w-6 h-6 rounded-full object-cover border border-amber-400 shrink-0">
+                                <span class="text-[10px] theme-subtext uppercase tracking-wider truncate">Taha</span>
                             </div>
-                            <span id="clicker-taha-max" class="text-sm font-bold text-amber-300">0</span>
+                            <span id="clicker-taha-max" class="text-xs sm:text-sm font-bold text-amber-300 shrink-0">0</span>
                         </div>
                         <div class="glass-card p-2.5 rounded-xl border border-[var(--col-border)] flex items-center justify-between">
                             <div class="flex items-center gap-2">
-                                <img src="https://i.ibb.co/r2g9wC2X/MG-20261024-WA0080.jpg" alt="Sudem" class="w-6 h-6 rounded-full object-cover border border-rose-400">
-                                <span class="text-[10px] theme-subtext uppercase tracking-wider">Sudem</span>
+                                <img src="https://i.ibb.co/r2g9wC2X/MG-20261024-WA0080.jpg" alt="Sudem" class="w-6 h-6 rounded-full object-cover border border-rose-400 shrink-0">
+                                <span class="text-[10px] theme-subtext uppercase tracking-wider truncate">Sudem</span>
                             </div>
-                            <span id="clicker-sudem-max" class="text-sm font-bold text-rose-400">0</span>
+                            <span id="clicker-sudem-max" class="text-xs sm:text-sm font-bold text-rose-400 shrink-0">0</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- GAME 2: MEMORY MATCH -->
-                <div id="game-memory-wrapper" class="hidden glass-card p-4 sm:p-6 rounded-3xl border border-[var(--col-border)] space-y-4">
+                <div id="game-memory-wrapper" class="hidden glass-card p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-[var(--col-border)] space-y-4">
                     <div class="flex items-center justify-between text-xs">
                         <span class="font-bold theme-text">Aşk Hafızası</span>
                         <div class="flex items-center gap-3">
@@ -446,22 +450,22 @@
                         </div>
                     </div>
 
-                    <div id="memory-grid" class="grid grid-cols-4 gap-2 aspect-square max-w-xs mx-auto w-full p-1 bg-[var(--col-bg)] rounded-2xl border border-[var(--col-border)]"></div>
+                    <div id="memory-grid" class="grid grid-cols-4 gap-2 aspect-square max-w-[280px] sm:max-w-xs mx-auto w-full p-1 bg-[var(--col-bg)] rounded-2xl border border-[var(--col-border)]"></div>
 
                     <div class="pt-3 border-t border-[var(--col-border)] grid grid-cols-2 gap-3 text-center text-xs">
                         <div class="glass-card p-2.5 rounded-xl border border-[var(--col-border)] flex items-center justify-between">
                             <div class="flex items-center gap-2">
-                                <img src="https://i.ibb.co/bwQGgHn/MG-20261020-WA0054-1.jpg" alt="Taha" class="w-6 h-6 rounded-full object-cover border border-amber-400">
-                                <span class="text-[10px] theme-subtext uppercase tracking-wider">Taha</span>
+                                <img src="https://i.ibb.co/bwQGgHn/MG-20261020-WA0054-1.jpg" alt="Taha" class="w-6 h-6 rounded-full object-cover border border-amber-400 shrink-0">
+                                <span class="text-[10px] theme-subtext uppercase tracking-wider truncate">Taha</span>
                             </div>
-                            <span id="memory-taha-max" class="text-sm font-bold text-amber-300">-</span>
+                            <span id="memory-taha-max" class="text-xs sm:text-sm font-bold text-amber-300 shrink-0">-</span>
                         </div>
                         <div class="glass-card p-2.5 rounded-xl border border-[var(--col-border)] flex items-center justify-between">
                             <div class="flex items-center gap-2">
-                                <img src="https://i.ibb.co/r2g9wC2X/MG-20261024-WA0080.jpg" alt="Sudem" class="w-6 h-6 rounded-full object-cover border border-rose-400">
-                                <span class="text-[10px] theme-subtext uppercase tracking-wider">Sudem</span>
+                                <img src="https://i.ibb.co/r2g9wC2X/MG-20261024-WA0080.jpg" alt="Sudem" class="w-6 h-6 rounded-full object-cover border border-rose-400 shrink-0">
+                                <span class="text-[10px] theme-subtext uppercase tracking-wider truncate">Sudem</span>
                             </div>
-                            <span id="memory-sudem-max" class="text-sm font-bold text-rose-400">-</span>
+                            <span id="memory-sudem-max" class="text-xs sm:text-sm font-bold text-rose-400 shrink-0">-</span>
                         </div>
                     </div>
                 </div>
@@ -469,24 +473,24 @@
 
             <!-- TAB 5: KARAR TERAZİSİ -->
             <section id="section-scale" class="tab-content hidden space-y-4">
-                <div class="glass-card p-5 sm:p-6 rounded-3xl border border-[var(--col-border)] space-y-5 text-center relative">
+                <div class="glass-card p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-[var(--col-border)] space-y-4 sm:space-y-5 text-center relative">
                     <!-- Sağ üst sıfırlama butonu -->
-                    <button onclick="resetScaleData()" class="absolute top-4 right-4 w-8 h-8 rounded-xl bg-[var(--col-bg)] border border-[var(--col-border)] hover:border-rose-500 text-rose-400 hover:text-rose-300 flex items-center justify-center transition-colors text-xs" title="Teraziyi Sıfırla">
+                    <button onclick="resetScaleData()" class="absolute top-3.5 right-3.5 sm:top-4 sm:right-4 w-8 h-8 rounded-xl bg-[var(--col-bg)] border border-[var(--col-border)] hover:border-rose-500 text-rose-400 hover:text-rose-300 flex items-center justify-center transition-colors text-xs" title="Teraziyi Sıfırla">
                         <i class="fa-solid fa-rotate-right"></i>
                     </button>
 
                     <div>
-                        <span class="text-[11px] font-bold tracking-widest text-amber-400 uppercase">ADİL HAKEM</span>
-                        <h3 class="text-xl font-serif font-bold theme-text mt-1">⚖️ Karar Terazisi ⚖️</h3>
-                        <p class="text-xs theme-subtext mt-1">SEÇENEKLERİ YAZMA VAKTİ GELDİ</p>
+                        <span class="text-[10px] sm:text-[11px] font-bold tracking-widest text-amber-400 uppercase">ADİL HAKEM</span>
+                        <h3 class="text-lg sm:text-xl font-serif font-bold theme-text mt-1">⚖️ Karar Terazisi</h3>
+                        <p class="text-xs theme-subtext mt-1">İkiniz de kararsız kaldığınız seçeneği kefelere yazın!</p>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                         <!-- Taha'nın Kefesi -->
-                        <div class="bg-[var(--col-bg)] p-4 rounded-2xl border border-amber-400/40 space-y-2 text-left">
+                        <div class="bg-[var(--col-bg)] p-3 sm:p-4 rounded-2xl border border-amber-400/40 space-y-2 text-left">
                             <div class="flex items-center gap-2">
-                                <img src="https://i.ibb.co/bwQGgHn/MG-20261020-WA0054-1.jpg" alt="Taha" class="w-6 h-6 rounded-full object-cover border border-amber-400">
-                                <span class="text-xs font-bold text-amber-300">Taha'nın Seçeneği</span>
+                                <img src="https://i.ibb.co/bwQGgHn/MG-20261020-WA0054-1.jpg" alt="Taha" class="w-6 h-6 rounded-full object-cover border border-amber-400 shrink-0">
+                                <span class="text-xs font-bold text-amber-300 truncate">Taha'nın Seçeneği</span>
                             </div>
                             <input type="text" id="scale-input-taha" placeholder="Taha'nın fikri..." 
                                 class="w-full glass-card border border-[var(--col-border)] rounded-xl px-3 py-2.5 text-xs theme-text focus:outline-none focus:border-amber-400 transition-colors"
@@ -494,10 +498,10 @@
                         </div>
 
                         <!-- Sudem'in Kefesi -->
-                        <div class="bg-[var(--col-bg)] p-4 rounded-2xl border border-rose-400/40 space-y-2 text-left">
+                        <div class="bg-[var(--col-bg)] p-3 sm:p-4 rounded-2xl border border-rose-400/40 space-y-2 text-left">
                             <div class="flex items-center gap-2">
-                                <img src="https://i.ibb.co/r2g9wC2X/MG-20261024-WA0080.jpg" alt="Sudem" class="w-6 h-6 rounded-full object-cover border border-rose-400">
-                                <span class="text-xs font-bold text-rose-400">Sudem'in Seçeneği</span>
+                                <img src="https://i.ibb.co/r2g9wC2X/MG-20261024-WA0080.jpg" alt="Sudem" class="w-6 h-6 rounded-full object-cover border border-rose-400 shrink-0">
+                                <span class="text-xs font-bold text-rose-400 truncate">Sudem'in Seçeneği</span>
                             </div>
                             <input type="text" id="scale-input-sudem" placeholder="Sudem'in fikri..." 
                                 class="w-full glass-card border border-[var(--col-border)] rounded-xl px-3 py-2.5 text-xs theme-text focus:outline-none focus:border-rose-500 transition-colors"
@@ -506,8 +510,8 @@
                     </div>
 
                     <!-- Terazi Görsel / Sonuç Alanı -->
-                    <div id="scale-visual-box" class="py-6 px-4 bg-[var(--col-bg)] rounded-2xl border border-[var(--col-border)] flex flex-col items-center justify-center relative overflow-hidden min-h-[120px]">
-                        <div id="scale-icon-wrapper" class="text-4xl text-amber-400 mb-2 transition-transform duration-300">
+                    <div id="scale-visual-box" class="py-5 px-3 sm:px-4 bg-[var(--col-bg)] rounded-2xl border border-[var(--col-border)] flex flex-col items-center justify-center relative overflow-hidden min-h-[110px]">
+                        <div id="scale-icon-wrapper" class="text-3xl sm:text-4xl text-amber-400 mb-2 transition-transform duration-300">
                             <i class="fa-solid fa-scale-balanced"></i>
                         </div>
                         <div id="scale-status-text" class="text-xs theme-subtext font-medium break-all max-w-full px-2">Terazi ölçüm için hazır...</div>
@@ -531,9 +535,9 @@
     <!-- ================= SETTINGS DRAWER ================= -->
     <div id="settings-drawer-backdrop" onclick="toggleSettingsDrawer(false)" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-40 hidden transition-opacity duration-300"></div>
     
-    <div id="settings-drawer" class="fixed top-0 right-0 bottom-0 w-full max-w-xs sm:max-w-sm glass-card border-l border-[var(--col-border)] z-50 transform translate-x-full transition-transform duration-300 flex flex-col p-6 shadow-2xl overflow-y-auto">
-        <div class="flex items-center justify-between pb-4 border-b border-[var(--col-border)] mb-6 shrink-0">
-            <h3 class="text-sm font-bold theme-text flex items-center gap-2">
+    <div id="settings-drawer" class="fixed top-0 right-0 bottom-0 w-full max-w-[280px] sm:max-w-sm glass-card border-l border-[var(--col-border)] z-50 transform translate-x-full transition-transform duration-300 flex flex-col p-5 sm:p-6 shadow-2xl overflow-y-auto">
+        <div class="flex items-center justify-between pb-3 sm:pb-4 border-b border-[var(--col-border)] mb-4 sm:mb-6 shrink-0">
+            <h3 class="text-xs sm:text-sm font-bold theme-text flex items-center gap-2">
                 <i class="fa-solid fa-sliders text-amber-400"></i> Ayarlar & Müzik
             </h3>
             <button onclick="toggleSettingsDrawer(false)" class="w-8 h-8 rounded-lg glass-card theme-subtext hover:theme-text flex items-center justify-center">
@@ -542,9 +546,9 @@
         </div>
 
         <div class="space-y-4 flex-1">
-            <span class="text-[11px] font-bold uppercase tracking-wider theme-subtext">Müzik Parçaları</span>
+            <span class="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider theme-subtext">Müzik Parçaları</span>
             
-            <div onclick="selectTrack('hanimafendi')" id="track-item-hanimafendi" class="p-3.5 rounded-2xl border border-[var(--col-border)] glass-card hover:bg-[var(--col-hover)] cursor-pointer transition-all flex items-center justify-between">
+            <div onclick="selectTrack('hanimafendi')" id="track-item-hanimafendi" class="p-3 rounded-xl sm:rounded-2xl border border-[var(--col-border)] glass-card hover:bg-[var(--col-hover)] cursor-pointer transition-all flex items-center justify-between">
                 <div>
                     <h4 class="text-xs font-bold theme-text">Motive - Hanımefendi</h4>
                     <p class="text-[10px] text-amber-300 mt-0.5">TAHA Parçası</p>
@@ -552,7 +556,7 @@
                 <span id="check-hanimafendi" class="text-xs text-emerald-400 hidden"><i class="fa-solid fa-circle-check"></i></span>
             </div>
 
-            <div onclick="selectTrack('lanet')" id="track-item-lanet" class="p-3.5 rounded-2xl border border-[var(--col-border)] glass-card hover:bg-[var(--col-hover)] cursor-pointer transition-all flex items-center justify-between">
+            <div onclick="selectTrack('lanet')" id="track-item-lanet" class="p-3 rounded-xl sm:rounded-2xl border border-[var(--col-border)] glass-card hover:bg-[var(--col-hover)] cursor-pointer transition-all flex items-center justify-between">
                 <div>
                     <h4 class="text-xs font-bold theme-text">Moonave - Lanet</h4>
                     <p class="text-[10px] text-rose-400 mt-0.5">SUDEM Parçası</p>
@@ -561,33 +565,33 @@
             </div>
 
             <!-- TEMA SEÇENEKLERİ -->
-            <div class="pt-4 border-t border-[var(--col-border)] space-y-2.5">
-                <span class="text-[11px] font-bold uppercase tracking-wider theme-subtext block mb-1">Tema Seçenekleri</span>
-                <div class="grid grid-cols-1 gap-2">
-                    <button onclick="setTheme('bordo')" class="w-full py-2.5 px-3 rounded-xl border border-[var(--col-border)] glass-card hover:bg-[var(--col-hover)] text-xs font-semibold text-left flex items-center justify-between">
+            <div class="pt-3 sm:pt-4 border-t border-[var(--col-border)] space-y-2">
+                <span class="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider theme-subtext block mb-1">Tema Seçenekleri</span>
+                <div class="grid grid-cols-1 gap-1.5 sm:gap-2">
+                    <button onclick="setTheme('bordo')" class="w-full py-2 px-3 rounded-xl border border-[var(--col-border)] glass-card hover:bg-[var(--col-hover)] text-xs font-semibold text-left flex items-center justify-between">
                         <span class="flex items-center gap-2 theme-text"><span class="w-3 h-3 rounded-full bg-[#9B111E]"></span> Bordo Tema</span>
                         <span id="theme-check-bordo" class="text-xs text-emerald-400 hidden"><i class="fa-solid fa-circle-check"></i></span>
                     </button>
-                    <button onclick="setTheme('yesil')" class="w-full py-2.5 px-3 rounded-xl border border-[var(--col-border)] glass-card hover:bg-[var(--col-hover)] text-xs font-semibold text-left flex items-center justify-between">
+                    <button onclick="setTheme('yesil')" class="w-full py-2 px-3 rounded-xl border border-[var(--col-border)] glass-card hover:bg-[var(--col-hover)] text-xs font-semibold text-left flex items-center justify-between">
                         <span class="flex items-center gap-2 theme-text"><span class="w-3 h-3 rounded-full bg-[#059669]"></span> Yeşil Tema</span>
                         <span id="theme-check-yesil" class="text-xs text-emerald-400 hidden"><i class="fa-solid fa-circle-check"></i></span>
                     </button>
-                    <button onclick="setTheme('beyaz')" class="w-full py-2.5 px-3 rounded-xl border border-[var(--col-border)] glass-card hover:bg-[var(--col-hover)] text-xs font-semibold text-left flex items-center justify-between">
+                    <button onclick="setTheme('beyaz')" class="w-full py-2 px-3 rounded-xl border border-[var(--col-border)] glass-card hover:bg-[var(--col-hover)] text-xs font-semibold text-left flex items-center justify-between">
                         <span class="flex items-center gap-2 theme-text"><span class="w-3 h-3 rounded-full bg-white border border-slate-400"></span> Beyaz Tema</span>
                         <span id="theme-check-beyaz" class="text-xs text-emerald-400 hidden"><i class="fa-solid fa-circle-check"></i></span>
                     </button>
-                    <button onclick="setTheme('mavi')" class="w-full py-2.5 px-3 rounded-xl border border-[var(--col-border)] glass-card hover:bg-[var(--col-hover)] text-xs font-semibold text-left flex items-center justify-between">
+                    <button onclick="setTheme('mavi')" class="w-full py-2 px-3 rounded-xl border border-[var(--col-border)] glass-card hover:bg-[var(--col-hover)] text-xs font-semibold text-left flex items-center justify-between">
                         <span class="flex items-center gap-2 theme-text"><span class="w-3 h-3 rounded-full bg-[#3B82F6]"></span> Mavi Tema</span>
                         <span id="theme-check-mavi" class="text-xs text-emerald-400 hidden"><i class="fa-solid fa-circle-check"></i></span>
                     </button>
-                    <button onclick="setTheme('pembe')" class="w-full py-2.5 px-3 rounded-xl border border-[var(--col-border)] glass-card hover:bg-[var(--col-hover)] text-xs font-semibold text-left flex items-center justify-between">
+                    <button onclick="setTheme('pembe')" class="w-full py-2 px-3 rounded-xl border border-[var(--col-border)] glass-card hover:bg-[var(--col-hover)] text-xs font-semibold text-left flex items-center justify-between">
                         <span class="flex items-center gap-2 theme-text"><span class="w-3 h-3 rounded-full bg-[#EC4899]"></span> Pembe Tema</span>
                         <span id="theme-check-pembe" class="text-xs text-emerald-400 hidden"><i class="fa-solid fa-circle-check"></i></span>
                     </button>
                 </div>
             </div>
 
-            <div class="pt-4 border-t border-[var(--col-border)] space-y-3">
+            <div class="pt-3 sm:pt-4 border-t border-[var(--col-border)] space-y-2.5">
                 <div class="flex items-center justify-between text-xs theme-subtext">
                     <span>Ses Düzeyi</span>
                     <button onclick="toggleMute()" id="mute-btn" class="theme-subtext hover:theme-text">
@@ -598,8 +602,8 @@
             </div>
         </div>
 
-        <div class="pt-4 border-t border-[var(--col-border)]">
-            <button onclick="logout()" class="w-full py-3 bg-rose-950/60 border border-rose-800/50 hover:bg-rose-900/60 text-rose-300 text-xs font-bold rounded-xl transition-colors flex items-center justify-center gap-2">
+        <div class="pt-3 sm:pt-4 border-t border-[var(--col-border)]">
+            <button onclick="logout()" class="w-full py-2.5 sm:py-3 bg-rose-950/60 border border-rose-800/50 hover:bg-rose-900/60 text-rose-300 text-xs font-bold rounded-xl transition-colors flex items-center justify-center gap-2">
                 <i class="fa-solid fa-right-from-bracket"></i>
                 Çıkış Yap
             </button>
@@ -871,7 +875,7 @@
             if (state.scale.result) {
                 statusEl.innerHTML = `
                     <div class="space-y-1.5">
-                        <span class="text-[10px] uppercase tracking-widest text-emerald-400 font-bold block">🏆 KAZANAN BELİRLENDİ 🏆</span>
+                        <span class="text-[10px] uppercase tracking-widest text-emerald-400 font-bold block">🏆 KAZANAN MÜHÜRLENDİ</span>
                         <div class="text-sm sm:text-base font-serif font-bold text-amber-300 break-words px-2">"${state.scale.result.chosen}"</div>
                         <p class="text-[10px] theme-subtext px-2">${state.scale.result.excuse}</p>
                     </div>
@@ -890,7 +894,7 @@
             const statusEl = document.getElementById('scale-status-text');
 
             iconWrapper.classList.add('scale-weighing');
-            statusEl.innerHTML = `<span class="text-amber-400 animate-pulse">⚖️ Terazi tartılıyor, adalet hesaplanıyor...</span>`;
+            statusEl.innerHTML = `<span class="text-amber-400 animate-pulse">⚖️ Terazi tartılıyor, kozmik adalet hesaplanıyor...</span>`;
 
             setTimeout(() => {
                 iconWrapper.classList.remove('scale-weighing');
@@ -898,8 +902,8 @@
                 const chosen = options[Math.floor(Math.random() * options.length)];
                 
                 const excuses = [
-                    "Canım bu seçeneği mühürlemek istedi!",
-                    "Kaderin cilvesi bunu seçmemizi emretti!",
+                    "Yıldızların konumu ve Sudem'in tatlılığı bu seçeneği mühürledi!",
+                    "Taha'nın haklı gururu ve kaderin cilvesi bunu seçmemizi emretti!",
                     "Kozmik terazi ağır bastı, karar kesinlikle mühürlendi!",
                     "İtiraz etmek yasak, adalet terazisi son sözü söyledi!"
                 ];
@@ -954,33 +958,33 @@
             const el = document.getElementById(elementId);
             if (!el) return;
             el.innerHTML = `
-                <div class="glass-card p-2 rounded-xl border border-[var(--col-border)] flex flex-col items-center justify-center">
+                <div class="glass-card p-1.5 sm:p-2 rounded-xl border border-[var(--col-border)] flex flex-col items-center justify-center">
                     <span class="text-xs sm:text-sm font-bold theme-text">${diff.years}</span>
-                    <span class="text-[8px] theme-subtext uppercase tracking-tight">Yıl</span>
+                    <span class="text-[7px] sm:text-[8px] theme-subtext uppercase tracking-tight">Yıl</span>
                 </div>
-                <div class="glass-card p-2 rounded-xl border border-[var(--col-border)] flex flex-col items-center justify-center">
+                <div class="glass-card p-1.5 sm:p-2 rounded-xl border border-[var(--col-border)] flex flex-col items-center justify-center">
                     <span class="text-xs sm:text-sm font-bold theme-text">${diff.months}</span>
-                    <span class="text-[8px] theme-subtext uppercase tracking-tight">Ay</span>
+                    <span class="text-[7px] sm:text-[8px] theme-subtext uppercase tracking-tight">Ay</span>
                 </div>
-                <div class="glass-card p-2 rounded-xl border border-[var(--col-border)] flex flex-col items-center justify-center">
+                <div class="glass-card p-1.5 sm:p-2 rounded-xl border border-[var(--col-border)] flex flex-col items-center justify-center">
                     <span class="text-xs sm:text-sm font-bold theme-text">${diff.weeks}</span>
-                    <span class="text-[8px] theme-subtext uppercase tracking-tight">Hafta</span>
+                    <span class="text-[7px] sm:text-[8px] theme-subtext uppercase tracking-tight">Hafta</span>
                 </div>
-                <div class="glass-card p-2 rounded-xl border border-[var(--col-border)] flex flex-col items-center justify-center">
+                <div class="glass-card p-1.5 sm:p-2 rounded-xl border border-[var(--col-border)] flex flex-col items-center justify-center">
                     <span class="text-xs sm:text-sm font-bold theme-text">${diff.days}</span>
-                    <span class="text-[8px] theme-subtext uppercase tracking-tight">Gün</span>
+                    <span class="text-[7px] sm:text-[8px] theme-subtext uppercase tracking-tight">Gün</span>
                 </div>
-                <div class="glass-card p-2 rounded-xl border border-[var(--col-border)] flex flex-col items-center justify-center">
+                <div class="glass-card p-1.5 sm:p-2 rounded-xl border border-[var(--col-border)] flex flex-col items-center justify-center">
                     <span class="text-xs sm:text-sm font-bold theme-text">${diff.hours}</span>
-                    <span class="text-[8px] theme-subtext uppercase tracking-tight">Saat</span>
+                    <span class="text-[7px] sm:text-[8px] theme-subtext uppercase tracking-tight">Saat</span>
                 </div>
-                <div class="glass-card p-2 rounded-xl border border-[var(--col-border)] flex flex-col items-center justify-center">
+                <div class="glass-card p-1.5 sm:p-2 rounded-xl border border-[var(--col-border)] flex flex-col items-center justify-center">
                     <span class="text-xs sm:text-sm font-bold theme-text">${diff.minutes}</span>
-                    <span class="text-[8px] theme-subtext uppercase tracking-tight">Dk</span>
+                    <span class="text-[7px] sm:text-[8px] theme-subtext uppercase tracking-tight">Dk</span>
                 </div>
-                <div class="glass-card p-2 rounded-xl border border-[var(--col-border)] flex flex-col items-center justify-center">
+                <div class="glass-card p-1.5 sm:p-2 rounded-xl border border-[var(--col-border)] flex flex-col items-center justify-center">
                     <span class="text-xs sm:text-sm font-bold theme-text">${diff.seconds}</span>
-                    <span class="text-[8px] theme-subtext uppercase tracking-tight">Sn</span>
+                    <span class="text-[7px] sm:text-[8px] theme-subtext uppercase tracking-tight">Sn</span>
                 </div>
             `;
         }
@@ -1158,7 +1162,6 @@
                 const msgWrapper = document.createElement('div');
                 msgWrapper.className = `flex flex-col ${isMe ? 'items-end' : 'items-start'}`;
 
-                // Karşı tarafın mesaj balonu renkleri tema değişkeniyle uyumlu hale getirildi (--col-peer-msg)
                 const alignClass = isMe 
                     ? 'bg-gradient-to-r from-rose-900/50 to-pink-900/40 border border-rose-500/30 theme-text rounded-2xl rounded-tr-none' 
                     : 'border border-[var(--col-border)] theme-text rounded-2xl rounded-tl-none';
@@ -1168,15 +1171,15 @@
                 const avatarUrl = PROFILES[msg.user] || PROFILES.TAHA;
                 const borderCol = msg.user === 'TAHA' ? 'border-amber-400' : 'border-rose-400';
 
-                let contentHtml = `<p class="text-xs leading-relaxed">${msg.text}</p>`;
+                let contentHtml = `<p class="text-xs leading-relaxed break-words">${msg.text}</p>`;
 
                 msgWrapper.innerHTML = `
                     <div class="flex items-center gap-2 mb-1 ${isMe ? 'flex-row-reverse' : 'flex-row'}">
-                        <img src="${avatarUrl}" alt="${msg.user}" class="w-6 h-6 rounded-full object-cover border ${borderCol}">
+                        <img src="${avatarUrl}" alt="${msg.user}" class="w-6 h-6 rounded-full object-cover border ${borderCol} shrink-0">
                         <span class="text-[10px] font-bold ${msg.user === 'TAHA' ? 'text-amber-300' : 'text-rose-400'}">${msg.user}</span>
                         <span class="text-[9px] theme-subtext">${msg.time}</span>
                     </div>
-                    <div class="max-w-[80%] p-3 ${alignClass}" style="${customStyle}">
+                    <div class="max-w-[85%] sm:max-w-[80%] p-3 ${alignClass}" style="${customStyle}">
                         ${contentHtml}
                     </div>
                 `;
@@ -1246,17 +1249,17 @@
                 const card = document.createElement('div');
                 card.className = "glass-card p-4 rounded-2xl border border-[var(--col-border)] space-y-2 relative";
                 card.innerHTML = `
-                    <div class="flex items-center justify-between">
-                        <h4 class="text-xs font-bold theme-text">${mem.title}</h4>
-                        <div class="flex items-center gap-3">
+                    <div class="flex items-center justify-between gap-2">
+                        <h4 class="text-xs font-bold theme-text truncate">${mem.title}</h4>
+                        <div class="flex items-center gap-3 shrink-0">
                             <span class="text-[10px] theme-subtext">${mem.date}</span>
                             <button onclick="deleteMemory(${mem.id})" class="text-rose-400 hover:text-rose-300 text-xs p-1 transition-colors" title="Anıyı Sil">
                                 <i class="fa-solid fa-trash-can"></i>
                             </button>
                         </div>
                     </div>
-                    ${mem.desc ? `<p class="text-xs theme-subtext leading-relaxed">${mem.desc}</p>` : ''}
-                    ${mem.photo ? `<img src="${mem.photo}" onclick="openImageModal('${mem.photo}')" class="w-full h-48 object-cover rounded-xl border border-[var(--col-border)] mt-2 cursor-pointer hover:opacity-95 transition-opacity">` : ''}
+                    ${mem.desc ? `<p class="text-xs theme-subtext leading-relaxed break-words">${mem.desc}</p>` : ''}
+                    ${mem.photo ? `<img src="${mem.photo}" onclick="openImageModal('${mem.photo}')" class="w-full h-44 sm:h-48 object-cover rounded-xl border border-[var(--col-border)] mt-2 cursor-pointer hover:opacity-95 transition-opacity">` : ''}
                 `;
                 container.appendChild(card);
             });
@@ -1278,12 +1281,12 @@
             document.getElementById('game-memory-wrapper').classList.toggle('hidden', gameType !== 'memory');
 
             document.getElementById('btn-game-clicker').className = gameType === 'clicker' 
-                ? 'px-3.5 py-1.5 text-xs rounded-xl border border-[var(--col-border)] glass-card theme-text font-bold'
-                : 'px-3.5 py-1.5 text-xs rounded-xl border border-[var(--col-border)] glass-card theme-subtext font-semibold';
+                ? 'px-3 py-1.5 text-[11px] sm:text-xs rounded-xl border border-[var(--col-border)] glass-card theme-text font-bold whitespace-nowrap'
+                : 'px-3 py-1.5 text-[11px] sm:text-xs rounded-xl border border-[var(--col-border)] glass-card theme-subtext font-semibold whitespace-nowrap';
 
             document.getElementById('btn-game-memory').className = gameType === 'memory' 
-                ? 'px-3.5 py-1.5 text-xs rounded-xl border border-[var(--col-border)] glass-card theme-text font-bold'
-                : 'px-3.5 py-1.5 text-xs rounded-xl border border-[var(--col-border)] glass-card theme-subtext font-semibold';
+                ? 'px-3 py-1.5 text-[11px] sm:text-xs rounded-xl border border-[var(--col-border)] glass-card theme-text font-bold whitespace-nowrap'
+                : 'px-3 py-1.5 text-[11px] sm:text-xs rounded-xl border border-[var(--col-border)] glass-card theme-subtext font-semibold whitespace-nowrap';
 
             if (gameType === 'memory') initMemoryGame();
         }
@@ -1318,7 +1321,7 @@
             pop.style.left = `${event.clientX - container.getBoundingClientRect().left}px`;
             pop.style.top = `${event.clientY - container.getBoundingClientRect().top}px`;
             container.appendChild(pop);
-            setTimeout(() => pop.remove(), 800);
+            setTimeout(() => pop.remove(), 600);
 
             saveStateToFirebase();
             renderClickerUI();
@@ -1425,9 +1428,9 @@
             const deck = [...EMOJIS, ...EMOJIS].sort(() => Math.random() - 0.5);
             memoryCards = deck;
 
-            deck.forEach((emoji, index) => {
+            deck.getResource = deck.forEach((emoji, index) => {
                 const card = document.createElement('button');
-                card.className = 'w-full h-full glass-card border border-[var(--col-border)] rounded-xl flex items-center justify-center text-xl transition-all duration-300';
+                card.className = 'w-full h-full glass-card border border-[var(--col-border)] rounded-xl flex items-center justify-center text-lg sm:text-xl transition-all duration-300';
                 card.dataset.index = index;
                 card.dataset.emoji = emoji;
                 card.innerText = '❓';
