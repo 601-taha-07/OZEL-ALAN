@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="tr" class="h-full bg-[#0D0814]">
+<html lang="tr" class="h-full bg-[#0D0814]" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -19,11 +19,11 @@
                 extend: {
                     colors: {
                         theme: {
-                            bg: '#0D0814',
-                            card: '#160E22',
-                            border: '#2D1B3E',
-                            hover: '#221533',
-                            rose: '#E60067',
+                            bg: 'var(--col-bg)',
+                            card: 'var(--col-card)',
+                            border: 'var(--col-border)',
+                            hover: 'var(--col-hover)',
+                            rose: 'var(--col-primary)',
                             pink: '#F472B6',
                             gold: '#D4AF37',
                             purple: '#A855F7'
@@ -38,43 +38,125 @@
         }
     </script>
     <style>
+        :root {
+            --col-bg: #0D0814;
+            --col-card: #160E22;
+            --col-border: #2D1B3E;
+            --col-hover: #221533;
+            --col-primary: #E60067;
+            --col-text: #F1F5F9;
+            --col-subtext: #94A3B8;
+            --col-peer-msg: #1C122C;
+        }
+
+        /* 1. Bordo Tema Kombinasyonu */
+        body.theme-bordo {
+            --col-bg: #1A050D;
+            --col-card: #2B0D18;
+            --col-border: #4A1A2C;
+            --col-hover: #3A1221;
+            --col-primary: #C53030;
+            --col-text: #FFF1F2;
+            --col-subtext: #FDA4AF;
+            --col-peer-msg: #3D1422;
+        }
+
+        /* 2. Yeşil Tema Kombinasyonu */
+        body.theme-yesil {
+            --col-bg: #051A10;
+            --col-card: #0D2B1C;
+            --col-border: #1A4A31;
+            --col-hover: #123A25;
+            --col-primary: #059669;
+            --col-text: #ECFDF5;
+            --col-subtext: #6EE7B7;
+            --col-peer-msg: #163D28;
+        }
+
+        /* 3. Beyaz Tema Kombinasyonu */
+        body.theme-beyaz {
+            --col-bg: #F1F5F9;
+            --col-card: #FFFFFF;
+            --col-border: #CBD5E1;
+            --col-hover: #E2E8F0;
+            --col-primary: #2563EB;
+            --col-text: #0F172A;
+            --col-subtext: #475569;
+            --col-peer-msg: #E2E8F0;
+        }
+
+        /* 4. Mavi Tema Kombinasyonu */
+        body.theme-mavi {
+            --col-bg: #0A1128;
+            --col-card: #121E3D;
+            --col-border: #1D3163;
+            --col-hover: #18274E;
+            --col-primary: #3B82F6;
+            --col-text: #EFF6FF;
+            --col-subtext: #93C5FD;
+            --col-peer-msg: #1E2D58;
+        }
+
+        /* 5. Pembe Tema Kombinasyonu */
+        body.theme-pembe {
+            --col-bg: #1A0D18;
+            --col-card: #2C1629;
+            --col-border: #4D2847;
+            --col-hover: #3A1F36;
+            --col-primary: #EC4899;
+            --col-text: #FDF2F8;
+            --col-subtext: #F472B6;
+            --col-peer-msg: #3D1F39;
+        }
+
         body {
             touch-action: manipulation;
             -webkit-tap-highlight-color: transparent;
             font-family: 'Outfit', sans-serif;
-            background-color: #0D0814;
+            background-color: var(--col-bg);
+            color: var(--col-text);
         }
+
+        .theme-text { color: var(--col-text); }
+        .theme-subtext { color: var(--col-subtext); }
         
+        body.theme-beyaz .text-slate-100 { color: #0F172A !important; }
+        body.theme-beyaz .text-slate-200 { color: #1E293B !important; }
+        body.theme-beyaz .text-slate-300 { color: #334155 !important; }
+        body.theme-beyaz .text-slate-400 { color: #475569 !important; }
+        body.theme-beyaz input, body.theme-beyaz textarea { background: #F8FAFC !important; color: #0F172A !important; border-color: #CBD5E1 !important; }
+        body.theme-beyaz .bg-\[\#0D0814\], body.theme-beyaz .bg-\[\#160E22\], body.theme-beyaz .bg-\[\#1C122C\] { background-color: #F8FAFC !important; }
+
         ::-webkit-scrollbar {
             width: 5px;
             height: 5px;
         }
         ::-webkit-scrollbar-track {
-            background: #0D0814;
+            background: var(--col-bg);
         }
         ::-webkit-scrollbar-thumb {
-            background: #2D1B3E;
+            background: var(--col-border);
             border-radius: 9999px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #E60067;
+            background: var(--col-primary);
         }
 
         .glass-panel {
-            background: rgba(22, 14, 34, 0.85);
+            background: var(--col-card);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(230, 0, 103, 0.15);
+            border: 1px solid var(--col-border);
         }
 
         .glass-card {
-            background: rgba(28, 18, 44, 0.75);
+            background: var(--col-card);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(230, 0, 103, 0.12);
+            border: 1px solid var(--col-border);
         }
 
         .rose-glow {
-            box-shadow: 0 0 35px -5px rgba(230, 0, 103, 0.45);
+            box-shadow: 0 0 35px -5px var(--col-primary);
         }
 
         .gold-glow {
@@ -90,37 +172,56 @@
             pointer-events: none;
             animation: floatUp 0.8s ease-out forwards;
             font-weight: bold;
-            color: #F472B6;
+            color: var(--col-primary);
             text-shadow: 0 0 10px rgba(230,0,103,0.8);
+        }
+
+        @keyframes weighShake {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(-3deg); }
+            50% { transform: rotate(3deg); }
+            75% { transform: rotate(-2deg); }
+            100% { transform: rotate(0deg); }
+        }
+        .scale-weighing {
+            animation: weighShake 0.4s ease-in-out infinite;
+        }
+
+        @keyframes tempBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .anim-bounce-short {
+            animation: tempBounce 0.5s ease-in-out 4;
         }
     </style>
 </head>
-<body class="h-full w-full text-slate-100 overflow-x-hidden flex flex-col justify-between selection:bg-rose-900 selection:text-white">
+<body class="h-full w-full overflow-x-hidden flex flex-col justify-between selection:bg-rose-900 selection:text-white">
 
     <!-- AUDIO ENGINE -->
     <audio id="bg-music" loop preload="auto"></audio>
 
     <!-- ================= LOGIN SCREEN ================= -->
-    <div id="login-screen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0D0814] transition-opacity duration-500">
-        <div class="w-full max-w-md bg-[#160E22] border border-[#2D1B3E] rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden">
+    <div id="login-screen" class="fixed inset-0 z-50 flex items-center justify-center p-4 transition-opacity duration-500" style="background-color: #0D0814 !important;">
+        <div class="w-full max-w-md glass-card rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden" style="background: #160E22 !important; border-color: #2D1B3E !important; color: #F1F5F9 !important;">
             <div class="absolute -top-20 -right-20 w-48 h-48 bg-rose-600/20 rounded-full blur-3xl pointer-events-none"></div>
             <div class="absolute -bottom-20 -left-20 w-48 h-48 bg-purple-600/20 rounded-full blur-3xl pointer-events-none"></div>
 
             <div class="text-center mb-8 relative z-10">
                 <span class="text-xs uppercase tracking-[0.3em] text-amber-400 font-semibold">ÖZEL ALANIMIZ</span>
                 <h1 class="text-3xl font-serif font-bold text-slate-100 mt-1">Taha & Sudem</h1>
-                <p class="text-xs text-rose-300/70 mt-1">Giriş yapmak için profilini seç</p>
+                <p class="text-xs text-slate-400 mt-1">Giriş yapmak için profilini seç</p>
             </div>
 
             <!-- Profile Selector Cards -->
             <div class="grid grid-cols-2 gap-4 mb-6">
                 <button id="btn-select-taha" onclick="selectProfile('TAHA')" 
-                    class="profile-btn py-5 px-4 rounded-2xl border border-[#2D1B3E] bg-[#1C122C] hover:bg-[#2A1A40] transition-all duration-200 flex flex-col items-center justify-center gap-3 group">
+                    class="profile-btn py-5 px-4 rounded-2xl border border-[#2D1B3E] glass-card hover:bg-[#221533] transition-all duration-200 flex flex-col items-center justify-center gap-3 group" style="background: #160E22 !important; border-color: #2D1B3E !important;">
                     <img src="https://i.ibb.co/bwQGgHn/MG-20261020-WA0054-1.jpg" alt="Taha" class="w-16 h-16 rounded-full object-cover border-2 border-amber-400 shadow-md group-hover:scale-105 transition-transform">
                     <span class="text-sm font-bold tracking-wider text-amber-300">TAHA</span>
                 </button>
                 <button id="btn-select-sudem" onclick="selectProfile('SUDEM')" 
-                    class="profile-btn py-5 px-4 rounded-2xl border border-[#2D1B3E] bg-[#1C122C] hover:bg-[#2A1A40] transition-all duration-200 flex flex-col items-center justify-center gap-3 group">
+                    class="profile-btn py-5 px-4 rounded-2xl border border-[#2D1B3E] glass-card hover:bg-[#221533] transition-all duration-200 flex flex-col items-center justify-center gap-3 group" style="background: #160E22 !important; border-color: #2D1B3E !important;">
                     <img src="https://i.ibb.co/r2g9wC2X/MG-20261024-WA0080.jpg" alt="Sudem" class="w-16 h-16 rounded-full object-cover border-2 border-rose-400 shadow-md group-hover:scale-105 transition-transform">
                     <span class="text-sm font-bold tracking-wider text-rose-400">SUDEM</span>
                 </button>
@@ -129,7 +230,7 @@
             <!-- Password Entry -->
             <div id="password-container" class="hidden space-y-4 transition-all duration-300">
                 <div>
-                    <label id="pwd-label" class="block text-xs font-medium text-rose-200/80 mb-2">Şifre Giriniz</label>
+                    <label id="pwd-label" class="block text-xs font-medium text-slate-400 mb-2">Şifre Giriniz</label>
                     <input type="password" id="login-password" placeholder="••••"
                         class="w-full bg-[#0D0814] border border-[#2D1B3E] rounded-xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-rose-500 transition-colors tracking-widest text-center"
                         onkeyup="if(event.key==='Enter') executeLogin()">
@@ -150,116 +251,96 @@
     <div id="app-wrapper" class="hidden min-h-screen flex flex-col max-w-4xl mx-auto w-full relative pb-10">
 
         <!-- HEADER -->
-        <header class="sticky top-0 z-30 glass-panel border-b border-[#2D1B3E] px-4 py-3.5 flex items-center justify-between">
+        <header class="sticky top-0 z-30 glass-panel border-b border-[var(--col-border)] px-4 py-3.5 flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-rose-600 via-pink-500 to-amber-400 flex items-center justify-center text-slate-950 font-serif text-sm font-bold shadow-md">
                     TS
                 </div>
                 <div>
-                    <h2 class="text-sm font-bold tracking-wide text-slate-100 leading-tight">Taha & Sudem</h2>
+                    <h2 class="text-sm font-bold tracking-wide theme-text leading-tight">Taha & Sudem</h2>
                     <div class="flex items-center gap-1.5 mt-0.5">
                         <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                        <span id="active-user-badge" class="text-[11px] text-rose-200/70 font-medium">Aktif: -</span>
+                        <span id="active-user-badge" class="text-[11px] theme-subtext font-medium">Aktif: -</span>
                     </div>
                 </div>
             </div>
 
-            <button onclick="toggleSettingsDrawer(true)" class="w-9 h-9 rounded-xl bg-[#1C122C] border border-[#2D1B3E] hover:bg-[#2A1A40] flex items-center justify-center text-rose-300 transition-colors">
+            <button onclick="toggleSettingsDrawer(true)" class="w-9 h-9 rounded-xl glass-card border border-[var(--col-border)] hover:bg-[var(--col-hover)] flex items-center justify-center theme-text transition-colors">
                 <i class="fa-solid fa-gear text-sm"></i>
             </button>
         </header>
 
         <!-- NAVIGATION TABS -->
-        <nav class="flex border-b border-[#2D1B3E] bg-[#0D0814]/90 backdrop-blur-md sticky top-[61px] z-20 overflow-x-auto no-scrollbar">
-            <button onclick="switchTab('streak')" id="tab-btn-streak" class="nav-tab flex-1 min-w-[80px] py-3 text-xs font-semibold text-center text-slate-400 border-b-2 border-transparent transition-all flex items-center justify-center gap-1.5">
-                <i class="fa-solid fa-fire text-sm"></i>
-                <span>Serimiz</span>
+        <nav class="flex border-b border-[var(--col-border)] glass-panel backdrop-blur-md sticky top-[61px] z-20 overflow-x-auto no-scrollbar">
+            <button onclick="switchTab('streak')" id="tab-btn-streak" class="nav-tab flex-1 min-w-[80px] py-3 text-xs font-semibold text-center theme-subtext border-b-2 border-transparent transition-all flex items-center justify-center gap-1.5">
+                <i class="fa-solid fa-clock text-sm"></i>
+                <span>Zamanlar</span>
             </button>
-            <button onclick="switchTab('chat')" id="tab-btn-chat" class="nav-tab flex-1 min-w-[80px] py-3 text-xs font-semibold text-center text-slate-400 border-b-2 border-transparent transition-all flex items-center justify-center gap-1.5">
+            <button onclick="switchTab('chat')" id="tab-btn-chat" class="nav-tab flex-1 min-w-[80px] py-3 text-xs font-semibold text-center theme-subtext border-b-2 border-transparent transition-all flex items-center justify-center gap-1.5">
                 <i class="fa-regular fa-comments text-sm"></i>
                 <span>Sohbet</span>
             </button>
-            <button onclick="switchTab('gallery')" id="tab-btn-gallery" class="nav-tab flex-1 min-w-[80px] py-3 text-xs font-semibold text-center text-slate-400 border-b-2 border-transparent transition-all flex items-center justify-center gap-1.5">
+            <button onclick="switchTab('gallery')" id="tab-btn-gallery" class="nav-tab flex-1 min-w-[80px] py-3 text-xs font-semibold text-center theme-subtext border-b-2 border-transparent transition-all flex items-center justify-center gap-1.5">
                 <i class="fa-regular fa-image text-sm"></i>
                 <span>Anılar</span>
             </button>
-            <button onclick="switchTab('games')" id="tab-btn-games" class="nav-tab flex-1 min-w-[80px] py-3 text-xs font-semibold text-center text-slate-400 border-b-2 border-transparent transition-all flex items-center justify-center gap-1.5">
+            <button onclick="switchTab('games')" id="tab-btn-games" class="nav-tab flex-1 min-w-[80px] py-3 text-xs font-semibold text-center theme-subtext border-b-2 border-transparent transition-all flex items-center justify-center gap-1.5">
                 <i class="fa-solid fa-gamepad text-sm"></i>
                 <span>Oyunlar</span>
+            </button>
+            <button onclick="switchTab('scale')" id="tab-btn-scale" class="nav-tab flex-1 min-w-[80px] py-3 text-xs font-semibold text-center theme-subtext border-b-2 border-transparent transition-all flex items-center justify-center gap-1.5">
+                <i class="fa-solid fa-scale-balanced text-sm"></i>
+                <span>Terazi</span>
             </button>
         </nav>
 
         <!-- MAIN CONTENT AREA -->
         <main class="flex-1 p-3 sm:p-5 flex flex-col">
 
-            <!-- TAB 1: AŞK SERİSİ -->
-            <section id="section-streak" class="tab-content space-y-5">
-                <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-[#2D1B3E] text-center relative overflow-hidden">
-                    <span class="text-xs font-semibold tracking-widest text-amber-400 uppercase">GÜNLÜK SERİ</span>
-                    <div class="my-4 flex items-center justify-center gap-3">
-                        <span id="streak-counter" class="text-6xl sm:text-7xl font-bold font-serif text-slate-100 max-w-full truncate px-2">0</span>
-                        <span class="text-3xl text-rose-500 animate-pulse shrink-0"><i class="fa-solid fa-fire"></i></span>
-                    </div>
-                    <p class="text-xs text-rose-200/70 max-w-xs mx-auto">HER GÜN KALBE DOKUNARAK SERİYİ İLERLET</p>
-
-                    <div class="mt-8 flex justify-center">
-                        <button id="streak-heart-btn" onclick="tapStreakHeart()" 
-                            class="w-24 h-24 rounded-full bg-gradient-to-tr from-rose-600 via-pink-600 to-amber-500 text-white text-3xl flex items-center justify-center shadow-xl hover:scale-105 active:scale-95 transition-all duration-300 rose-glow relative group">
-                            <i class="fa-solid fa-heart transition-transform group-hover:scale-110"></i>
-                        </button>
-                    </div>
-                    <p id="streak-heart-hint" class="text-[11px] text-rose-300/80 mt-4 font-medium"></p>
+            <!-- TAB 1: ZAMANLAMA EKRANI -->
+            <section id="section-streak" class="tab-content space-y-4">
+                
+                <!-- Birliktelik Süresi -->
+                <div class="glass-card p-4 sm:p-5 rounded-3xl border border-[var(--col-border)] text-center relative overflow-hidden">
+                    <div class="absolute -top-12 -right-12 w-32 h-32 bg-rose-600/10 rounded-full blur-2xl pointer-events-none"></div>
+                    <span class="text-[11px] font-bold tracking-widest text-rose-400 uppercase flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-heart"></i> Ne Zamandır Birlikteyiz? (7 Kasım 2026 - 23:52)
+                    </span>
+                    <div id="timer-together" class="grid grid-cols-3 sm:grid-cols-7 gap-2 mt-3.5"></div>
                 </div>
 
-                <!-- Status Cards -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div class="glass-card p-4 rounded-2xl border border-[#2D1B3E] flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <img src="https://i.ibb.co/bwQGgHn/MG-20261020-WA0054-1.jpg" alt="Taha" class="w-9 h-9 rounded-full object-cover border border-amber-400">
-                            <div>
-                                <h4 class="text-xs font-bold text-slate-200">TAHA</h4>
-                                <p class="text-[10px] text-slate-400">Bugünkü Durum</p>
-                            </div>
-                        </div>
-                        <span id="taha-streak-status" class="text-xs px-3 py-1 rounded-full font-semibold">YAPILMADI ❌</span>
-                    </div>
-
-                    <div class="glass-card p-4 rounded-2xl border border-[#2D1B3E] flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <img src="https://i.ibb.co/r2g9wC2X/MG-20261024-WA0080.jpg" alt="Sudem" class="w-9 h-9 rounded-full object-cover border border-rose-400">
-                            <div>
-                                <h4 class="text-xs font-bold text-slate-200">SUDEM</h4>
-                                <p class="text-[10px] text-slate-400">Bugünkü Durum</p>
-                            </div>
-                        </div>
-                        <span id="sudem-streak-status" class="text-xs px-3 py-1 rounded-full font-semibold">YAPILMADI ❌</span>
-                    </div>
+                <!-- Yıl Dönümüne Kalan Süre -->
+                <div class="glass-card p-4 sm:p-5 rounded-3xl border border-[var(--col-border)] text-center relative overflow-hidden">
+                    <span class="text-[11px] font-bold tracking-widest text-amber-400 uppercase flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-calendar-days"></i> Yıl Dönümüne Kalan Süre (7 Kasım)
+                    </span>
+                    <div id="timer-anniversary" class="grid grid-cols-3 sm:grid-cols-7 gap-2 mt-3.5"></div>
                 </div>
 
-                <!-- Auto Freeze Status -->
-                <div class="glass-card p-4 rounded-2xl border border-[#2D1B3E] flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <div class="w-9 h-9 rounded-xl bg-purple-950/60 border border-purple-800/50 flex items-center justify-center text-purple-300 text-xs">
-                            <i class="fa-solid fa-snowflake"></i>
-                        </div>
-                        <div>
-                            <h4 class="text-xs font-bold text-slate-200">Otomatik Seri Kurtarma</h4>
-                            <p class="text-[10px] text-slate-400">Unutulan günlerde seri otomatik korunur</p>
-                        </div>
-                    </div>
-                    <div class="text-right">
-                        <span id="freeze-credits-count" class="text-sm font-bold text-purple-300">3/3</span>
-                        <p class="text-[9px] text-slate-400">Aylık Hak</p>
-                    </div>
+                <!-- Sudem'in Doğum Gününe Kalan Süre -->
+                <div class="glass-card p-4 sm:p-5 rounded-3xl border border-[var(--col-border)] text-center relative overflow-hidden">
+                    <span class="text-[11px] font-bold tracking-widest text-pink-400 uppercase flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-cake-candles"></i> Sudem'in Doğum Gününe Kalan (1 Mart)
+                    </span>
+                    <div id="timer-sudem-bday" class="grid grid-cols-3 sm:grid-cols-7 gap-2 mt-3.5"></div>
                 </div>
+
+                <!-- Taha'nın Doğum Gününe Kalan Süre -->
+                <div class="glass-card p-4 sm:p-5 rounded-3xl border border-[var(--col-border)] text-center relative overflow-hidden">
+                    <span class="text-[11px] font-bold tracking-widest text-amber-300 uppercase flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-cake-candles"></i> Taha'nın Doğum Gününe Kalan (14 Şubat)
+                    </span>
+                    <div id="timer-taha-bday" class="grid grid-cols-3 sm:grid-cols-7 gap-2 mt-3.5"></div>
+                </div>
+
             </section>
 
             <!-- TAB 2: CHAT -->
             <section id="section-chat" class="tab-content hidden flex flex-col h-[520px] max-h-[70vh]">
-                <div id="chat-messages" class="flex-1 overflow-y-auto space-y-3 p-3.5 glass-card rounded-2xl border border-[#2D1B3E] mb-3"></div>
-                <div class="flex items-center gap-2 bg-[#160E22] p-2 rounded-2xl border border-[#2D1B3E] shrink-0">
+                <div id="chat-messages" class="flex-1 overflow-y-auto space-y-3 p-3.5 glass-card rounded-2xl border border-[var(--col-border)] mb-3"></div>
+                <div class="flex items-center gap-2 glass-card p-2 rounded-2xl border border-[var(--col-border)] shrink-0">
                     <input type="text" id="chat-input-text" placeholder="Mesajınızı yazın..." 
-                        class="flex-1 bg-transparent px-3 py-2 text-xs sm:text-sm text-slate-100 focus:outline-none"
+                        class="flex-1 bg-transparent px-3 py-2 text-xs sm:text-sm theme-text focus:outline-none"
                         onkeyup="if(event.key==='Enter') sendChatMessage()">
                     <button onclick="sendChatMessage()" class="w-10 h-10 rounded-xl bg-gradient-to-tr from-rose-600 to-pink-500 hover:from-rose-500 hover:to-pink-400 text-white flex items-center justify-center transition-all shrink-0 shadow-md">
                         <i class="fa-solid fa-paper-plane text-xs"></i>
@@ -269,16 +350,16 @@
 
             <!-- TAB 3: GALLERY & MEMORIES -->
             <section id="section-gallery" class="tab-content hidden space-y-4">
-                <div class="glass-card p-4 rounded-2xl border border-[#2D1B3E]">
-                    <h3 class="text-xs font-bold text-slate-200 mb-3 flex items-center gap-2">
+                <div class="glass-card p-4 rounded-2xl border border-[var(--col-border)]">
+                    <h3 class="text-xs font-bold theme-text mb-3 flex items-center gap-2">
                         <i class="fa-solid fa-plus text-amber-400 text-xs"></i> Yeni Anı Ekle
                     </h3>
                     <div class="space-y-3">
-                        <input type="text" id="memory-title" placeholder="Anı Başlığı..." class="w-full bg-[#0D0814] border border-[#2D1B3E] rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-rose-500">
-                        <textarea id="memory-desc" placeholder="Kısa bir not ekleyin..." class="w-full bg-[#0D0814] border border-[#2D1B3E] rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-rose-500 h-16 resize-none"></textarea>
+                        <input type="text" id="memory-title" placeholder="Anı Başlığı..." class="w-full bg-[var(--col-bg)] border border-[var(--col-border)] rounded-xl px-3 py-2.5 text-xs theme-text focus:outline-none focus:border-rose-500">
+                        <textarea id="memory-desc" placeholder="Kısa bir not ekleyin..." class="w-full bg-[var(--col-bg)] border border-[var(--col-border)] rounded-xl px-3 py-2.5 text-xs theme-text focus:outline-none focus:border-rose-500 h-16 resize-none"></textarea>
                         
                         <div class="flex items-center gap-2">
-                            <label class="flex-1 bg-[#1C122C] border border-[#2D1B3E] hover:bg-[#2A1A40] px-3 py-2.5 rounded-xl text-xs text-rose-200 text-center cursor-pointer transition-colors font-medium">
+                            <label class="flex-1 glass-card border border-[var(--col-border)] hover:bg-[var(--col-hover)] px-3 py-2.5 rounded-xl text-xs theme-text text-center cursor-pointer transition-colors font-medium">
                                 <i class="fa-regular fa-image mr-1.5"></i>Fotoğraf Seç
                                 <input type="file" id="memory-photo-file" accept="image/*" class="hidden" onchange="previewMemoryPhoto(this)">
                             </label>
@@ -293,62 +374,62 @@
 
             <!-- TAB 4: MINI GAMES -->
             <section id="section-games" class="tab-content hidden space-y-5">
-                <div class="flex items-center justify-between border-b border-[#2D1B3E] pb-3">
+                <div class="flex items-center justify-between border-b border-[var(--col-border)] pb-3">
                     <span class="text-xs font-bold text-rose-200 uppercase tracking-wider">Mini Oyun Sekmesi</span>
                     <div class="flex gap-2">
-                        <button onclick="switchGame('clicker')" id="btn-game-clicker" class="px-3.5 py-1.5 text-xs rounded-xl border border-[#2D1B3E] bg-[#1C122C] text-slate-200 font-semibold">Tıklama Oyunu</button>
-                        <button onclick="switchGame('memory')" id="btn-game-memory" class="px-3.5 py-1.5 text-xs rounded-xl border border-[#2D1B3E] bg-[#1C122C] text-slate-400 font-semibold">Aşk Hafızası</button>
+                        <button onclick="switchGame('clicker')" id="btn-game-clicker" class="px-3.5 py-1.5 text-xs rounded-xl border border-[var(--col-border)] glass-card theme-text font-semibold">Tıklama Oyunu</button>
+                        <button onclick="switchGame('memory')" id="btn-game-memory" class="px-3.5 py-1.5 text-xs rounded-xl border border-[var(--col-border)] glass-card theme-subtext font-semibold">Aşk Hafızası</button>
                     </div>
                 </div>
 
                 <!-- GAME 1: AŞK TIKLAMA OYUNU -->
-                <div id="game-clicker-wrapper" class="glass-card p-4 sm:p-6 rounded-3xl border border-[#2D1B3E] space-y-5">
+                <div id="game-clicker-wrapper" class="glass-card p-4 sm:p-6 rounded-3xl border border-[var(--col-border)] space-y-5">
                     <div class="flex items-center justify-between text-xs">
-                        <span class="font-bold text-slate-200">Kalbime Dokun Oyunu</span>
+                        <span class="font-bold theme-text">Kalbime Dokun Oyunu</span>
                         <div class="flex items-center gap-2">
-                            <span class="text-slate-400">Kalp Puanı: <strong id="clicker-points" class="text-amber-300 text-sm">0</strong></span>
+                            <span class="theme-subtext">Kalp Puanı: <strong id="clicker-points" class="text-amber-300 text-sm">0</strong></span>
                         </div>
                     </div>
 
-                    <div class="relative w-full h-56 bg-[#0D0814] rounded-2xl border border-[#2D1B3E] flex flex-col items-center justify-center overflow-hidden" id="clicker-container">
+                    <div class="relative w-full h-56 bg-[var(--col-bg)] rounded-2xl border border-[var(--col-border)] flex flex-col items-center justify-center overflow-hidden" id="clicker-container">
                         <button onclick="clickHeart(event)" class="w-28 h-28 rounded-full bg-gradient-to-tr from-rose-600 via-pink-500 to-amber-400 text-white text-5xl flex items-center justify-center shadow-2xl hover:scale-105 active:scale-95 transition-transform rose-glow relative">
                             <i class="fa-solid fa-heart"></i>
                         </button>
-                        <p class="text-[11px] text-rose-300/70 mt-3 font-medium">Kalbe dokunarak puan kazan</p>
+                        <p class="text-[11px] theme-subtext mt-3 font-medium">Kalbe dokunarak puan kazan</p>
                     </div>
 
                     <div class="grid grid-cols-2 gap-3 pt-2">
-                        <button onclick="buyMultiplier()" id="btn-upgrade-mult" class="glass-card p-3 rounded-2xl border border-[#2D1B3E] hover:border-rose-500/50 transition-all text-left space-y-1">
+                        <button onclick="buyMultiplier()" id="btn-upgrade-mult" class="glass-card p-3 rounded-2xl border border-[var(--col-border)] hover:border-rose-500/50 transition-all text-left space-y-1">
                             <div class="flex items-center justify-between text-xs font-bold text-amber-300">
                                 <span>2x Tıklama Gücü</span>
-                                <span id="mult-level-tag" class="text-[10px] text-slate-400">Lvl 1</span>
+                                <span id="mult-level-tag" class="text-[10px] theme-subtext">Lvl 1</span>
                             </div>
-                            <p class="text-[10px] text-slate-400">Her tıkta ekstra puan</p>
+                            <p class="text-[10px] theme-subtext">Her tıkta ekstra puan</p>
                             <span id="mult-cost-tag" class="text-[11px] font-semibold text-rose-400 block pt-1">Maliyet: 50 Puan</span>
                         </button>
 
-                        <button onclick="buyAutoClicker()" id="btn-upgrade-auto" class="glass-card p-3 rounded-2xl border border-[#2D1B3E] hover:border-purple-500/50 transition-all text-left space-y-1">
+                        <button onclick="buyAutoClicker()" id="btn-upgrade-auto" class="glass-card p-3 rounded-2xl border border-[var(--col-border)] hover:border-purple-500/50 transition-all text-left space-y-1">
                             <div class="flex items-center justify-between text-xs font-bold text-purple-300">
                                 <span>Oto Tıklama</span>
-                                <span id="auto-level-tag" class="text-[10px] text-slate-400">Lvl 0</span>
+                                <span id="auto-level-tag" class="text-[10px] theme-subtext">Lvl 0</span>
                             </div>
-                            <p class="text-[10px] text-slate-400">Saniyede otomatik puan</p>
+                            <p class="text-[10px] theme-subtext">Saniyede otomatik puan</p>
                             <span id="auto-cost-tag" class="text-[11px] font-semibold text-rose-400 block pt-1">Maliyet: 100 Puan</span>
                         </button>
                     </div>
 
-                    <div class="pt-3 border-t border-[#2D1B3E] grid grid-cols-2 gap-3 text-center text-xs">
-                        <div class="bg-[#160E22] p-2.5 rounded-xl border border-[#2D1B3E] flex items-center justify-between">
+                    <div class="pt-3 border-t border-[var(--col-border)] grid grid-cols-2 gap-3 text-center text-xs">
+                        <div class="glass-card p-2.5 rounded-xl border border-[var(--col-border)] flex items-center justify-between">
                             <div class="flex items-center gap-2">
                                 <img src="https://i.ibb.co/bwQGgHn/MG-20261020-WA0054-1.jpg" alt="Taha" class="w-6 h-6 rounded-full object-cover border border-amber-400">
-                                <span class="text-[10px] text-slate-400 uppercase tracking-wider">Taha</span>
+                                <span class="text-[10px] theme-subtext uppercase tracking-wider">Taha</span>
                             </div>
                             <span id="clicker-taha-max" class="text-sm font-bold text-amber-300">0</span>
                         </div>
-                        <div class="bg-[#160E22] p-2.5 rounded-xl border border-[#2D1B3E] flex items-center justify-between">
+                        <div class="glass-card p-2.5 rounded-xl border border-[var(--col-border)] flex items-center justify-between">
                             <div class="flex items-center gap-2">
                                 <img src="https://i.ibb.co/r2g9wC2X/MG-20261024-WA0080.jpg" alt="Sudem" class="w-6 h-6 rounded-full object-cover border border-rose-400">
-                                <span class="text-[10px] text-slate-400 uppercase tracking-wider">Sudem</span>
+                                <span class="text-[10px] theme-subtext uppercase tracking-wider">Sudem</span>
                             </div>
                             <span id="clicker-sudem-max" class="text-sm font-bold text-rose-400">0</span>
                         </div>
@@ -356,33 +437,86 @@
                 </div>
 
                 <!-- GAME 2: MEMORY MATCH -->
-                <div id="game-memory-wrapper" class="hidden glass-card p-4 sm:p-6 rounded-3xl border border-[#2D1B3E] space-y-4">
+                <div id="game-memory-wrapper" class="hidden glass-card p-4 sm:p-6 rounded-3xl border border-[var(--col-border)] space-y-4">
                     <div class="flex items-center justify-between text-xs">
-                        <span class="font-bold text-slate-200">Aşk Hafızası</span>
+                        <span class="font-bold theme-text">Aşk Hafızası</span>
                         <div class="flex items-center gap-3">
-                            <span class="text-slate-400">Hamle: <strong id="memory-moves" class="text-amber-300">0</strong></span>
-                            <button onclick="initMemoryGame()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-rotate-right"></i></button>
+                            <span class="theme-subtext">Hamle: <strong id="memory-moves" class="text-amber-300">0</strong></span>
+                            <button onclick="initMemoryGame()" class="theme-subtext hover:theme-text" title="Yeniden Başlat"><i class="fa-solid fa-rotate-right"></i></button>
                         </div>
                     </div>
 
-                    <div id="memory-grid" class="grid grid-cols-4 gap-2 aspect-square max-w-xs mx-auto w-full p-1 bg-[#0D0814] rounded-2xl border border-[#2D1B3E]"></div>
+                    <div id="memory-grid" class="grid grid-cols-4 gap-2 aspect-square max-w-xs mx-auto w-full p-1 bg-[var(--col-bg)] rounded-2xl border border-[var(--col-border)]"></div>
 
-                    <div class="pt-3 border-t border-[#2D1B3E] grid grid-cols-2 gap-3 text-center text-xs">
-                        <div class="bg-[#160E22] p-2.5 rounded-xl border border-[#2D1B3E] flex items-center justify-between">
+                    <div class="pt-3 border-t border-[var(--col-border)] grid grid-cols-2 gap-3 text-center text-xs">
+                        <div class="glass-card p-2.5 rounded-xl border border-[var(--col-border)] flex items-center justify-between">
                             <div class="flex items-center gap-2">
                                 <img src="https://i.ibb.co/bwQGgHn/MG-20261020-WA0054-1.jpg" alt="Taha" class="w-6 h-6 rounded-full object-cover border border-amber-400">
-                                <span class="text-[10px] text-slate-400 uppercase tracking-wider">Taha</span>
+                                <span class="text-[10px] theme-subtext uppercase tracking-wider">Taha</span>
                             </div>
                             <span id="memory-taha-max" class="text-sm font-bold text-amber-300">-</span>
                         </div>
-                        <div class="bg-[#160E22] p-2.5 rounded-xl border border-[#2D1B3E] flex items-center justify-between">
+                        <div class="glass-card p-2.5 rounded-xl border border-[var(--col-border)] flex items-center justify-between">
                             <div class="flex items-center gap-2">
                                 <img src="https://i.ibb.co/r2g9wC2X/MG-20261024-WA0080.jpg" alt="Sudem" class="w-6 h-6 rounded-full object-cover border border-rose-400">
-                                <span class="text-[10px] text-slate-400 uppercase tracking-wider">Sudem</span>
+                                <span class="text-[10px] theme-subtext uppercase tracking-wider">Sudem</span>
                             </div>
                             <span id="memory-sudem-max" class="text-sm font-bold text-rose-400">-</span>
                         </div>
                     </div>
+                </div>
+            </section>
+
+            <!-- TAB 5: KARAR TERAZİSİ -->
+            <section id="section-scale" class="tab-content hidden space-y-4">
+                <div class="glass-card p-5 sm:p-6 rounded-3xl border border-[var(--col-border)] space-y-5 text-center relative">
+                    <!-- Sağ üst sıfırlama butonu -->
+                    <button onclick="resetScaleData()" class="absolute top-4 right-4 w-8 h-8 rounded-xl bg-[var(--col-bg)] border border-[var(--col-border)] hover:border-rose-500 text-rose-400 hover:text-rose-300 flex items-center justify-center transition-colors text-xs" title="Teraziyi Sıfırla">
+                        <i class="fa-solid fa-rotate-right"></i>
+                    </button>
+
+                    <div>
+                        <span class="text-[11px] font-bold tracking-widest text-amber-400 uppercase">ADİL HAKEM</span>
+                        <h3 class="text-xl font-serif font-bold theme-text mt-1">⚖️ Karar Terazisi</h3>
+                        <p class="text-xs theme-subtext mt-1">İkiniz de kararsız kaldığınız seçeneği kefelere yazın!</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- Taha'nın Kefesi -->
+                        <div class="bg-[var(--col-bg)] p-4 rounded-2xl border border-amber-400/40 space-y-2 text-left">
+                            <div class="flex items-center gap-2">
+                                <img src="https://i.ibb.co/bwQGgHn/MG-20261020-WA0054-1.jpg" alt="Taha" class="w-6 h-6 rounded-full object-cover border border-amber-400">
+                                <span class="text-xs font-bold text-amber-300">Taha'nın Seçeneği</span>
+                            </div>
+                            <input type="text" id="scale-input-taha" placeholder="Taha'nın fikri..." 
+                                class="w-full glass-card border border-[var(--col-border)] rounded-xl px-3 py-2.5 text-xs theme-text focus:outline-none focus:border-amber-400 transition-colors"
+                                oninput="handleScaleInput('TAHA', this.value)">
+                        </div>
+
+                        <!-- Sudem'in Kefesi -->
+                        <div class="bg-[var(--col-bg)] p-4 rounded-2xl border border-rose-400/40 space-y-2 text-left">
+                            <div class="flex items-center gap-2">
+                                <img src="https://i.ibb.co/r2g9wC2X/MG-20261024-WA0080.jpg" alt="Sudem" class="w-6 h-6 rounded-full object-cover border border-rose-400">
+                                <span class="text-xs font-bold text-rose-400">Sudem'in Seçeneği</span>
+                            </div>
+                            <input type="text" id="scale-input-sudem" placeholder="Sudem'in fikri..." 
+                                class="w-full glass-card border border-[var(--col-border)] rounded-xl px-3 py-2.5 text-xs theme-text focus:outline-none focus:border-rose-500 transition-colors"
+                                oninput="handleScaleInput('SUDEM', this.value)">
+                        </div>
+                    </div>
+
+                    <!-- Terazi Görsel / Sonuç Alanı -->
+                    <div id="scale-visual-box" class="py-6 px-4 bg-[var(--col-bg)] rounded-2xl border border-[var(--col-border)] flex flex-col items-center justify-center relative overflow-hidden min-h-[120px]">
+                        <div id="scale-icon-wrapper" class="text-4xl text-amber-400 mb-2 transition-transform duration-300">
+                            <i class="fa-solid fa-scale-balanced"></i>
+                        </div>
+                        <div id="scale-status-text" class="text-xs theme-subtext font-medium break-all max-w-full px-2">Terazi ölçüm için hazır...</div>
+                    </div>
+
+                    <button id="btn-run-scale" onclick="runScaleWeighing()" disabled
+                        class="w-full py-3.5 bg-gradient-to-r from-amber-500 via-rose-600 to-purple-600 text-slate-950 font-bold text-xs uppercase tracking-widest rounded-xl transition-all shadow-lg opacity-40 cursor-not-allowed">
+                        ⚖️ ÖLÇ VE KARAR VER
+                    </button>
                 </div>
             </section>
 
@@ -391,53 +525,80 @@
 
     <!-- ================= IMAGE LIGHTBOX MODAL ================= -->
     <div id="image-modal" onclick="closeImageModal()" class="fixed inset-0 bg-slate-950/90 z-50 hidden flex items-center justify-center p-4">
-        <img id="modal-img" src="" class="max-w-full max-h-full rounded-2xl border border-[#2D1B3E] object-contain shadow-2xl">
+        <img id="modal-img" src="" class="max-w-full max-h-full rounded-2xl border border-[var(--col-border)] object-contain shadow-2xl">
     </div>
 
     <!-- ================= SETTINGS DRAWER ================= -->
     <div id="settings-drawer-backdrop" onclick="toggleSettingsDrawer(false)" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-40 hidden transition-opacity duration-300"></div>
     
-    <div id="settings-drawer" class="fixed top-0 right-0 bottom-0 w-full max-w-xs sm:max-w-sm bg-[#160E22] border-l border-[#2D1B3E] z-50 transform translate-x-full transition-transform duration-300 flex flex-col p-6 shadow-2xl">
-        <div class="flex items-center justify-between pb-4 border-b border-[#2D1B3E] mb-6">
-            <h3 class="text-sm font-bold text-slate-100 flex items-center gap-2">
+    <div id="settings-drawer" class="fixed top-0 right-0 bottom-0 w-full max-w-xs sm:max-w-sm glass-card border-l border-[var(--col-border)] z-50 transform translate-x-full transition-transform duration-300 flex flex-col p-6 shadow-2xl overflow-y-auto">
+        <div class="flex items-center justify-between pb-4 border-b border-[var(--col-border)] mb-6 shrink-0">
+            <h3 class="text-sm font-bold theme-text flex items-center gap-2">
                 <i class="fa-solid fa-sliders text-amber-400"></i> Ayarlar & Müzik
             </h3>
-            <button onclick="toggleSettingsDrawer(false)" class="w-8 h-8 rounded-lg bg-[#1C122C] text-slate-400 hover:text-white flex items-center justify-center">
+            <button onclick="toggleSettingsDrawer(false)" class="w-8 h-8 rounded-lg glass-card theme-subtext hover:theme-text flex items-center justify-center">
                 <i class="fa-solid fa-xmark"></i>
             </button>
         </div>
 
         <div class="space-y-4 flex-1">
-            <span class="text-[11px] font-bold uppercase tracking-wider text-rose-200/70">Müzik Parçaları</span>
+            <span class="text-[11px] font-bold uppercase tracking-wider theme-subtext">Müzik Parçaları</span>
             
-            <div onclick="selectTrack('hanimafendi')" id="track-item-hanimafendi" class="p-3.5 rounded-2xl border border-[#2D1B3E] bg-[#1C122C] hover:bg-[#2A1A40] cursor-pointer transition-all flex items-center justify-between">
+            <div onclick="selectTrack('hanimafendi')" id="track-item-hanimafendi" class="p-3.5 rounded-2xl border border-[var(--col-border)] glass-card hover:bg-[var(--col-hover)] cursor-pointer transition-all flex items-center justify-between">
                 <div>
-                    <h4 class="text-xs font-bold text-slate-200">Motive - Hanımefendi</h4>
+                    <h4 class="text-xs font-bold theme-text">Motive - Hanımefendi</h4>
                     <p class="text-[10px] text-amber-300 mt-0.5">TAHA Parçası</p>
                 </div>
                 <span id="check-hanimafendi" class="text-xs text-emerald-400 hidden"><i class="fa-solid fa-circle-check"></i></span>
             </div>
 
-            <div onclick="selectTrack('lanet')" id="track-item-lanet" class="p-3.5 rounded-2xl border border-[#2D1B3E] bg-[#1C122C] hover:bg-[#2A1A40] cursor-pointer transition-all flex items-center justify-between">
+            <div onclick="selectTrack('lanet')" id="track-item-lanet" class="p-3.5 rounded-2xl border border-[var(--col-border)] glass-card hover:bg-[var(--col-hover)] cursor-pointer transition-all flex items-center justify-between">
                 <div>
-                    <h4 class="text-xs font-bold text-slate-200">Moonave - Lanet</h4>
+                    <h4 class="text-xs font-bold theme-text">Moonave - Lanet</h4>
                     <p class="text-[10px] text-rose-400 mt-0.5">SUDEM Parçası</p>
                 </div>
                 <span id="check-lanet" class="text-xs text-emerald-400 hidden"><i class="fa-solid fa-circle-check"></i></span>
             </div>
 
-            <div class="pt-4 border-t border-[#2D1B3E] space-y-3">
-                <div class="flex items-center justify-between text-xs text-slate-300">
+            <!-- TEMA SEÇENEKLERİ -->
+            <div class="pt-4 border-t border-[var(--col-border)] space-y-2.5">
+                <span class="text-[11px] font-bold uppercase tracking-wider theme-subtext block mb-1">Tema Seçenekleri</span>
+                <div class="grid grid-cols-1 gap-2">
+                    <button onclick="setTheme('bordo')" class="w-full py-2.5 px-3 rounded-xl border border-[var(--col-border)] glass-card hover:bg-[var(--col-hover)] text-xs font-semibold text-left flex items-center justify-between">
+                        <span class="flex items-center gap-2 theme-text"><span class="w-3 h-3 rounded-full bg-[#9B111E]"></span> Bordo Tema</span>
+                        <span id="theme-check-bordo" class="text-xs text-emerald-400 hidden"><i class="fa-solid fa-circle-check"></i></span>
+                    </button>
+                    <button onclick="setTheme('yesil')" class="w-full py-2.5 px-3 rounded-xl border border-[var(--col-border)] glass-card hover:bg-[var(--col-hover)] text-xs font-semibold text-left flex items-center justify-between">
+                        <span class="flex items-center gap-2 theme-text"><span class="w-3 h-3 rounded-full bg-[#059669]"></span> Yeşil Tema</span>
+                        <span id="theme-check-yesil" class="text-xs text-emerald-400 hidden"><i class="fa-solid fa-circle-check"></i></span>
+                    </button>
+                    <button onclick="setTheme('beyaz')" class="w-full py-2.5 px-3 rounded-xl border border-[var(--col-border)] glass-card hover:bg-[var(--col-hover)] text-xs font-semibold text-left flex items-center justify-between">
+                        <span class="flex items-center gap-2 theme-text"><span class="w-3 h-3 rounded-full bg-white border border-slate-400"></span> Beyaz Tema</span>
+                        <span id="theme-check-beyaz" class="text-xs text-emerald-400 hidden"><i class="fa-solid fa-circle-check"></i></span>
+                    </button>
+                    <button onclick="setTheme('mavi')" class="w-full py-2.5 px-3 rounded-xl border border-[var(--col-border)] glass-card hover:bg-[var(--col-hover)] text-xs font-semibold text-left flex items-center justify-between">
+                        <span class="flex items-center gap-2 theme-text"><span class="w-3 h-3 rounded-full bg-[#3B82F6]"></span> Mavi Tema</span>
+                        <span id="theme-check-mavi" class="text-xs text-emerald-400 hidden"><i class="fa-solid fa-circle-check"></i></span>
+                    </button>
+                    <button onclick="setTheme('pembe')" class="w-full py-2.5 px-3 rounded-xl border border-[var(--col-border)] glass-card hover:bg-[var(--col-hover)] text-xs font-semibold text-left flex items-center justify-between">
+                        <span class="flex items-center gap-2 theme-text"><span class="w-3 h-3 rounded-full bg-[#EC4899]"></span> Pembe Tema</span>
+                        <span id="theme-check-pembe" class="text-xs text-emerald-400 hidden"><i class="fa-solid fa-circle-check"></i></span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="pt-4 border-t border-[var(--col-border)] space-y-3">
+                <div class="flex items-center justify-between text-xs theme-subtext">
                     <span>Ses Düzeyi</span>
-                    <button onclick="toggleMute()" id="mute-btn" class="text-slate-400 hover:text-white">
+                    <button onclick="toggleMute()" id="mute-btn" class="theme-subtext hover:theme-text">
                         <i id="mute-icon" class="fa-solid fa-volume-high"></i>
                     </button>
                 </div>
-                <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.7" oninput="changeVolume(this.value)" class="w-full accent-rose-500 bg-[#0D0814] h-1.5 rounded-lg appearance-none cursor-pointer">
+                <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.7" oninput="changeVolume(this.value)" class="w-full accent-rose-500 bg-[var(--col-bg)] h-1.5 rounded-lg appearance-none cursor-pointer">
             </div>
         </div>
 
-        <div class="pt-4 border-t border-[#2D1B3E]">
+        <div class="pt-4 border-t border-[var(--col-border)]">
             <button onclick="logout()" class="w-full py-3 bg-rose-950/60 border border-rose-800/50 hover:bg-rose-900/60 text-rose-300 text-xs font-bold rounded-xl transition-colors flex items-center justify-center gap-2">
                 <i class="fa-solid fa-right-from-bracket"></i>
                 Çıkış Yap
@@ -481,17 +642,13 @@
         let selectedProfileTemp = null;
         let activeTrack = null;
         let isMuted = false;
+        let heartbeatInterval = null;
 
         let state = {
             chat: [],
-            streak: {
-                count: 0,
-                lastResetMonth: new Date().getMonth(),
-                freezes: 3,
-                tahaDone: false,
-                sudemDone: false,
-                lastTapDate: new Date().toDateString()
-            },
+            presence: { TAHA: 0, SUDEM: 0 },
+            theme: 'bordo',
+            scale: { tahaInput: '', sudemInput: '', result: null },
             memories: [
                 { id: 1, title: 'UYGULAMA', desc: 'BU UYGULAMANIN KURULUŞU', photo: null, date: '2026-10-15' }
             ],
@@ -527,9 +684,44 @@
 
         window.onload = function() {
             loadStateFromFirebase();
-            checkAutoStreakAndFreeze();
             startAutoClickerTimer();
+            startTimers();
+            setInterval(startTimers, 1000);
+            
+            document.addEventListener("visibilitychange", () => {
+                if (currentUser) {
+                    if (document.visibilityState === 'visible') {
+                        updatePresence(true);
+                    } else {
+                        updatePresence(false);
+                    }
+                }
+            });
+
+            window.addEventListener("beforeunload", () => {
+                if (currentUser) {
+                    updatePresence(false);
+                }
+            });
         };
+
+        async function updatePresence(isActive) {
+            if (!currentUser) return;
+            try {
+                const docRef = doc(db, "portal", "mainData");
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    let cloudData = docSnap.data();
+                    if (!cloudData.presence) cloudData.presence = { TAHA: 0, SUDEM: 0 };
+                    
+                    cloudData.presence[currentUser] = isActive ? Date.now() : 0;
+                    state.presence = cloudData.presence;
+                    await setDoc(docRef, cloudData, { merge: true });
+                }
+            } catch(e) {
+                console.error("Presence güncelleme hatası:", e);
+            }
+        }
 
         async function loadStateFromFirebase() {
             try {
@@ -538,7 +730,9 @@
                 if (docSnap.exists()) {
                     const cloudData = docSnap.data();
                     state = { ...state, ...cloudData };
-                    if (cloudData.streak) state.streak = { ...state.streak, ...cloudData.streak };
+                    if (cloudData.theme) applyTheme(cloudData.theme, false);
+                    if (cloudData.presence) state.presence = { ...state.presence, ...cloudData.presence };
+                    if (cloudData.scale) state.scale = { ...state.scale, ...cloudData.scale };
                     if (cloudData.scores) state.scores = { ...state.scores, ...cloudData.scores };
                     if (cloudData.scores?.clicker) state.scores.clicker = { ...state.scores.clicker, ...cloudData.scores.clicker };
                     if (cloudData.scores?.memory) state.scores.memory = { ...state.scores.memory, ...cloudData.scores.memory };
@@ -554,7 +748,9 @@
                 if (docSnap.exists()) {
                     const cloudData = docSnap.data();
                     state = { ...state, ...cloudData };
-                    if (cloudData.streak) state.streak = { ...state.streak, ...cloudData.streak };
+                    if (cloudData.theme) applyTheme(cloudData.theme, false);
+                    if (cloudData.presence) state.presence = { ...state.presence, ...cloudData.presence };
+                    if (cloudData.scale) state.scale = { ...state.scale, ...cloudData.scale };
                     if (cloudData.scores) state.scores = { ...state.scores, ...cloudData.scores };
                     if (cloudData.scores?.clicker) state.scores.clicker = { ...state.scores.clicker, ...cloudData.scores.clicker };
                     if (cloudData.scores?.memory) state.scores.memory = { ...state.scores.memory, ...cloudData.scores.memory };
@@ -573,56 +769,261 @@
 
         function renderAllUI() {
             renderChat();
-            renderStreakUI();
             renderMemories();
             renderLeaderboards();
             renderClickerUI();
+            renderScaleUI();
+            renderPresenceBadge();
+            renderThemeUI();
         }
 
-        function checkAutoStreakAndFreeze() {
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            const currentMonth = today.getMonth();
+        // TEMA YÖNETİMİ
+        window.setTheme = function(themeName) {
+            applyTheme(themeName, true);
+        }
 
-            let updated = false;
-            if (state.streak.lastResetMonth !== currentMonth) {
-                state.streak.freezes = 3;
-                state.streak.lastResetMonth = currentMonth;
-                updated = true;
+        function applyTheme(themeName, save = false) {
+            state.theme = themeName;
+            document.body.className = document.body.className.replace(/theme-\w+/g, '');
+            document.body.classList.add(`theme-${themeName}`);
+            if (save) {
+                saveStateToFirebase();
             }
+            renderThemeUI();
+        }
 
-            const lastDate = state.streak.lastTapDate ? new Date(state.streak.lastTapDate) : new Date();
-            lastDate.setHours(0, 0, 0, 0);
-
-            const diffDays = Math.round((today - lastDate) / (1000 * 60 * 60 * 24));
-
-            if (diffDays > 0) {
-                for (let i = 0; i < diffDays; i++) {
-                    if (!state.streak.tahaDone || !state.streak.sudemDone) {
-                        if (state.streak.freezes > 0) {
-                            state.streak.freezes -= 1;
-                        } else {
-                            state.streak.count = 0;
-                        }
-                    }
-                    state.streak.tahaDone = false;
-                    state.streak.sudemDone = false;
+        function renderThemeUI() {
+            const themes = ['bordo', 'yesil', 'beyaz', 'mavi', 'pembe'];
+            themes.forEach(t => {
+                const el = document.getElementById(`theme-check-${t}`);
+                if (el) {
+                    el.classList.toggle('hidden', state.theme !== t);
                 }
-                state.streak.lastTapDate = new Date().toDateString();
-                updated = true;
+            });
+        }
+
+        function renderPresenceBadge() {
+            const badge = document.getElementById('active-user-badge');
+            if (!badge) return;
+
+            const now = Date.now();
+            const timeoutThreshold = 10000;
+
+            const tahaTime = state.presence?.TAHA || 0;
+            const sudemTime = state.presence?.SUDEM || 0;
+
+            const isTahaActive = currentUser === 'TAHA' || (now - tahaTime < timeoutThreshold);
+            const isSudemActive = currentUser === 'SUDEM' || (now - sudemTime < timeoutThreshold);
+
+            let activeNames = [];
+            if (isTahaActive) activeNames.push("Taha");
+            if (isSudemActive) activeNames.push("Sudem");
+
+            if (activeNames.length === 0) {
+                badge.innerText = `Aktif: -`;
+            } else {
+                badge.innerText = `Aktif: ${activeNames.join(" & ")}`;
+            }
+        }
+
+        // KARAR TERAZİSİ MANTIĞI
+        window.handleScaleInput = function(who, val) {
+            if (currentUser === 'TAHA' && who !== 'TAHA') return;
+            if (currentUser === 'SUDEM' && who !== 'SUDEM') return;
+
+            if (who === 'TAHA') {
+                state.scale.tahaInput = val;
+            } else {
+                state.scale.sudemInput = val;
+            }
+            saveStateToFirebase();
+        }
+
+        function renderScaleUI() {
+            const tahaInp = document.getElementById('scale-input-taha');
+            const sudemInp = document.getElementById('scale-input-sudem');
+            const btnRun = document.getElementById('btn-run-scale');
+            const statusEl = document.getElementById('scale-status-text');
+            if (!tahaInp || !sudemInp || !btnRun) return;
+
+            if (currentUser === 'TAHA') {
+                tahaInp.disabled = false;
+                sudemInp.disabled = true;
+            } else if (currentUser === 'SUDEM') {
+                tahaInp.disabled = true;
+                sudemInp.disabled = false;
             }
 
-            if (updated) saveStateToFirebase();
+            if (tahaInp.value !== state.scale.tahaInput) tahaInp.value = state.scale.tahaInput || '';
+            if (sudemInp.value !== state.scale.sudemInput) sudemInp.value = state.scale.sudemInput || '';
+
+            const tahaFilled = (state.scale.tahaInput || '').trim().length > 0;
+            const sudemFilled = (state.scale.sudemInput || '').trim().length > 0;
+
+            if (tahaFilled && sudemFilled) {
+                btnRun.disabled = false;
+                btnRun.classList.remove('opacity-40', 'cursor-not-allowed');
+            } else {
+                btnRun.disabled = true;
+                btnRun.classList.add('opacity-40', 'cursor-not-allowed');
+            }
+
+            if (state.scale.result) {
+                statusEl.innerHTML = `
+                    <div class="space-y-1.5">
+                        <span class="text-[10px] uppercase tracking-widest text-emerald-400 font-bold block">🏆 KAZANAN BELİRLENDİ 🏆</span>
+                        <div class="text-sm sm:text-base font-serif font-bold text-amber-300 break-words px-2">"${state.scale.result.chosen}"</div>
+                        <p class="text-[10px] theme-subtext px-2">${state.scale.result.excuse}</p>
+                    </div>
+                `;
+            } else {
+                statusEl.innerText = "Terazi ölçüm için hazır...";
+            }
+        }
+
+        window.runScaleWeighing = function() {
+            const tahaVal = (state.scale.tahaInput || '').trim();
+            const sudemVal = (state.scale.sudemInput || '').trim();
+            if (!tahaVal || !sudemVal) return;
+
+            const iconWrapper = document.getElementById('scale-icon-wrapper');
+            const statusEl = document.getElementById('scale-status-text');
+
+            iconWrapper.classList.add('scale-weighing');
+            statusEl.innerHTML = `<span class="text-amber-400 animate-pulse">⚖️ Terazi tartılıyor, adalet hesaplanıyor...</span>`;
+
+            setTimeout(() => {
+                iconWrapper.classList.remove('scale-weighing');
+                const options = [tahaVal, sudemVal];
+                const chosen = options[Math.floor(Math.random() * options.length)];
+                
+                const excuses = [
+                    "Canım bu seçeneği mühürlemek istedi!",
+                    "Kaderin cilvesi bunu seçmemizi emretti!",
+                    "Kozmik terazi ağır bastı, karar kesinlikle mühürlendi!",
+                    "İtiraz etmek yasak, adalet terazisi son sözü söyledi!"
+                ];
+                const randomExcuse = excuses[Math.floor(Math.random() * excuses.length)];
+
+                state.scale.result = { chosen, excuse: randomExcuse };
+                saveStateToFirebase();
+
+                statusEl.classList.add('anim-bounce-short');
+                setTimeout(() => {
+                    statusEl.classList.remove('anim-bounce-short');
+                }, 2000);
+
+            }, 1800);
+        }
+
+        window.resetScaleData = function() {
+            state.scale = { tahaInput: '', sudemInput: '', result: null };
+            saveStateToFirebase();
+        }
+
+        // ZAMANLAYICI HESAPLAMA MOTORU
+        function calculateDiff(fromDate, toDate) {
+            let diff = toDate - fromDate;
+            if (diff < 0) diff = 0;
+
+            const seconds = Math.floor(diff / 1000) % 60;
+            const minutes = Math.floor(diff / (1000 * 60)) % 60;
+            const hours = Math.floor(diff / (1000 * 60 * 60)) % 24;
+
+            let years = toDate.getFullYear() - fromDate.getFullYear();
+            let months = toDate.getMonth() - fromDate.getMonth();
+            let days = toDate.getDate() - fromDate.getDate();
+
+            if (days < 0) {
+                months--;
+                const prevMonth = new Date(toDate.getFullYear(), toDate.getMonth(), 0);
+                days += prevMonth.getDate();
+            }
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+
+            const weeks = Math.floor(days / 7);
+            const remainingDays = days % 7;
+
+            return { years, months, weeks, days: remainingDays, hours, minutes, seconds };
+        }
+
+        function renderTimerBox(elementId, diff) {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+            el.innerHTML = `
+                <div class="glass-card p-2 rounded-xl border border-[var(--col-border)] flex flex-col items-center justify-center">
+                    <span class="text-xs sm:text-sm font-bold theme-text">${diff.years}</span>
+                    <span class="text-[8px] theme-subtext uppercase tracking-tight">Yıl</span>
+                </div>
+                <div class="glass-card p-2 rounded-xl border border-[var(--col-border)] flex flex-col items-center justify-center">
+                    <span class="text-xs sm:text-sm font-bold theme-text">${diff.months}</span>
+                    <span class="text-[8px] theme-subtext uppercase tracking-tight">Ay</span>
+                </div>
+                <div class="glass-card p-2 rounded-xl border border-[var(--col-border)] flex flex-col items-center justify-center">
+                    <span class="text-xs sm:text-sm font-bold theme-text">${diff.weeks}</span>
+                    <span class="text-[8px] theme-subtext uppercase tracking-tight">Hafta</span>
+                </div>
+                <div class="glass-card p-2 rounded-xl border border-[var(--col-border)] flex flex-col items-center justify-center">
+                    <span class="text-xs sm:text-sm font-bold theme-text">${diff.days}</span>
+                    <span class="text-[8px] theme-subtext uppercase tracking-tight">Gün</span>
+                </div>
+                <div class="glass-card p-2 rounded-xl border border-[var(--col-border)] flex flex-col items-center justify-center">
+                    <span class="text-xs sm:text-sm font-bold theme-text">${diff.hours}</span>
+                    <span class="text-[8px] theme-subtext uppercase tracking-tight">Saat</span>
+                </div>
+                <div class="glass-card p-2 rounded-xl border border-[var(--col-border)] flex flex-col items-center justify-center">
+                    <span class="text-xs sm:text-sm font-bold theme-text">${diff.minutes}</span>
+                    <span class="text-[8px] theme-subtext uppercase tracking-tight">Dk</span>
+                </div>
+                <div class="glass-card p-2 rounded-xl border border-[var(--col-border)] flex flex-col items-center justify-center">
+                    <span class="text-xs sm:text-sm font-bold theme-text">${diff.seconds}</span>
+                    <span class="text-[8px] theme-subtext uppercase tracking-tight">Sn</span>
+                </div>
+            `;
+        }
+
+        function startTimers() {
+            const now = new Date();
+
+            const togetherDate = new Date(2026, 10, 7, 23, 52, 0); 
+            const togetherDiff = calculateDiff(togetherDate, now);
+            renderTimerBox('timer-together', togetherDiff);
+
+            let nextAnniversary = new Date(now.getFullYear(), 10, 7, 23, 52, 0);
+            if (now > nextAnniversary) {
+                nextAnniversary.setFullYear(now.getFullYear() + 1);
+            }
+            const anniversaryDiff = calculateDiff(now, nextAnniversary);
+            renderTimerBox('timer-anniversary', anniversaryDiff);
+
+            let sudemBday = new Date(now.getFullYear(), 2, 1, 0, 0, 0); 
+            if (now > sudemBday) {
+                sudemBday.setFullYear(now.getFullYear() + 1);
+            }
+            const sudemBdayDiff = calculateDiff(now, sudemBday);
+            renderTimerBox('timer-sudem-bday', sudemBdayDiff);
+
+            let tahaBday = new Date(now.getFullYear(), 1, 14, 0, 0, 0); 
+            if (now > tahaBday) {
+                tahaBday.setFullYear(now.getFullYear() + 1);
+            }
+            const tahaBdayDiff = calculateDiff(now, tahaBday);
+            renderTimerBox('timer-taha-bday', tahaBdayDiff);
+
+            renderPresenceBadge();
         }
 
         window.selectProfile = function(user) {
             selectedProfileTemp = user;
             document.querySelectorAll('.profile-btn').forEach(btn => {
-                btn.classList.remove('border-amber-400', 'border-rose-500', 'bg-[#2A1A40]');
+                btn.classList.remove('border-amber-400', 'border-rose-500', 'bg-[#221533]');
             });
 
             const selectedBtn = document.getElementById(`btn-select-${user.toLowerCase()}`);
-            selectedBtn.classList.add('bg-[#2A1A40]', user === 'TAHA' ? 'border-amber-400' : 'border-rose-500');
+            selectedBtn.classList.add('bg-[#221533]', user === 'TAHA' ? 'border-amber-400' : 'border-rose-500');
 
             document.getElementById('password-container').classList.remove('hidden');
             document.getElementById('pwd-label').innerText = `${user} Şifresi`;
@@ -637,6 +1038,13 @@
 
             if (pwdInput === PASSWORDS[selectedProfileTemp]) {
                 currentUser = selectedProfileTemp;
+
+                if (currentUser === 'SUDEM') {
+                    applyTheme('bordo', true);
+                } else if (currentUser === 'TAHA') {
+                    applyTheme('yesil', true);
+                }
+
                 document.getElementById('login-screen').classList.add('opacity-0');
                 setTimeout(() => {
                     document.getElementById('login-screen').classList.add('hidden');
@@ -649,13 +1057,24 @@
         }
 
         function setupUserSession() {
-            document.getElementById('active-user-badge').innerText = `Aktif: ${currentUser}`;
+            updatePresence(true);
+            
+            if (heartbeatInterval) clearInterval(heartbeatInterval);
+            heartbeatInterval = setInterval(() => {
+                if (currentUser && document.visibilityState === 'visible') {
+                    updatePresence(true);
+                }
+            }, 4000);
+
             window.selectTrack(currentUser === 'TAHA' ? 'hanimafendi' : 'lanet');
             window.switchTab('streak');
             renderAllUI();
         }
 
         window.logout = function() {
+            if (heartbeatInterval) clearInterval(heartbeatInterval);
+            updatePresence(false);
+
             currentUser = null;
             selectedProfileTemp = null;
             window.toggleSettingsDrawer(false);
@@ -665,7 +1084,7 @@
             document.getElementById('app-wrapper').classList.add('hidden');
             document.getElementById('login-screen').classList.remove('hidden', 'opacity-0');
             document.getElementById('password-container').classList.add('hidden');
-            document.querySelectorAll('.profile-btn').forEach(btn => btn.classList.remove('border-amber-400', 'border-rose-500', 'bg-[#2A1A40]'));
+            document.querySelectorAll('.profile-btn').forEach(btn => btn.classList.remove('border-amber-400', 'border-rose-500', 'bg-[#221533]'));
         }
 
         window.toggleSettingsDrawer = function(open) {
@@ -706,7 +1125,7 @@
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
             document.querySelectorAll('.nav-tab').forEach(btn => {
                 btn.classList.remove('text-amber-300', 'border-amber-300', 'text-rose-400', 'border-rose-400');
-                btn.classList.add('text-slate-400', 'border-transparent');
+                btn.classList.add('theme-subtext', 'border-transparent');
             });
 
             const activeSection = document.getElementById(`section-${tabId}`);
@@ -716,7 +1135,7 @@
             const activeColor = currentUser === 'TAHA' ? 'text-amber-300' : 'text-rose-400';
             const borderColor = currentUser === 'TAHA' ? 'border-amber-300' : 'border-rose-400';
             
-            activeBtn.classList.remove('text-slate-400', 'border-transparent');
+            activeBtn.classList.remove('theme-subtext', 'border-transparent');
             activeBtn.classList.add(activeColor, borderColor);
 
             if (tabId === 'chat') {
@@ -739,9 +1158,12 @@
                 const msgWrapper = document.createElement('div');
                 msgWrapper.className = `flex flex-col ${isMe ? 'items-end' : 'items-start'}`;
 
+                // Karşı tarafın mesaj balonu renkleri tema değişkeniyle uyumlu hale getirildi (--col-peer-msg)
                 const alignClass = isMe 
-                    ? 'bg-gradient-to-r from-rose-900/50 to-pink-900/40 border border-rose-500/30 text-slate-100 rounded-2xl rounded-tr-none' 
-                    : 'bg-[#1C122C] border border-[#2D1B3E] text-slate-200 rounded-2xl rounded-tl-none';
+                    ? 'bg-gradient-to-r from-rose-900/50 to-pink-900/40 border border-rose-500/30 theme-text rounded-2xl rounded-tr-none' 
+                    : 'border border-[var(--col-border)] theme-text rounded-2xl rounded-tl-none';
+
+                const customStyle = isMe ? '' : 'background-color: var(--col-peer-msg) !important;';
 
                 const avatarUrl = PROFILES[msg.user] || PROFILES.TAHA;
                 const borderCol = msg.user === 'TAHA' ? 'border-amber-400' : 'border-rose-400';
@@ -752,9 +1174,9 @@
                     <div class="flex items-center gap-2 mb-1 ${isMe ? 'flex-row-reverse' : 'flex-row'}">
                         <img src="${avatarUrl}" alt="${msg.user}" class="w-6 h-6 rounded-full object-cover border ${borderCol}">
                         <span class="text-[10px] font-bold ${msg.user === 'TAHA' ? 'text-amber-300' : 'text-rose-400'}">${msg.user}</span>
-                        <span class="text-[9px] text-slate-400">${msg.time}</span>
+                        <span class="text-[9px] theme-subtext">${msg.time}</span>
                     </div>
-                    <div class="max-w-[80%] p-3 ${alignClass}">
+                    <div class="max-w-[80%] p-3 ${alignClass}" style="${customStyle}">
                         ${contentHtml}
                     </div>
                 `;
@@ -776,56 +1198,6 @@
             input.value = '';
             saveStateToFirebase();
             renderChat();
-        }
-
-        function renderStreakUI() {
-            const counterEl = document.getElementById('streak-counter');
-            if (!counterEl) return;
-            counterEl.innerText = formatNumberCompact(state.streak.count);
-            document.getElementById('freeze-credits-count').innerText = `${state.streak.freezes}/3`;
-
-            const tahaStatusEl = document.getElementById('taha-streak-status');
-            const sudemStatusEl = document.getElementById('sudem-streak-status');
-
-            if (state.streak.tahaDone) {
-                tahaStatusEl.innerText = "YAPILDI ✅";
-                tahaStatusEl.className = "text-xs px-3 py-1 rounded-full font-semibold bg-emerald-950/60 text-emerald-400 border border-emerald-800/50";
-            } else {
-                tahaStatusEl.innerText = "YAPILMADI ❌";
-                tahaStatusEl.className = "text-xs px-3 py-1 rounded-full font-semibold bg-rose-950/60 text-rose-400 border border-rose-800/50";
-            }
-
-            if (state.streak.sudemDone) {
-                sudemStatusEl.innerText = "YAPILDI ✅";
-                sudemStatusEl.className = "text-xs px-3 py-1 rounded-full font-semibold bg-emerald-950/60 text-emerald-400 border border-emerald-800/50";
-            } else {
-                sudemStatusEl.innerText = "YAPILMADI ❌";
-                sudemStatusEl.className = "text-xs px-3 py-1 rounded-full font-semibold bg-rose-950/60 text-rose-400 border border-rose-800/50";
-            }
-
-            const myDone = currentUser === 'TAHA' ? state.streak.tahaDone : state.streak.sudemDone;
-            const btn = document.getElementById('streak-heart-btn');
-            const hint = document.getElementById('streak-heart-hint');
-
-            if (myDone) {
-                btn.classList.add('opacity-50', 'pointer-events-none');
-                hint.innerText = "Bugünkü serinizi tamamladınız!";
-            } else {
-                btn.classList.remove('opacity-50', 'pointer-events-none');
-                hint.innerText = "Bugünün kalbine dokunmak için tıkla!";
-            }
-        }
-
-        window.tapStreakHeart = function() {
-            if (currentUser === 'TAHA') state.streak.tahaDone = true;
-            if (currentUser === 'SUDEM') state.streak.sudemDone = true;
-
-            if (state.streak.tahaDone && state.streak.sudemDone) {
-                state.streak.count += 1;
-            }
-
-            saveStateToFirebase();
-            renderStreakUI();
         }
 
         let tempMemoryPhoto = null;
@@ -872,19 +1244,19 @@
 
             state.memories.forEach(mem => {
                 const card = document.createElement('div');
-                card.className = "glass-card p-4 rounded-2xl border border-[#2D1B3E] space-y-2 relative";
+                card.className = "glass-card p-4 rounded-2xl border border-[var(--col-border)] space-y-2 relative";
                 card.innerHTML = `
                     <div class="flex items-center justify-between">
-                        <h4 class="text-xs font-bold text-slate-100">${mem.title}</h4>
+                        <h4 class="text-xs font-bold theme-text">${mem.title}</h4>
                         <div class="flex items-center gap-3">
-                            <span class="text-[10px] text-slate-400">${mem.date}</span>
+                            <span class="text-[10px] theme-subtext">${mem.date}</span>
                             <button onclick="deleteMemory(${mem.id})" class="text-rose-400 hover:text-rose-300 text-xs p-1 transition-colors" title="Anıyı Sil">
                                 <i class="fa-solid fa-trash-can"></i>
                             </button>
                         </div>
                     </div>
-                    ${mem.desc ? `<p class="text-xs text-rose-200/80 leading-relaxed">${mem.desc}</p>` : ''}
-                    ${mem.photo ? `<img src="${mem.photo}" onclick="openImageModal('${mem.photo}')" class="w-full h-48 object-cover rounded-xl border border-[#2D1B3E] mt-2 cursor-pointer hover:opacity-95 transition-opacity">` : ''}
+                    ${mem.desc ? `<p class="text-xs theme-subtext leading-relaxed">${mem.desc}</p>` : ''}
+                    ${mem.photo ? `<img src="${mem.photo}" onclick="openImageModal('${mem.photo}')" class="w-full h-48 object-cover rounded-xl border border-[var(--col-border)] mt-2 cursor-pointer hover:opacity-95 transition-opacity">` : ''}
                 `;
                 container.appendChild(card);
             });
@@ -906,12 +1278,12 @@
             document.getElementById('game-memory-wrapper').classList.toggle('hidden', gameType !== 'memory');
 
             document.getElementById('btn-game-clicker').className = gameType === 'clicker' 
-                ? 'px-3.5 py-1.5 text-xs rounded-xl border border-[#2D1B3E] bg-[#2A1A40] text-slate-100 font-bold'
-                : 'px-3.5 py-1.5 text-xs rounded-xl border border-[#2D1B3E] bg-[#1C122C] text-slate-400 font-semibold';
+                ? 'px-3.5 py-1.5 text-xs rounded-xl border border-[var(--col-border)] glass-card theme-text font-bold'
+                : 'px-3.5 py-1.5 text-xs rounded-xl border border-[var(--col-border)] glass-card theme-subtext font-semibold';
 
             document.getElementById('btn-game-memory').className = gameType === 'memory' 
-                ? 'px-3.5 py-1.5 text-xs rounded-xl border border-[#2D1B3E] bg-[#2A1A40] text-slate-100 font-bold'
-                : 'px-3.5 py-1.5 text-xs rounded-xl border border-[#2D1B3E] bg-[#1C122C] text-slate-400 font-semibold';
+                ? 'px-3.5 py-1.5 text-xs rounded-xl border border-[var(--col-border)] glass-card theme-text font-bold'
+                : 'px-3.5 py-1.5 text-xs rounded-xl border border-[var(--col-border)] glass-card theme-subtext font-semibold';
 
             if (gameType === 'memory') initMemoryGame();
         }
@@ -1055,7 +1427,7 @@
 
             deck.forEach((emoji, index) => {
                 const card = document.createElement('button');
-                card.className = 'w-full h-full bg-[#1C122C] border border-[#2D1B3E] rounded-xl flex items-center justify-center text-xl transition-all duration-300';
+                card.className = 'w-full h-full glass-card border border-[var(--col-border)] rounded-xl flex items-center justify-center text-xl transition-all duration-300';
                 card.dataset.index = index;
                 card.dataset.emoji = emoji;
                 card.innerText = '❓';
@@ -1068,7 +1440,7 @@
             if (lockGrid || card.innerText !== '❓' || flippedCards.includes(card)) return;
 
             card.innerText = card.dataset.emoji;
-            card.classList.add('bg-[#2A1A40]', 'border-rose-500');
+            card.classList.add('bg-[var(--col-hover)]', 'border-rose-500');
             flippedCards.push(card);
 
             if (flippedCards.length === 2) {
@@ -1100,8 +1472,8 @@
                 setTimeout(() => {
                     c1.innerText = '❓';
                     c2.innerText = '❓';
-                    c1.classList.remove('bg-[#2A1A40]', 'border-rose-500');
-                    c2.classList.remove('bg-[#2A1A40]', 'border-rose-500');
+                    c1.classList.remove('bg-[var(--col-hover)]', 'border-rose-500');
+                    c2.classList.remove('bg-[var(--col-hover)]', 'border-rose-500');
                     flippedCards = [];
                     lockGrid = false;
                 }, 800);
